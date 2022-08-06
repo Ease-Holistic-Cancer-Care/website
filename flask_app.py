@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, session
+from flask import Flask, render_template, redirect, url_for, session, request
 
 #Initialize Flask App
 app = Flask(__name__)
@@ -14,6 +14,15 @@ def about():
 @app.route('/login')
 def login():
     return render_template('login.html')
+
+@app.route('/loginConfirm', methods=['POST'])
+def loginConfirm():
+    email = request.form['email']
+    password = request.form['password']
+    if email == 'abc@gmail.com' and password == 'abc':
+        return redirect(url_for('index'))
+    else:
+        return redirect(url_for('doctors'))
 
 @app.route('/doctors')
 def doctors():

@@ -1,4 +1,23 @@
-Command to activate or deactivate a virtual environment 
+1. Create virtual env
+py -m venv env
 
+env can be changed here to any name
+
+2. Activating virtual env
 env\Scripts\activate
+
+3. Installing dependencies
+pip install -r requirements.txt
+
+4. Running app
+py flask_app.py
+
+5. Accessing app
+http://localhost:5000/
+Ctrl+click on the link provided in the terminal
+
+6. Stopping app
+Ctrl + C
+
+7. Deactivating virtual env
 env\Scripts\deactivate

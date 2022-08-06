@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EASE Holistic Cancer Center | Login</title>
 
-    <meta type="shortcut icon" href="../static/images/logo/EHCC.jpg">
+    <link rel="shortcut icon" href="../static/images/logo/EHCC.jpg">
 
     <!-- Bootstrap CSS -->
     <!-- CSS only -->
@@ -21,6 +21,13 @@
 
 <body>
 
+    <form action="/loginConfirm" class="ps-2 pt-2" method="POST">
+        <input type="email" name="email" id="email" placeholder="Email ID">
+        <br><br>
+        <input type="password" name="password" id="password" placeholder="Password">
+        <br><br>
+        <input type="submit" value="Login">
+    </form>
     <!-- Bootstrap JS -->
     <!-- JavaScript Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
