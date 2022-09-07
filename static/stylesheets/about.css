@@ -1,0 +1,33 @@
+#hero {
+    min-height: 800px;
+}
+
+.head_text {
+    color: #5EAAAA;
+}
+
+#vision {
+    background-color: #4FACD9;
+    position: relative;
+}
+
+#vision #white_plus {
+    position: absolute;
+    bottom: -100px;
+    left: -40px;
+}
+
+#vision_text {
+    background-color: #CAE6F4;
+    position: relative;
+}
+
+#vision_text #blue_plus {
+    position: absolute;
+    bottom: -100px;
+    right: -40px;
+}
+
+#core_values {
+    background-color: rgba(119, 185, 193, 0.1);
+}
