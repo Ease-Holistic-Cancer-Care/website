@@ -32,9 +32,9 @@ def doctors():
 def specialty():
     return render_template('specialty.html')
 
-@app.route('/resources')
-def resources():
-    return render_template('resources.html')
+@app.route('/awards')
+def awards():
+    return render_template('awards.html')
 
 @app.route('/contact')
 def contact():

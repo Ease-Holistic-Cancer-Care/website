@@ -1,0 +1,22 @@
+header {
+    background: url(../images/header_title.png) no-repeat;
+    height: 150px;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+}
+
+.award_container {
+    background-color: #EDF7FB !important;
+    width: 300px;
+    margin: auto;
+}
+
+h6 {
+    color: #4FACD9;
+}
+
+p {
+    font-size: 15px;
+    color: #8D8D8D;
+}
