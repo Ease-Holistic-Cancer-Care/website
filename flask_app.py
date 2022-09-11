@@ -48,5 +48,17 @@ def appointment():
 def patient(): 
     return render_template('patient.html')
 
+@app.route('/virtualTour')
+def virtualTour(): 
+    return render_template('virtualTour.html')
+
+@app.route('/blogs')
+def blogs(): 
+    return render_template('blogs.html')
+
+@app.route('/news')
+def news(): 
+    return render_template('news.html')
+
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,0 +1,27 @@
+header {
+    background: url(../images/header_title.png) no-repeat;
+    height: 150px;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+}
+
+.vt_container {
+    background-color: #F1F8F9;
+}
+
+.vt_img {
+    height: 400px;
+    object-fit: cover !important;
+    width: 100%;
+    object-position: center;
+}
+
+h4 {
+    color: #4FACD9;
+}
+
+p {
+    font-size: 15px;
+    color: #8D8D8D;
+}
