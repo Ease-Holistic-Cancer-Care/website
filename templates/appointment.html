@@ -37,24 +37,25 @@
 
     <section>
         <div class="container py-5 mt-5 px-4" style="background-color: #FAFAFE; border-radius: 30px;">
-            <form action="">
+            <form action="/appointmentSubmit" method="post">
                 <div class="row">
                     <h4 class="mb-4">
                         Personal details
                     </h4>
-
                     <div class="col-md-5 my-3">
                         <div class="form-group">
-                            <input type="text" class="form-control" id="name" placeholder="Enter your name">
+                            <input type="text" class="form-control" id="first_name" name="first_name"
+                                placeholder="Enter your first name" required>
                         </div>
                     </div>
                     <div class="col-md-5 my-3">
                         <div class="form-group">
-                            <input type="email" class="form-control" id="email" placeholder="Enter your email">
+                            <input type="text" class="form-control" id="last_name" name="last_name"
+                                placeholder="Enter your last name" required>
                         </div>
                     </div>
                     <div class="col-md-2 my-3">
-                        <select class="form-select">
+                        <select class="form-select" id="gender" name="gender" required>
                             <option selected disabled value="">Gender</option>
                             <option value="1">Male</option>
                             <option value="2">Female</option>
@@ -63,12 +64,14 @@
                     </div>
                     <div class="col-md-6 my-3">
                         <div class="form-group">
-                            <input type="text" class="form-control" id="number" placeholder="Enter your email">
+                            <input type="text" class="form-control" id="number" name="number"
+                                placeholder="Enter your phone number" required>
                         </div>
                     </div>
                     <div class="col-md-6 my-3">
                         <div class="form-group">
-                            <input type="text" class="form-control" id="number" placeholder="Enter your email">
+                            <input type="email" class="form-control" id="email" name="email"
+                                placeholder="Enter your email ID" required>
                         </div>
                     </div>
                     <hr class="my-4"
@@ -77,10 +80,16 @@
                         Appointment
                     </h4>
                     <div class="col-md-6 py-4 mb-4 position-relative">
-                        <label><input type="radio" name="select" checked><span>Doctor consultation</span></label>
+                        <label>
+                            <input type="radio" name="appointment_type" checked value="Doctor consultation" required>
+                            <span>Doctor consultation</span>
+                        </label>
                     </div>
                     <div class="col-md-6 py-4 position-relative">
-                        <label><input type="radio" name="select"><span>Health checkup</span></label>
+                        <label>
+                            <input type="radio" name="appointment_type" value="Health checkup">
+                            <span>Health checkup</span>
+                        </label>
                     </div>
                     <hr class="mb-4 mt-5"
                         style="background: linear-gradient(90deg, #FFFFFF 0%, #4FACD9 50%, #FFFFFF 100%) !important;  height: 2px; border: none;">
@@ -88,7 +97,7 @@
                         Message
                     </h4>
                     <div class="col-12 py-4">
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                        <textarea class="form-control" id="message" rows="5" name="message"
                             placeholder="Type your message (Optional)"></textarea>
                     </div>
                     <div class="col-12 text-center">

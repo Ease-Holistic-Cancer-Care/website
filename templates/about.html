@@ -28,17 +28,14 @@
     <div class="container" id="hero">
         <div class="row my-5 align-items-center">
             <div class="col-lg-6 text-center mb-4">
-                <img src="../static/images/about/hero.png" class="w-75" alt="">
+                <img src="{{data[2]}}" class="w-75" alt="">
             </div>
             <div class="col-lg-6">
                 <h2 class="head_text">
-                    Ease Holistic Cancer Care
+                    {{data[0]}}
                 </h2>
                 <p class="mt-3" style="color: #8D8D8D; line-height: 33px;">
-                    EHCC Hospital is the best hospital in ahmedabad to provide best modern & scientific Medical and
-                    surgical Treatment. Envisioned by its Founder, Dr. Pranav Patel in 2018. EHCC Provides 20+ Medical
-                    disciplines.Our medical team comprises highly qualified consultants, physicians, surgeons,
-                    anesthetists, medical technicians and well-trained nursing staff.
+                    {{data[1]}}
                 </p>
             </div>
         </div>
@@ -63,8 +60,7 @@
             <div class="row justify-content-center">
                 <div class="col-lg-8">
                     <p style="font-size: 22px;">
-                        To be leading hospital in healthcare service delivery to the world.Becoming preferred hospital
-                        for your loved ones medical care and treatment.
+                        {{data[3]}}
                     </p>
                 </div>
             </div>
@@ -85,29 +81,18 @@
                 </div>
                 <div class="row mt-4 align-items-center">
                     <div class="col-lg-6 text-center mb-5">
-                        <img src="../static/images/about/mission.png" class="w-75" alt="">
+                        <img src="{{data[5]}}" class="w-75" alt="">
                     </div>
                     <div class="col-lg-6">
                         <div class="row" style="font-size: 22px;">
+                            {% for i in data[4] %}
                             <div class="col-1 mb-5">
                                 <img src="../static/images/about/mission_plus.png" class="w-100" alt="">
                             </div>
                             <div class="col-11 mb-5">
-                                To provide world standard healthcare solutions to the world by leveraging advances in
-                                medical science and technology.
+                                {{i}}
                             </div>
-                            <div class="col-1 mb-5">
-                                <img src="../static/images/about/mission_plus.png" class="w-100" alt="">
-                            </div>
-                            <div class="col-11 mb-5">
-                                Be the center of Excellence.
-                            </div>
-                            <div class="col-1 mb-5">
-                                <img src="../static/images/about/mission_plus.png" class="w-100" alt="">
-                            </div>
-                            <div class="col-11 mb-5">
-                                Evolve a Bench Mark in quality healthcare.
-                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
@@ -126,30 +111,18 @@
                 <div class="row align-items-center">
                     <div class="col-lg-6 mt-5">
                         <div class="row" style="font-size: 22px;">
+                            {% for i in data[6] %}
                             <div class="col-1 mb-5">
                                 <img src="../static/images/about/core_plus.png" class="w-100" alt="">
                             </div>
                             <div class="col-11 mb-5">
-                                We value each and every patients life placed in our hands for healthcare in our
-                                hospital and constantly work towards
-                                meeting their expectations
+                                {{i}}
                             </div>
-                            <div class="col-1 mb-5">
-                                <img src="../static/images/about/core_plus.png" class="w-100" alt="">
-                            </div>
-                            <div class="col-11 mb-5">
-                                By nurturing the standards of our services.
-                            </div>
-                            <div class="col-1 mb-5">
-                                <img src="../static/images/about/core_plus.png" class="w-100" alt="">
-                            </div>
-                            <div class="col-11 mb-5">
-                                To serve with a smile.
-                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                     <div class="col-lg-6 text-center">
-                        <img src="../static/images/about/core.png" class="w-75" alt="">
+                        <img src="{{data[7]}}" class="w-75" alt="">
                     </div>
                 </div>
             </div>

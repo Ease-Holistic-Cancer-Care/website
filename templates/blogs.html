@@ -39,105 +39,19 @@
         <div class="blogs_container">
             <div class="container py-5">
                 <div class="row">
+                    {% for blog in data %}
                     <div class="col-xl-4 col-lg-4 col-md-6 mb-5">
                         <div class="bg-white pb-2">
-                            <img src="../static/images/virtual_tour/vt.png" class="blog_img" alt="">
+                            <img src="{{blog[0]}}" class="blog_img" alt="">
                             <h4 class="px-2 mt-3">
-                                Treatment
+                                {{blog[1]}}
                             </h4>
                             <p class="mt-2 px-2">
-                                Get best treatment by our best & experienced doctors team
+                                {{blog[2]}}
                             </p>
                         </div>
                     </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6 mb-5">
-                        <div class="bg-white pb-2">
-                            <img src="../static/images/virtual_tour/vt.png" class="blog_img" alt="">
-                            <h4 class="px-2 mt-3">
-                                Treatment
-                            </h4>
-                            <p class="mt-2 px-2">
-                                Get best treatment by our best & experienced doctors team
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6 mb-5">
-                        <div class="bg-white pb-2">
-                            <img src="../static/images/virtual_tour/vt.png" class="blog_img" alt="">
-                            <h4 class="px-2 mt-3">
-                                Treatment
-                            </h4>
-                            <p class="mt-2 px-2">
-                                Get best treatment by our best & experienced doctors team
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6 mb-5">
-                        <div class="bg-white pb-2">
-                            <img src="../static/images/virtual_tour/vt.png" class="blog_img" alt="">
-                            <h4 class="px-2 mt-3">
-                                Treatment
-                            </h4>
-                            <p class="mt-2 px-2">
-                                Get best treatment by our best & experienced doctors team
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6 mb-5">
-                        <div class="bg-white pb-2">
-                            <img src="../static/images/virtual_tour/vt.png" class="blog_img" alt="">
-                            <h4 class="px-2 mt-3">
-                                Treatment
-                            </h4>
-                            <p class="mt-2 px-2">
-                                Get best treatment by our best & experienced doctors team
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6 mb-5">
-                        <div class="bg-white pb-2">
-                            <img src="../static/images/virtual_tour/vt.png" class="blog_img" alt="">
-                            <h4 class="px-2 mt-3">
-                                Treatment
-                            </h4>
-                            <p class="mt-2 px-2">
-                                Get best treatment by our best & experienced doctors team
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6 mb-5">
-                        <div class="bg-white pb-2">
-                            <img src="../static/images/virtual_tour/vt.png" class="blog_img" alt="">
-                            <h4 class="px-2 mt-3">
-                                Treatment
-                            </h4>
-                            <p class="mt-2 px-2">
-                                Get best treatment by our best & experienced doctors team
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6 mb-5">
-                        <div class="bg-white pb-2">
-                            <img src="../static/images/virtual_tour/vt.png" class="blog_img" alt="">
-                            <h4 class="px-2 mt-3">
-                                Treatment
-                            </h4>
-                            <p class="mt-2 px-2">
-                                Get best treatment by our best & experienced doctors team
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6 mb-5">
-                        <div class="bg-white pb-2">
-                            <img src="../static/images/virtual_tour/vt.png" class="blog_img" alt="">
-                            <h4 class="px-2 mt-3">
-                                Treatment
-                            </h4>
-                            <p class="mt-2 px-2">
-                                Get best treatment by our best & experienced doctors team
-                            </p>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>

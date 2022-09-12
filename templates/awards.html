@@ -38,132 +38,22 @@
     <section>
         <div class="container my-5">
             <div class="row">
+                {% for award in data %}
                 <div class="col-xl-4 col-lg-4 col-md-6 px-2 mb-4 text-center">
                     <div class="award_container py-5 px-3">
-                        <img src="../static/images/awards/award.png" class="w-25" alt="">
+                        <img src="{{award[3]}}" class="w-25" alt="">
                         <h6 class="mt-3">
-                            National Award
+                            {{award[0]}}
                         </h6>
                         <h5 class="mt-3">
-                            Best cancer cure hospital
+                            {{award[1]}}
                         </h5>
                         <p class="mt-4">
-                            We had won the best cancer cure hospital by national award team
+                            {{award[2]}}
                         </p>
                     </div>
                 </div>
-                <div class="col-xl-4 col-lg-4 col-md-6 px-2 mb-4 text-center">
-                    <div class="award_container py-5 px-3">
-                        <img src="../static/images/awards/award.png" class="w-25" alt="">
-                        <h6 class="mt-3">
-                            National Award
-                        </h6>
-                        <h5 class="mt-3">
-                            Best cancer cure hospital
-                        </h5>
-                        <p class="mt-4">
-                            We had won the best cancer cure hospital by national award team
-                        </p>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-4 col-md-6 px-2 mb-4 text-center">
-                    <div class="award_container py-5 px-3">
-                        <img src="../static/images/awards/award.png" class="w-25" alt="">
-                        <h6 class="mt-3">
-                            National Award
-                        </h6>
-                        <h5 class="mt-3">
-                            Best cancer cure hospital
-                        </h5>
-                        <p class="mt-4">
-                            We had won the best cancer cure hospital by national award team
-                        </p>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-4 col-md-6 px-2 mb-4 text-center">
-                    <div class="award_container py-5 px-3">
-                        <img src="../static/images/awards/award.png" class="w-25" alt="">
-                        <h6 class="mt-3">
-                            National Award
-                        </h6>
-                        <h5 class="mt-3">
-                            Best cancer cure hospital
-                        </h5>
-                        <p class="mt-4">
-                            We had won the best cancer cure hospital by national award team
-                        </p>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-4 col-md-6 px-2 mb-4 text-center">
-                    <div class="award_container py-5 px-3">
-                        <img src="../static/images/awards/award.png" class="w-25" alt="">
-                        <h6 class="mt-3">
-                            National Award
-                        </h6>
-                        <h5 class="mt-3">
-                            Best cancer cure hospital
-                        </h5>
-                        <p class="mt-4">
-                            We had won the best cancer cure hospital by national award team
-                        </p>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-4 col-md-6 px-2 mb-4 text-center">
-                    <div class="award_container py-5 px-3">
-                        <img src="../static/images/awards/award.png" class="w-25" alt="">
-                        <h6 class="mt-3">
-                            National Award
-                        </h6>
-                        <h5 class="mt-3">
-                            Best cancer cure hospital
-                        </h5>
-                        <p class="mt-4">
-                            We had won the best cancer cure hospital by national award team
-                        </p>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-4 col-md-6 px-2 mb-4 text-center">
-                    <div class="award_container py-5 px-3">
-                        <img src="../static/images/awards/award.png" class="w-25" alt="">
-                        <h6 class="mt-3">
-                            National Award
-                        </h6>
-                        <h5 class="mt-3">
-                            Best cancer cure hospital
-                        </h5>
-                        <p class="mt-4">
-                            We had won the best cancer cure hospital by national award team
-                        </p>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-4 col-md-6 px-2 mb-4 text-center">
-                    <div class="award_container py-5 px-3">
-                        <img src="../static/images/awards/award.png" class="w-25" alt="">
-                        <h6 class="mt-3">
-                            National Award
-                        </h6>
-                        <h5 class="mt-3">
-                            Best cancer cure hospital
-                        </h5>
-                        <p class="mt-4">
-                            We had won the best cancer cure hospital by national award team
-                        </p>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-4 col-md-6 px-2 mb-4 text-center">
-                    <div class="award_container py-5 px-3">
-                        <img src="../static/images/awards/award.png" class="w-25" alt="">
-                        <h6 class="mt-3">
-                            National Award
-                        </h6>
-                        <h5 class="mt-3">
-                            Best cancer cure hospital
-                        </h5>
-                        <p class="mt-4">
-                            We had won the best cancer cure hospital by national award team
-                        </p>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </section>

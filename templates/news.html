@@ -39,44 +39,26 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
+                    {% for headlines in latest_news %}
                     <div class="row mb-5">
                         <div class="col-lg-6 head_news_image p-0">
-                            <img src="../static/images/news/head_news/hn.png" class="w-100" alt="">
+                            <img src="{{headlines[0]}}" class="w-100" alt="">
                         </div>
                         <div class="col-lg-6 head_news_content p-0">
                             <div class="d-flex p-4 flex-column h-100 justify-content-center">
                                 <h4>
-                                    Treatment
+                                    {{headlines[1]}}
                                 </h4>
                                 <h3 class="mt-4">
-                                    We take a step further for treatment of cancer with every equipments
+                                    {{headlines[2]}}
                                 </h3>
                                 <p class="mt-4">
-                                    We EHCC are taking a step further to cure hardest cancer treatment with every
-                                    possible way with using every equipments
+                                    {{headlines[3]}}
                                 </p>
                             </div>
                         </div>
                     </div>
-                    <div class="row mb-5">
-                        <div class="col-lg-6 head_news_image p-0">
-                            <img src="../static/images/news/head_news/hn.png" class="w-100" alt="">
-                        </div>
-                        <div class="col-lg-6 head_news_content p-0">
-                            <div class="d-flex p-4 flex-column h-100 justify-content-center">
-                                <h4>
-                                    Treatment
-                                </h4>
-                                <h3 class="mt-4">
-                                    We take a step further for treatment of cancer with every equipments
-                                </h3>
-                                <p class="mt-4">
-                                    We EHCC are taking a step further to cure hardest cancer treatment with every
-                                    possible way with using every equipments
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -86,105 +68,19 @@
         <div class="news_container">
             <div class="container py-5 px-0">
                 <div class="row">
+                    {% for news in data %}
                     <div class="col-xl-4 col-lg-4 col-md-6 mb-5">
                         <div class="bg-white pb-2">
-                            <img src="../static/images/virtual_tour/vt.png" class="news_img" alt="">
+                            <img src="{{news[0]}}" class="news_img" alt="">
                             <h4 class="px-2 mt-3">
-                                Treatment
+                                {{news[1]}}
                             </h4>
                             <p class="mt-2 px-2">
-                                Get best treatment by our best & experienced doctors team
+                                {{news[3]}}
                             </p>
                         </div>
                     </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6 mb-5">
-                        <div class="bg-white pb-2">
-                            <img src="../static/images/virtual_tour/vt.png" class="news_img" alt="">
-                            <h4 class="px-2 mt-3">
-                                Treatment
-                            </h4>
-                            <p class="mt-2 px-2">
-                                Get best treatment by our best & experienced doctors team
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6 mb-5">
-                        <div class="bg-white pb-2">
-                            <img src="../static/images/virtual_tour/vt.png" class="news_img" alt="">
-                            <h4 class="px-2 mt-3">
-                                Treatment
-                            </h4>
-                            <p class="mt-2 px-2">
-                                Get best treatment by our best & experienced doctors team
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6 mb-5">
-                        <div class="bg-white pb-2">
-                            <img src="../static/images/virtual_tour/vt.png" class="news_img" alt="">
-                            <h4 class="px-2 mt-3">
-                                Treatment
-                            </h4>
-                            <p class="mt-2 px-2">
-                                Get best treatment by our best & experienced doctors team
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6 mb-5">
-                        <div class="bg-white pb-2">
-                            <img src="../static/images/virtual_tour/vt.png" class="news_img" alt="">
-                            <h4 class="px-2 mt-3">
-                                Treatment
-                            </h4>
-                            <p class="mt-2 px-2">
-                                Get best treatment by our best & experienced doctors team
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6 mb-5">
-                        <div class="bg-white pb-2">
-                            <img src="../static/images/virtual_tour/vt.png" class="news_img" alt="">
-                            <h4 class="px-2 mt-3">
-                                Treatment
-                            </h4>
-                            <p class="mt-2 px-2">
-                                Get best treatment by our best & experienced doctors team
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6 mb-5">
-                        <div class="bg-white pb-2">
-                            <img src="../static/images/virtual_tour/vt.png" class="news_img" alt="">
-                            <h4 class="px-2 mt-3">
-                                Treatment
-                            </h4>
-                            <p class="mt-2 px-2">
-                                Get best treatment by our best & experienced doctors team
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6 mb-5">
-                        <div class="bg-white pb-2">
-                            <img src="../static/images/virtual_tour/vt.png" class="news_img" alt="">
-                            <h4 class="px-2 mt-3">
-                                Treatment
-                            </h4>
-                            <p class="mt-2 px-2">
-                                Get best treatment by our best & experienced doctors team
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6 mb-5">
-                        <div class="bg-white pb-2">
-                            <img src="../static/images/virtual_tour/vt.png" class="news_img" alt="">
-                            <h4 class="px-2 mt-3">
-                                Treatment
-                            </h4>
-                            <p class="mt-2 px-2">
-                                Get best treatment by our best & experienced doctors team
-                            </p>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
