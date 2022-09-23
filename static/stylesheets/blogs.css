@@ -1,27 +1,27 @@
 header {
-    background: url(../images/header_title.png) no-repeat;
-    height: 150px;
-    width: 100%;
-    background-size: cover;
-    background-position: center;
+  background: url(../images/header_title.png) no-repeat;
+  height: 150px;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
 }
 
 .blogs_container {
-    background-color: #F1F8F9;
+  background-color: #f1f8f9;
 }
 
 .blog_img {
-    height: 400px;
-    object-fit: cover !important;
-    width: 100%;
-    object-position: center;
+  height: 400px;
+  object-fit: cover !important;
+  width: 100%;
+  object-position: center;
 }
 
-h4 {
-    color: #4FACD9;
+.blogs_container h4 {
+  color: #4facd9;
 }
 
-p {
-    font-size: 15px;
-    color: #8D8D8D;
+.blogs_container p {
+  font-size: 15px;
+  color: #8d8d8d;
 }

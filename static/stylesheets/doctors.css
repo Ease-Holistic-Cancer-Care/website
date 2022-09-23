@@ -1,0 +1,11 @@
+header {
+  background: url(../images/header_title.png) no-repeat;
+  height: 150px;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+}
+
+.doctor {
+  background-color: rgba(119, 186, 193, 0.171);
+}

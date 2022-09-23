@@ -1,33 +1,53 @@
 #hero {
-    min-height: 800px;
+  min-height: 800px;
 }
 
 .head_text {
-    color: #5EAAAA;
+  color: #5eaaaa;
 }
 
 #vision {
-    background-color: #4FACD9;
-    position: relative;
+  background-color: #4facd9;
+  position: relative;
 }
 
 #vision #white_plus {
-    position: absolute;
-    bottom: -100px;
-    left: -40px;
+  position: absolute;
+  bottom: -100px;
+  left: -40px;
 }
 
 #vision_text {
-    background-color: #CAE6F4;
-    position: relative;
+  background-color: #cae6f4;
+  position: relative;
 }
 
 #vision_text #blue_plus {
-    position: absolute;
-    bottom: -100px;
-    right: -40px;
+  position: absolute;
+  bottom: -100px;
+  right: -40px;
 }
 
 #core_values {
-    background-color: rgba(119, 185, 193, 0.1);
+  background-color: rgba(119, 185, 193, 0.1);
+}
+
+@media only screen and (max-width: 576px) {
+  #vision #white_plus {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    bottom: -50px;
+    left: -20px;
+    z-index: 1;
+  }
+
+  #vision_text #blue_plus {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    bottom: -50px;
+    right: -20px;
+    z-index: 1;
+  }
 }

@@ -1,0 +1,99 @@
+:root {
+  --nav-color: rgba(222, 237, 239, 0.5);
+  --primary-color: #5eaaaa;
+  --heading-color: #4facd9;
+  --section-background-color: #cae6f4;
+  --contact-background-color: #284f4f;
+}
+
+.doctor_heading {
+  color: #5eaaaa;
+}
+
+.button_cta_appointment {
+  background: #5eaaaa;
+  border-radius: 60px;
+  border: none;
+  outline: none;
+  color: white;
+  padding: 10px 50px;
+}
+
+.slick-prev,
+.slick-next {
+  width: 40px !important;
+  height: 40px !important;
+  z-index: 100;
+  box-shadow: 2px 2px 50px rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  position: absolute;
+}
+
+.slick-next {
+  right: 0px;
+}
+
+.slick-prev {
+  left: 0px;
+}
+
+.doctor_carousel_container {
+  background-color: rgba(119, 185, 193, 0.1);
+}
+
+.doctor_card {
+  margin: auto 10px;
+  height: 550px;
+  position: relative;
+}
+
+.doctor_card:hover>span {
+  opacity: 1;
+}
+
+.doctor_card:hover>div {
+  background-color: transparent;
+  color: white;
+}
+
+.doctor_card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  position: absolute;
+}
+
+.doctor_card span {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+  transition: 0.6s;
+  opacity: 0;
+}
+
+.doctor_card div {
+  position: absolute;
+  bottom: 0px;
+  background-color: white;
+  width: 100%;
+  transition: 0.3s;
+}
+
+.statistics_card {
+  height: 250px;
+  max-width: 250px;
+  border-top: 10px solid #5eaaaa;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  box-shadow: 0px 5px 80px 1px rgba(0, 0, 0, 0.1);
+  margin: 10px auto;
+}
+
+#Carousel_mainpage {
+  background-color: #4FACD9;
+}

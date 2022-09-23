@@ -44,6 +44,10 @@ def loginConfirm():
 def doctors():
     return render_template('doctors.html')
 
+@app.route('/doctorInfo')
+def doctorsInfo():
+    return render_template('doctor_info.html')
+
 @app.route('/specialty')
 def specialty():
     return render_template('specialty.html')
@@ -117,4 +121,4 @@ def news():
     return render_template('news.html', data=data, latest_news=latest_news)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True,port=5001)
