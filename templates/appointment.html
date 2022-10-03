@@ -27,6 +27,32 @@
   <!-- navbar -->
   {% include 'navbar.html' %}
 
+  {% if message is not none %}
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Message</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            onclick="window.location.href=''"></button>
+        </div>
+        <div class="modal-body">
+          {{message}}
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    // open modal after page load
+    window.onload = function () {
+      var myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
+        keyboard: false
+      })
+      myModal.show()
+    }
+  </script>
+  {% endif %}
+
   <header>
     <div class="container h-100">
       <div class="row h-100 align-items-center">
@@ -39,24 +65,24 @@
 
   <section>
     <div class="container py-5 mt-5 px-4" style="background-color: #FAFAFE; border-radius: 30px;">
-      <form action="/appointmentSubmit" method="post">
+      <form action="/appointment" method="post">
         <div class="row">
           <h4 class="mb-4">
             Personal details
           </h4>
-          <div class="col-md-5 my-3">
+          <div class="col-lg-5 my-3">
             <div class="form-group">
               <input type="text" class="form-control" id="first_name" name="first_name"
                 placeholder="Enter your first name" required>
             </div>
           </div>
-          <div class="col-md-5 my-3">
+          <div class="col-lg-5 my-3">
             <div class="form-group">
               <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Enter your last name"
                 required>
             </div>
           </div>
-          <div class="col-md-2 my-3">
+          <div class="col-lg-2 my-3">
             <select class="form-select" id="gender" name="gender" required>
               <option selected disabled value="">Gender</option>
               <option value="1">Male</option>
@@ -64,13 +90,13 @@
               <option value="3">Other</option>
             </select>
           </div>
-          <div class="col-md-6 my-3">
+          <div class="col-lg-5 my-3">
             <div class="form-group">
               <input type="text" class="form-control" id="number" name="number" placeholder="Enter your phone number"
                 required>
             </div>
           </div>
-          <div class="col-md-6 my-3">
+          <div class="col-lg-7 my-3">
             <div class="form-group">
               <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email ID"
                 required>
@@ -81,13 +107,13 @@
           <h4>
             Appointment
           </h4>
-          <div class="col-md-6 py-4 mb-4 position-relative">
+          <div class="col-lg-6 py-4 mb-4 position-relative">
             <label>
               <input type="radio" name="appointment_type" checked value="Doctor consultation" required>
               <span>Doctor consultation</span>
             </label>
           </div>
-          <div class="col-md-6 py-4 position-relative">
+          <div class="col-lg-6 py-4 position-relative">
             <label>
               <input type="radio" name="appointment_type" value="Health checkup">
               <span>Health checkup</span>
@@ -103,7 +129,7 @@
               placeholder="Type your message (Optional)"></textarea>
           </div>
           <div class="col-12 text-center">
-            <button id="appointment_button" type="submit">
+            <button id="submit_button" type="submit">
               Book appointment
             </button>
           </div>
@@ -126,7 +152,6 @@
 
   <!-- Manual Scripts -->
   <script src="../static/scripts/common.js"></script>
-  <script src="../static/scripts/appointment.js"></script>
 </body>
 
 </html>

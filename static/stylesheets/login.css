@@ -1,0 +1,30 @@
+input,
+select,
+textarea {
+    border-radius: 52px !important;
+    height: 60px;
+    outline: none;
+    border: 1px solid #4facd9 !important;
+    color: #626262;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    box-shadow: none !important;
+}
+
+#submit_button {
+    background: #4facd9;
+    border: none;
+    color: white;
+    border-radius: 52px;
+    font-size: 22px;
+    width: 248px;
+    padding: 15px 15px;
+}
+
+.form_container {
+    background-color: #EEF6F7;
+    border-radius: 20px;
+}

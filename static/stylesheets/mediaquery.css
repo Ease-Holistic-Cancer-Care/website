@@ -1,0 +1,258 @@
+@media screen and (max-width:1200px) {
+
+    /* Home Page :- About Section */
+    .about_content h2 {
+        font-size: 35px;
+    }
+
+    .about_content p {
+        margin-top: 20px;
+        font-size: 18px;
+    }
+
+    .about_content button {
+        margin-top: 5px;
+        width: 150px;
+        height: 50px;
+        font-size: 20px;
+    }
+
+    /* Home page :- specialty section */
+    .specialty_head_cont h2 {
+        font-size: 35px;
+    }
+
+    .specialty_head_cont p {
+        font-size: 18px;
+    }
+
+    .specialty_head_btn button {
+        width: 180px;
+        height: 50px;
+    }
+
+    .specialty_ele_1 {
+        width: 150px;
+        height: 150px;
+        top: 70px;
+    }
+
+    .specialty_ele_2 {
+        width: 150px !important;
+        height: 150px !important;
+        bottom: -75px;
+        right: 0px;
+    }
+
+    /* Home page:- Testimonial Section */
+    .testimonial_header h2 {
+        font-size: 35px;
+    }
+
+    .testimonial_header p {
+        font-size: 20px;
+    }
+}
+
+@media screen and (max-width:992px) {
+
+    /* Home Page :- About Section */
+    .about_content h2 {
+        font-size: 45px;
+        text-align: center;
+    }
+
+    .about_content p {
+        margin-top: 30px;
+        font-size: 22px;
+    }
+
+    .about_content button {
+        margin-top: 10px;
+    }
+
+    /* Home page :- specialty section */
+    .specialty_head_cont h2 {
+        font-size: 30px;
+    }
+
+    .specialty_head_cont p {
+        font-size: 15px;
+    }
+
+    .specialty_head_btn button {
+        width: 150px;
+        height: 40px;
+    }
+
+    .specialty_ele_1 {
+        left: -50px;
+    }
+
+    /* contact page */
+    .hospital_info {
+        border-top-right-radius: 30px;
+        border-bottom-left-radius: 0px !important;
+    }
+
+    .hospital_map {
+        border-top-right-radius: 0px;
+        border-bottom-left-radius: 30px;
+    }
+
+}
+
+@media screen and (max-width:768px) {
+
+    /* Home Page :- About Section */
+    .about_content h2 {
+        font-size: 40px;
+    }
+
+    .about_content p {
+        font-size: 20px;
+    }
+
+    /* Home page :- specialty section */
+    .specialty_head_cont h2 {
+        font-size: 30px;
+    }
+
+    .specialty_head_cont p {
+        font-size: 12px;
+    }
+
+    .specialty_head_btn button {
+        width: 140px;
+    }
+
+    .specialty_ele_1 {
+        width: 100px;
+        height: 100px;
+        top: 100px;
+        left: -20px;
+    }
+
+    .specialty_ele_2 {
+        width: 100px !important;
+        height: 100px !important;
+        bottom: -50px;
+        right: 0px;
+    }
+
+    /* Home page:- Testimonial Section */
+    .testimonial_header h2 {
+        font-size: 30px;
+    }
+
+    .testimonial_header p {
+        font-size: 18px;
+    }
+
+    /* Home page:-Faq Section */
+    .hr_line,
+    .faq_page,
+    .faq_body {
+        width: 80%;
+    }
+
+    /* Contact page:- form field section*/
+    .row {
+        align-items: center;
+    }
+
+    .cont_form_head {
+        max-width: 1100px;
+        text-align: center;
+    }
+
+    .cont_form_head h2 {
+        font-size: 35px;
+        max-width: 1000px;
+    }
+
+    .cont_icons {
+        margin: auto;
+    }
+}
+
+@media screen and (max-width:576px) {
+
+    /* Home Page :- About Section */
+    .about_content h2 {
+        font-size: 35px;
+    }
+
+    .about_content p {
+        font-size: 18px;
+        margin-top: 20px;
+    }
+
+    /* Home page :- specialty section */
+    .specialty_head_cont h2 {
+        font-size: 28px;
+    }
+
+    .specialty_head_cont p {
+        font-size: 12px;
+    }
+
+    .specialty_head_btn button {
+        width: 100px;
+        height: 30px;
+        font-size: 15px;
+    }
+
+    /* Home page:- Testimonial Section */
+    .testimonial_header h2,
+    .testimonial_header p {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .slider .prev_arrow {
+        display: block;
+        top: -60px;
+        left: calc(50% - 60px);
+        /* margin:0 20px; */
+    }
+
+    .slider .next_arrow {
+        display: block;
+        top: -60px;
+        left: calc(50% + 10px);
+        /* right:150px; */
+        /* left:50%; */
+        /* left: 140px; */
+        /* right:160px; */
+        margin: 0px;
+    }
+
+    .card_testimonial {
+        margin-top: 20px;
+    }
+
+    /* Home page:-Faq Section */
+    .hr_line,
+    .faq_page,
+    .faq_body {
+        width: 90%;
+    }
+
+    .faq_container,
+    .hr_line {
+        padding: 0 10px;
+    }
+
+    .faq_page {
+        font-size: 18px;
+    }
+
+    .faq_body {
+        font-size: 12px;
+    }
+
+
+    /* contact page  */
+
+}

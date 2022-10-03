@@ -59,13 +59,13 @@ label span:hover {
   cursor: pointer;
 }
 
-input:checked + span {
+input:checked+span {
   background: #4facd9;
   transition: 0.4s;
   color: white;
 }
 
-#appointment_button {
+#submit_button {
   background: #4facd9;
   border: none;
   color: white;

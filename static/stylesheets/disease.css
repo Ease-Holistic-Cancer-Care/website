@@ -1,0 +1,33 @@
+header {
+    background: url(../images/disease/disease_title.png) no-repeat;
+    height: 150px;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+}
+
+.disease_title h2 {
+    color: #4facd9;
+}
+
+#hero {
+    background-color: #5eaaaa;
+}
+
+main {
+    background-color: rgba(119, 186, 193, 0.199);
+}
+
+.description_line1 {
+    border-bottom: 2px solid #5eaaaa;
+}
+
+.description_line2 {
+    border-bottom: 1px solid #aaaaaa;
+}
+
+/* @media only screen and (max-width: 576px) {
+  .description1 h4 {
+    font-size: 15.5px;
+  }
+} */

@@ -1,0 +1,156 @@
+.contact_header {
+    text-align: center;
+    line-height: 1;
+    font-size: 35px;
+    font-weight: 500;
+    color: #333333;
+}
+
+/* contact us page */
+.form_field {
+    background-color: var(--contact-background-color);
+    /* width:70%; */
+    border-radius: 50px;
+    max-width: 1100px;
+    position: relative;
+}
+
+.cont_form_head {
+    color: #ffffff;
+    max-width: 600px;
+}
+
+.cont_form_head h2 {
+    font-weight: 500;
+    font-size: 35px;
+    /* max-width: 200px; */
+}
+
+.h_line {
+    height: 1px;
+    background: linear-gradient(to right,
+            rgba(40, 79, 79, 0) 0%,
+            white 50%,
+            rgba(40, 79, 79, 0) 100%);
+    margin-bottom: 40px;
+}
+
+.cont-icons a {
+    text-decoration: none;
+}
+
+.cont_icons i {
+    /* padding:0 20px 0 0; */
+    font-size: 22px;
+    cursor: pointer;
+    color: #ffffff;
+}
+
+.form_content {
+    /* width:60%; */
+    max-width: 600px;
+    margin: auto;
+    padding: 2.5rem;
+    overflow: hidden;
+    color: #ffffff;
+}
+
+.form_content input {
+    width: 100%;
+}
+
+.form_content textarea {
+    width: 100%;
+}
+
+.form_content input,
+textarea {
+    color: #ffffff !important;
+    /* background: #284f4f; */
+    background: rgba(255, 255, 255, 0.2);
+    /* box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 ); */
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.form_content input::placeholder,
+textarea::placeholder {
+    color: #ffffff !important;
+}
+
+.form_content input {
+    height: 40px;
+    margin: 10px 0;
+    border-radius: 50px;
+}
+
+.form_content textarea {
+    min-height: 8rem;
+    margin: 10px 0;
+    border-radius: 30px;
+    resize: none;
+}
+
+.form_content button {
+    width: 100%;
+    font-size: 25px;
+    font-weight: 500;
+    height: 45px;
+    background-color: #ffffff;
+    border: 1px solid #ffffff;
+    color: #1A3232;
+    border-radius: 50px;
+}
+
+.contact_show_map {
+    max-width: 1100px;
+}
+
+.hospital_info {
+    background-color: var(--contact-background-color);
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    position: relative;
+}
+
+.hospt_location {
+    color: #ffffff;
+}
+
+.hospt_location h3 {
+    font-size: 22px;
+    font-weight: 500;
+}
+
+.hospt_location p {
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.hospital_map {
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    overflow: hidden;
+}
+
+.contact_map_ele {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    top: -75px;
+    left: -75px;
+}
+
+.contact_form_ele {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    top: -75px;
+    left: -75px;
+}
+
+.hospital_map iframe {
+    min-height: 288px;
+}

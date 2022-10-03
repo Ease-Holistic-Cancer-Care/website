@@ -9,10 +9,12 @@
                 </p>
             </div>
             <div class="col-md-4 pt-4 mb-3">
-                <img src="../static/images/logo/google_icon.png" alt="google logo" class="img-fluid mx-2" /><img
-                    src="../static/images/logo/instagram_icon.png" alt="Instagram logo" class="img-fluid mx-2" /><img
-                    src="../static/images/logo/facebook_icon.png" alt="Facebook logo" class="img-fluid mx-2" /><img
-                    src="../static/images/logo/twitter_icon.png" alt="Twitter logo" class="img-fluid mx-2" />
+                {% for social in social_links %}
+                <a href="{{social[1]}}">
+                    <img src="../static/images/logo/{{social[0]}}_icon.png" alt="{{social[0]}} logo"
+                        class="img-fluid mx-2" />
+                </a>
+                {% endfor %}
             </div>
         </div>
         <div class="footer_line mt-2"></div>
@@ -24,27 +26,27 @@
                         <a href="/">
                             <p>Home</p>
                         </a>
-                        <a href="/about">
+                        <a href="/about/">
                             <p>About Us</p>
                         </a>
-                        <a href="#">
+                        <a href="/specialty/">
                             <p>Specialty</p>
                         </a>
-                        <a href="/doctors">
+                        <a href="/doctors/">
                             <p>Doctors</p>
                         </a>
-                        <a href="/news">
+                        <a href="/news/">
                             <p>Latest News</p>
                         </a>
                     </div>
                     <div class="col-lg-6 col-sm-12 col-6">
-                        <a href="/awards">
+                        <a href="/awards/">
                             <p>Awards</p>
                         </a>
-                        <a href="/blogs">
+                        <a href="/blogs/">
                             <p>Blogs</p>
                         </a>
-                        <a href="#">
+                        <a href="/contact/">
                             <p>Contact Us</p>
                         </a>
                         <a href="#">
