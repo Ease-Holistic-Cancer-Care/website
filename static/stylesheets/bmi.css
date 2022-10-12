@@ -1,0 +1,52 @@
+body {
+    background-color: #EDF7FB;
+}
+
+header {
+    background: url(../images/header_title.png) no-repeat;
+    height: 150px;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+}
+
+.bmi_row {
+    border-bottom: 1px solid #AAAAAA;
+}
+
+
+.bmi_heading {
+    border-bottom: 3px solid var(--heading-color);
+}
+
+input,
+select,
+textarea {
+    border-radius: 52px !important;
+    height: 60px;
+    outline: none;
+    border: 1px solid #4facd9 !important;
+    color: #626262;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    box-shadow: none !important;
+}
+
+#submit_button {
+    background: #4facd9;
+    border: none;
+    color: white;
+    border-radius: 52px;
+    font-size: 22px;
+    width: 248px;
+    padding: 15px 15px;
+}
+
+.form_container,
+.chart_container {
+    background-color: white;
+    border-radius: 20px;
+}

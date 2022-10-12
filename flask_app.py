@@ -1,5 +1,3 @@
-from crypt import methods
-from email import message
 from flask import Flask, render_template, redirect, url_for, session, request
 import sqlite3
 import os
@@ -176,15 +174,29 @@ def appointment():
         message = request.form['message']
         database_connection = sqlite3.connect(database_location)
         database_cursor = database_connection.cursor()
-        database_cursor.execute("INSERT INTO appointment VALUES (?,?,?,?,?,?,?,?)", (first_name, last_name, email, gender, phone_number, appointment_type, message, 'pending'))
+        database_cursor.execute("INSERT INTO appointment VALUES (?,?,?,?,?,?,?,?)", (first_name, last_name, gender, phone_number, email, appointment_type, message, 'pending'))
         database_connection.commit()
         database_connection.close()
         return render_template('appointment.html',social_links=social_links, message="Your appointment has been sent successfully. We will contact you soon.")
     return render_template('appointment.html',social_links=social_links, message=None)
 
-@app.route('/patient/')
-def patient(): 
-    return render_template('patient.html')
+@app.route('/patientCare/', methods=['GET','POST'])
+def patientCare(): 
+    if request.method == 'POST':
+        age = request.form["age"]
+        height = request.form["height"]
+        weight = request.form["weight"]
+        name = request.form["name"]
+        email = request.form["email"]
+        contact = request.form["contact"]
+        bmi = 0.0
+        database_connection = sqlite3.connect(database_location)
+        database_cursor = database_connection.cursor()
+        database_cursor.execute("INSERT INTO bmi VALUES (?,?,?,?,?,?,?)", (name, contact,email,age,height,weight,bmi))
+        database_connection.commit()
+        database_connection.close()
+        return render_template('bmi.html', bmi = bmi)
+    return render_template('bmi.html', bmi = None)
 
 @app.route('/virtualTour/')
 def virtualTour():
@@ -223,10 +235,6 @@ def modifyHome():
     if 'user' in session:
         database_connection = sqlite3.connect(database_location)
         database_cursor = database_connection.cursor()
-        carousel_data = database_cursor.execute("SELECT * FROM home_carousel")
-        carousel_data = carousel_data.fetchall()
-        about = database_cursor.execute("SELECT * FROM home_page")
-        about = about.fetchone()
         if request.method == 'POST':
             #carousel
             carousel_items = database_cursor.execute("SELECT COUNT(*) FROM home_carousel;")
@@ -248,9 +256,19 @@ def modifyHome():
             about_image = about_image.fetchone()[0]
             database_cursor.execute("UPDATE home_page SET about_heading=?, about_description=? WHERE about_image=?;", (about_heading, about_description, about_image))
             database_connection.commit()
+            carousel_data = database_cursor.execute("SELECT * FROM home_carousel")
+            carousel_data = carousel_data.fetchall()
+            about = database_cursor.execute("SELECT * FROM home_page")
+            about = about.fetchone()
             database_connection.close()
             return render_template('modifyHome.html', social_links = social_links, about=about, carousel_data = carousel_data, message = "Details updated successfully.")
         else:
+            carousel_data = database_cursor.execute("SELECT * FROM home_carousel")
+            carousel_data = carousel_data.fetchall()
+            about = database_cursor.execute("SELECT * FROM home_page")
+            about = about.fetchone()
+            statistics = database_cursor.execute("SELECT * FROM home_statistics")
+            statistics = statistics.fetchall()
             database_connection.commit()
             database_connection.close()
             return render_template('modifyHome.html', social_links = social_links, about=about, carousel_data = carousel_data, message = None)

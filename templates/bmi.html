@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EASE Holistic Cancer Center | Patient</title>
+
+    <!-- logo of the website -->
+    <link rel="shortcut icon" href="../static/images/logo/EHCC.jpg">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+
+    <!-- Manual CSS-->
+    <link rel="stylesheet" href="../static/stylesheets/common.css">
+    <link rel="stylesheet" href="../static/stylesheets/bmi.css">
+</head>
+
+<body>
+    {% include 'navbar.html' %}
+
+    <header>
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <h2 class="text-center text-white">BMI Calculator</h2>
+            </div>
+        </div>
+    </header>
+
+    <div class="container bmi_container my-5">
+        <div class="row bmi_row">
+            <div class="col-lg-5 col-md-8 bmi_heading">
+                <h3>What is Body Mass Index (BMI)</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 mt-4">
+                <p>
+                    The Body Mass Index (BMI) Calculator can be used to calculate your BMI value and weight status while
+                    taking your age
+                    into consideration. Use the "metric units" tab if you are more comfortable with the international
+                    standard metric units.
+                    The referenced weight range and calculation formula is listed below.
+                    <br><br>
+
+                    Your BMI is a measurement of your body weight based on your height and weight. Although your BMI
+                    does not actually
+                    "measure" your percentage of body fat, it is a useful tool to estimate a healthy body weight based
+                    on your height. Due
+                    to its ease of measurement and calculation, it is the most widely used diagnostic indicator to
+                    identify a person's
+                    optimal weight depending on his height. Your BMI "number" will inform you if you are underweight, of
+                    normal weight,
+                    overweight, or obese. However, due to the wide variety of body types, the distribution of muscle and
+                    bone mass, etc., it
+                    is not appropriate to use this as the only or final indication for diagnosis.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-center px-3 mb-2">
+            <div class="col-lg-6 col-md-8 pb-4 pt-2 mb-5 form_container">
+                <h2 class="my-4 text-center">
+                    <strong>
+                        BMI Calculator
+                    </strong>
+                </h2>
+                <form action="/patientCare#bmi" class="ps-2 pt-2" method="POST">
+                    <input type="number" name="age" id="age" placeholder="Age* (45)" min="0" class="form-control"
+                        required>
+                    <br>
+                    <input type="number" name="height" id="hright" placeholder="Height (in cms)*" class="form-control"
+                        required>
+                    <br>
+                    <input type="number" name="weight" id="weight" placeholder="Weight (in kgs)*" class="form-control"
+                        required>
+                    <br>
+                    <input type="text" name="name" id="name" placeholder="Name* (Nilesh Bhatt)" class="form-control"
+                        required>
+                    <br>
+                    <input type="email" name="email" id="email" placeholder="Email ID* (nilesh.bhatt@gmail.com)"
+                        class="form-control" required>
+                    <br>
+                    <input type="number" name="contact" id="contact" placeholder="Contact Number (99XXXXXXXX)"
+                        class="form-control" required>
+                    <br>
+                    <center>
+                        <input id="submit_button" type="submit" value="Calculate">
+                    </center>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        {% if bmi is not none %}
+        <div class="row justify-content-center px-3 py-2" id="bmi">
+            <div class="col-lg-6 col-md-8 py-4 mb-5 chart_container text-center">
+                <h3>
+                    BMI : {{bmi}}
+                </h3>
+            </div>
+        </div>
+        {% endif %}
+        <div class="row justify-content-center px-3 mb-2">
+            <div class="col-lg-6 col-md-8 pb-4 pt-2 mb-5 chart_container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">BMI Definitions</th>
+                            <th scope="col">BMI</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Underweight</td>
+                            <td>&lt;18</td>
+                        </tr>
+                        <tr>
+                            <td>Healthy weight</td>
+                            <td>18-25</td>
+                        </tr>
+                        <tr>
+                            <td>Overweight</td>
+                            <td>25-30</td>
+                        </tr>
+                        <tr>
+                            <td>Obese</td>
+                            <td>30-35</td>
+                        </tr>
+                        <tr>
+                            <td>Severely obese</td>
+                            <td>35-40</td>
+                        </tr>
+                        <tr>
+                            <td>Morbidly obese</td>
+                            <td>40 and over</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="bg-light py-5"></div>
+    {% include 'footer.html' %}
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+        crossorigin="anonymous"></script>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- Manual Scripts -->
+    <script src="../static/scripts/common.js"></script>
+</body>
+
+</html>
