@@ -33,35 +33,47 @@
 
     <div class="container">
         <div class="row justify-content-center px-3 mb-2">
-            <div class="col-lg-6 col-md-8 pb-4 pt-2 mt-5">
+            <div class="col-12 pb-4 pt-2 mt-5">
                 <h2 class="mt-4 text-center">
                     <strong>
                         Admin Home
                     </strong>
                 </h2>
+                <p class="text-center">
+                    <b>Logged in as:</b> {{session['user']}}
+                </p>
             </div>
-            <div class="row">
+            <div class="row justify-content-center">
+                {% if session["user_type"] == "admin" %}
                 <div class="text-center col-lg-4 col-md-6 mb-5">
-                    <div class="admin_card shadow py-5 rounded" onclick="window.location.href='/modifyPages'">
+                    <div class="admin_card shadow py-5 rounded" onclick="window.location.href='/modifyPages/'">
                         <img src="../static/images/icons/website.png" width="150" alt="">
-                        <br>
-                        Modify Pages
+                        <br><br>
+                        Modify Content
                     </div>
                 </div>
                 <div class="text-center col-lg-4 col-md-6 mb-5">
-                    <div class="admin_card shadow py-5 rounded">
+                    <div class="admin_card shadow py-5 rounded" onclick="window.location.href='/addPages/'">
+                        <img src="../static/images/icons/medical-symbol.png" width="150" alt="">
+                        <br><br>
+                        Add Content
+                    </div>
+                </div>
+                {% endif %}
+                <div class="text-center col-lg-4 col-md-6 mb-5">
+                    <div class="admin_card shadow py-5 rounded" onclick="window.location.href='/manageAppointments/'">
                         <img src="../static/images/icons/appointment.png" width="150" alt="">
-                        <br>
+                        <br><br>
                         Manage Appointments
                     </div>
                 </div>
-                <div class="text-center col-lg-4 col-md-6 mb-5">
+                <!-- <div class="text-center col-lg-4 col-md-6 mb-5">
                     <div class="admin_card shadow py-5 rounded">
                         <img src="../static/images/icons/group.png" width="150" alt="">
                         <br>
                         Manage Users
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EASE Holistic Cancer Center | About</title>
+
+    <link rel="shortcut icon" href="../static/images/logo/EHCC.jpg">
+
+    <!-- Bootstrap CSS -->
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Manual CSS-->
+    <link rel="stylesheet" href="../static/stylesheets/common.css">
+    <link rel="stylesheet" href="../static/stylesheets/modifyCommon.css">
+</head>
+
+<body>
+    <!-- navbar -->
+    {% include 'navbar.html' %}
+
+    {% if message is not none %}
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Message</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        onclick="window.location.href=''"></button>
+                </div>
+                <div class="modal-body">
+                    {{message}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // open modal after page load
+        window.onload = function () {
+            var myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
+                keyboard: false
+            })
+            myModal.show()
+        }
+    </script>
+    {% endif %}
+
+    <div class="container">
+        <div class="row justify-content-center px-3 mb-2">
+            <div class="col-lg-6 col-md-8 pb-4 pt-2 mt-5">
+                <h2 class="mt-4 text-center">
+                    <strong>
+                        Add Disease
+                    </strong>
+                </h2>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <form action="/addDisease/" method="post" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <!-- Select specialty -->
+                            <label for="specialty_name" class="form-label">
+                                <b>Select Specialty</b>
+                            </label>
+                            <select id="specialty_name" name="specialty_name" class="form-select">
+                                <option value="none" selected disabled hidden>
+                                    Select Specialty
+                                </option>
+                                {% for specialty in specialties %}
+                                <option value="{{specialty[0]}}">
+                                    {{specialty[1]}}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="disease_title" class="form-label">
+                                <b>Disease Title</b>
+                            </label>
+                            <input type="text" class="form-control" id="disease_title" name="disease_title" required
+                                placeholder="Enter Disease Title">
+                        </div>
+                        <!-- Disease description -->
+                        <div class="mb-3">
+                            <label for="disease_description" class="form-label">
+                                <b>Disease Description</b>
+                            </label>
+                            <textarea class="form-control" id="disease_description" name="disease_description" rows="3"
+                                required placeholder="Enter Disease Description"></textarea>
+                        </div>
+                        <!-- disease illustration -->
+                        <div class="mb-3">
+                            <label for="disease_illustration" class="form-label">
+                                <b>Disease Illustration</b>
+                            </label>
+                            <input class="form-control" type="file" id="disease_illustration"
+                                name="disease_illustration" required accept="image/*">
+                        </div>
+                        <!-- select doctors -->
+                        <div class="mb-3">
+                            <label for="doctors" class="form-label">
+                                <b>Select Doctors</b>
+                            </label>
+                            <select id="doctors" name="doctors" class="form-select" multiple>
+                                {% for doctor in doctors %}
+                                <option value="{{doctor[0]}}">
+                                    {{doctor[1]}}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <!-- main image -->
+                        <div class="mb-3">
+                            <label for="main_image" class="form-label">
+                                <b>Main Image</b>
+                            </label>
+                            <input class="form-control" type="file" id="main_image" name="main_image" required
+                                accept="image/*">
+                        </div>
+                        <div class="mb-3">
+                            <b>Disease Profile</b><br>
+                            <label class="form-label" for="disease_profile_title1">
+                                Profile Title 1
+                            </label>
+                            <input type="text" class="form-control" id="disease_profile_title1"
+                                name="disease_profile_title1" required placeholder="Enter Profile Title 1">
+                            <label class="form-label" for="disease_profile_content1">
+                                Profile Content 1
+                            </label>
+                            <textarea class="form-control" id="disease_profile_content1" name="disease_profile_content1"
+                                rows="3" required placeholder="Enter Profile Content 1"></textarea>
+                            <label class="form-label" for="disease_profile_title2">
+                                Profile Title 2
+                            </label>
+                            <input type="text" class="form-control" id="disease_profile_title2"
+                                name="disease_profile_title2" required placeholder="Enter Profile Title 2">
+                            <label class="form-label" for="disease_profile_content2">
+                                Profile Content 2
+                            </label>
+                            <textarea class="form-control" id="disease_profile_content2" name="disease_profile_content2"
+                                rows="3" required placeholder="Enter Profile Content 2"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <b>Types of disease</b><br>
+                            <label class="form-label" for="disease_type_title1">
+                                Type Title 1
+                            </label>
+                            <input type="text" class="form-control" id="disease_type_title1" name="disease_type_title1"
+                                required placeholder="Enter Type Title 1">
+                            <label class="form-label" for="disease_type_description1">
+                                Type Description 1
+                            </label>
+                            <textarea class="form-control" id="disease_type_description1"
+                                name="disease_type_description1" rows="3" required
+                                placeholder="Enter Type Description 1"></textarea>
+                            <label class="form-label" for="disease_type_image1">
+                                Type Image 1
+                            </label>
+                            <input class="form-control" type="file" id="disease_type_image1" name="disease_type_image1"
+                                required accept="image/*">
+                            <label class="form-label" for="disease_type_title2">
+                                Type Title 2
+                            </label>
+                            <input type="text" class="form-control" id="disease_type_title2" name="disease_type_title2"
+                                required placeholder="Enter Type Title 2">
+                            <label class="form-label" for="disease_type_description2">
+                                Type Description 2
+                            </label>
+                            <textarea class="form-control" id="disease_type_description2"
+                                name="disease_type_description2" rows="3" required
+                                placeholder="Enter Type Description 2"></textarea>
+                            <label class="form-label" for="disease_type_image2">
+                                Type Image 2
+                            </label>
+                            <input class="form-control" type="file" id="disease_type_image2" name="disease_type_image2"
+                                required accept="image/*">
+                        </div>
+                        <!-- causes -->
+                        <div class="mb-3">
+                            <label class="form-label" for="disease_causes">
+                                <b>
+                                    Causes
+                                </b>
+                            </label>
+                            <input type="text" class="form-control" id="disease_causes" name="disease_causes" required
+                                placeholder="Enter Causes">
+                        </div>
+                        <!-- symptoms -->
+                        <div class="mb-3">
+                            <label class="form-label" for="disease_symptoms">
+                                <b>
+                                    Symptoms
+                                </b>
+                            </label>
+                            <input type="text" class="form-control" id="disease_symptoms" name="disease_symptoms"
+                                required placeholder="Enter Symptoms">
+                        </div>
+                        <div class="mb-3">
+                            <b>
+                                Diagnosis
+                            </b><br>
+                            <label class="form-label" for="disease_diagnosis_type1">
+                                Diagnosis Type 1
+                            </label>
+                            <input type="text" class="form-control" id="disease_diagnosis_type1"
+                                name="disease_diagnosis_type1" required placeholder="Enter Diagnosis Type 1">
+                            <label class="form-label" for="disease_diagnosis_description1">
+                                Diagnosis Description 1
+                            </label>
+                            <textarea class="form-control" id="disease_diagnosis_description1"
+                                name="disease_diagnosis_description1" rows="3" required
+                                placeholder="Enter Diagnosis Description 1"></textarea>
+                            <label class="form-label" for="disease_diagnosis_type2">
+                                Diagnosis Type 2
+                            </label>
+                            <input type="text" class="form-control" id="disease_diagnosis_type2"
+                                name="disease_diagnosis_type2" required placeholder="Enter Diagnosis Type 2">
+                            <label class="form-label" for="disease_diagnosis_description2">
+                                Diagnosis Description 2
+                            </label>
+                            <textarea class="form-control" id="disease_diagnosis_description2"
+                                name="disease_diagnosis_description2" rows="3" required
+                                placeholder="Enter Diagnosis Description 2"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <b>
+                                Severity
+                            </b><br>
+                            <label class="form-label" for="disease_severity_type1">
+                                Severity Type 1
+                            </label>
+                            <input type="text" class="form-control" id="disease_severity_type1"
+                                name="disease_severity_type1" required placeholder="Enter Severity Type 1">
+                            <label class="form-label" for="disease_severity_description1">
+                                Severity Description 1
+                            </label>
+                            <textarea class="form-control" id="disease_severity_description1"
+                                name="disease_severity_description1" rows="3" required
+                                placeholder="Enter Severity Description 1"></textarea>
+                            <label class="form-label" for="disease_severity_type2">
+                                Severity Type 2
+                            </label>
+                            <input type="text" class="form-control" id="disease_severity_type2"
+                                name="disease_severity_type2" required placeholder="Enter Severity Type 2">
+                            <label class="form-label" for="disease_severity_description2">
+                                Severity Description 2
+                            </label>
+                            <textarea class="form-control" id="disease_severity_description2"
+                                name="disease_severity_description2" rows="3" required
+                                placeholder="Enter Severity Description 2"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <b>
+                                Treatment
+                            </b><br>
+                            <label class="form-label" for="disease_treatment_type1">
+                                Treatment Type 1
+                            </label>
+                            <input type="text" class="form-control" id="disease_treatment_type1"
+                                name="disease_treatment_type1" required placeholder="Enter Treatment Type 1">
+                            <label class="form-label" for="disease_treatment_description1">
+                                Treatment Description 1
+                            </label>
+                            <textarea class="form-control" id="disease_treatment_description1"
+                                name="disease_treatment_description1" rows="3" required
+                                placeholder="Enter Treatment Description 1"></textarea>
+                            <label class="form-label" for="disease_treatment_type2">
+                                Treatment Type 2
+                            </label>
+                            <input type="text" class="form-control" id="disease_treatment_type2"
+                                name="disease_treatment_type2" required placeholder="Enter Treatment Type 2">
+                            <label class="form-label" for="disease_treatment_description2">
+                                Treatment Description 2
+                            </label>
+                            <textarea class="form-control" id="disease_treatment_description2"
+                                name="disease_treatment_description2" rows="3" required
+                                placeholder="Enter Treatment Description 2"></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <button class="btn btn-primary" type="submit" id="submit">Add</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    {% include 'footer.html' %}
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+        crossorigin="anonymous"></script>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- Manual Scripts -->
+    <script src="../static/scripts/common.js"></script>
+</body>
+
+</html>

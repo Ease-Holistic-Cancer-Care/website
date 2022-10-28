@@ -23,7 +23,7 @@
     {% include 'navbar.html' %}
 
     <header>
-        <div class="container h-100">
+        <div class="container h-100 mt-3">
             <div class="row h-100 align-items-center">
                 <h2 class="text-center text-white">BMI Calculator</h2>
             </div>
@@ -70,7 +70,7 @@
                         BMI Calculator
                     </strong>
                 </h2>
-                <form action="/patientCare#bmi" class="ps-2 pt-2" method="POST">
+                <form action="/bmi#bmi" class="ps-2 pt-2" method="POST">
                     <input type="number" name="age" id="age" placeholder="Age* (45)" min="0" class="form-control"
                         required>
                     <br>
@@ -97,10 +97,10 @@
         </div>
     </div>
 
-    <div class="container">
+    <div class="container py-3" id="bmi">
         {% if bmi is not none %}
-        <div class="row justify-content-center px-3 py-2" id="bmi">
-            <div class="col-lg-6 col-md-8 py-4 mb-5 chart_container text-center">
+        <div class="row justify-content-center px-3 pb-2 pt-5 mt-5">
+            <div class="col-lg-6 col-md-8 py-4 mb-5 chart_container text-center mt-3">
                 <h3>
                     BMI : {{bmi}}
                 </h3>
@@ -147,6 +147,7 @@
         </div>
     </div>
     <div class="bg-light py-5"></div>
+
     {% include 'footer.html' %}
 
     <!-- Bootstrap JS -->

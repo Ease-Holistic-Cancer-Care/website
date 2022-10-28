@@ -1,5 +1,5 @@
 header {
-    background: url(../images/header_title.png) no-repeat;
+    background: url(../images/elements/header_title.png) no-repeat;
     height: 150px;
     width: 100%;
     background-size: cover;
@@ -21,7 +21,19 @@ h4 {
     color: #4FACD9;
 }
 
-p {
+.vt_container p {
     font-size: 15px;
     color: #8D8D8D;
+}
+
+#fixed_carousel {
+    background-color: rgba(0, 0, 0, 0.855);
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    top: 0px;
+    align-items: center;
+    display: none;
+    justify-content: center;
+    z-index: 100000;
 }

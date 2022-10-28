@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EASE Holistic Cancer Center | About</title>
+
+    <link rel="shortcut icon" href="../static/images/logo/EHCC.jpg">
+
+    <!-- Bootstrap CSS -->
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Manual CSS-->
+    <link rel="stylesheet" href="../static/stylesheets/common.css">
+    <link rel="stylesheet" href="../static/stylesheets/modifyCommon.css">
+</head>
+
+<body>
+    <!-- navbar -->
+    {% include 'navbar.html' %}
+
+    {% if message is not none %}
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Message</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        onclick="window.location.href=''"></button>
+                </div>
+                <div class="modal-body">
+                    {{message}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // open modal after page load
+        window.onload = function () {
+            var myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
+                keyboard: false
+            })
+            myModal.show()
+        }
+    </script>
+    {% endif %}
+
+    <div class="container">
+        <div class="row justify-content-center px-3 mb-2">
+            <div class="col-lg-6 col-md-8 pb-4 pt-2 mt-5">
+                <h2 class="mt-4 text-center">
+                    <strong>
+                        Add Virtual Tour
+                    </strong>
+                </h2>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <form action="/addVirtualTour/" method="post" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="vt_title" class="form-label">
+                                <b>Virtual Tour Title</b>
+                            </label>
+                            <input type="text" class="form-control" id="vt_title" name="vt_title" required
+                                placeholder="Enter Title">
+                        </div>
+                        <div class="mb-3">
+                            <label for="vt_description" class="form-label">
+                                <b>Virtual Tour Description</b>
+                            </label>
+                            <textarea class="form-control" id="vt_description" name="vt_description" rows="3" required
+                                placeholder="Enter Description"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="vt_image" class="form-label">
+                                <b>
+                                    Virtual Tour Image
+                                </b>
+                            </label>
+                            <input type="file" class="form-control" id="vt_image" name="vt_image" required
+                                accept="image/*">
+                        </div>
+                        <div class="mb-3">
+                            <button class="btn btn-primary" type="submit" id="submit">Add</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    {% include 'footer.html' %}
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+        crossorigin="anonymous"></script>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- Manual Scripts -->
+    <script src="../static/scripts/common.js"></script>
+</body>
+
+</html>

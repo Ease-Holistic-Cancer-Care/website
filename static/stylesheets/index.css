@@ -1,3 +1,11 @@
+.carousel-control-prev {
+  left: -20px;
+}
+
+.carousel-control-next {
+  right: -20px;
+}
+
 .row_about {
   min-height: 800px;
 }
@@ -105,6 +113,7 @@
 .specialty_ele_1 {
   position: absolute;
   top: 50px;
+  left: -100px;
   width: 200px;
   height: 200px;
 }
@@ -114,11 +123,11 @@
   width: 200px !important;
   height: 200px !important;
   z-index: 0;
-  right: 0px;
-  bottom: 0px;
+  right: -100px;
+  bottom: -100px;
 }
 
-/* Textimonial Section */
+/* Testimonial Section */
 .testimonial_sect {
   background-color: rgba(79, 172, 217, 0.1);
   ;
@@ -139,7 +148,7 @@
 .card_testimonial {
   border-radius: 20px;
   width: auto;
-  height: auto;
+  min-height: 400px !important;
 }
 
 .slider {
@@ -191,7 +200,7 @@
 }
 
 .hr_line {
-  width: 60%;
+  width: 65%;
   margin: auto;
 }
 
@@ -201,14 +210,14 @@
   font-size: 22px;
   font-weight: 500;
   padding: 20px 0;
-  width: 60%;
+  width: 65%;
   transition: 0.4s;
   margin: auto;
 }
 
 .faq_body {
   color: #7B7B7B;
-  width: 60%;
+  width: 65%;
   font-size: 20px;
   font-weight: 300;
   margin: auto;
@@ -220,20 +229,21 @@
   content: '\00a0\271A';
   float: right;
   margin-left: 5px;
-  font-size: 12px;
+  font-size: 15px;
   color: var(--heading-color);
   border: 1.5px solid #333333;
   border-radius: 50%;
-  padding: 1px 2.5px;
-  width: 21px;
-  height: 20px;
+  padding: 0px 0px 1.5px 0px;
+  width: 20.5px;
+  height: 20.5px;
 }
 
 .active_faq:after {
   content: '\00a0\2715';
-  font-size: 12px;
+  font-size: 15px;
   color: #D94F4F;
   transition: 0.6s;
+  padding-left: 0px;
 }
 
 .doctor_heading {
@@ -246,7 +256,6 @@
   border: none;
   outline: none;
   color: white;
-  padding: 10px 50px;
 }
 
 .slick-prev,
@@ -326,4 +335,23 @@
 
 #Carousel_mainpage {
   background-color: #4FACD9;
+}
+
+/* Statistics Section */
+.statistics_ele_1 {
+  position: absolute;
+  top: -100px;
+  left: -100px;
+  width: 200px;
+  height: auto;
+  z-index: -1;
+}
+
+.statistics_ele_2 {
+  position: absolute;
+  bottom: -100px;
+  right: -100px;
+  width: 200px;
+  height: auto;
+  z-index: -1;
 }

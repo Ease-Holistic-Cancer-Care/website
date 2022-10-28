@@ -44,6 +44,20 @@
         right: 0px;
     }
 
+    .statistics_ele_1 {
+        width: 150px;
+        height: 150px;
+        left: -75px;
+        top: -75px;
+    }
+
+    .statistics_ele_2 {
+        width: 150px !important;
+        height: 150px !important;
+        bottom: -75px;
+        right: -75px;
+    }
+
     /* Home page:- Testimonial Section */
     .testimonial_header h2 {
         font-size: 35px;
@@ -140,6 +154,20 @@
         right: 0px;
     }
 
+    .statistics_ele_1 {
+        width: 100px;
+        height: 100px;
+        left: -50px;
+        top: -50px;
+    }
+
+    .statistics_ele_2 {
+        width: 100px !important;
+        height: 100px !important;
+        bottom: -50px;
+        right: -50px;
+    }
+
     /* Home page:- Testimonial Section */
     .testimonial_header h2 {
         font-size: 30px;
@@ -153,7 +181,7 @@
     .hr_line,
     .faq_page,
     .faq_body {
-        width: 80%;
+        width: 90%;
     }
 
     /* Contact page:- form field section*/
@@ -241,11 +269,11 @@
 
     .faq_container,
     .hr_line {
-        padding: 0 10px;
+        padding: 0 7px;
     }
 
     .faq_page {
-        font-size: 18px;
+        font-size: 16px;
     }
 
     .faq_body {
@@ -255,4 +283,39 @@
 
     /* contact page  */
 
+}
+
+@media screen and (max-width: 420px) {
+    .carousel-control-prev {
+        left: -10px;
+    }
+
+    .carousel-control-next {
+        right: -10px;
+    }
+
+    .faq_page {
+        font-size: 14px;
+    }
+
+}
+
+@media screen and (max-width: 377px) {
+    .faq_page {
+        font-size: 12px;
+    }
+
+    .faq_body {
+        font-size: 11px;
+    }
+}
+
+@media screen and (max-width: 340px) {
+    .faq_page {
+        font-size: 11px;
+    }
+
+    .faq_body {
+        font-size: 10px;
+    }
 }

@@ -1,8 +1,8 @@
 $(".doctor_carousel").slick({
   prevArrow:
-    "<img class='a-left control-c prev slick-prev' src='../static/images/carousel_arrow_left.png'>",
+    "<img class='a-left control-c prev slick-prev' src='../static/images/elements/carousel_arrow_left.png'>",
   nextArrow:
-    "<img class='a-right control-c next slick-next' src='../static/images/carousel_arrow_right.png'>",
+    "<img class='a-right control-c next slick-next' src='../static/images/elements/carousel_arrow_right.png'>",
 
   dots: true,
   infinite: true,

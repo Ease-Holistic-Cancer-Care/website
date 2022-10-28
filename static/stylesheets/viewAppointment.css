@@ -1,0 +1,49 @@
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+input,
+select,
+textarea {
+    border-radius: 52px !important;
+    height: 60px;
+    outline: none;
+    border: 1px solid #4facd9 !important;
+    color: #626262;
+}
+
+textarea {
+    height: 150px;
+    border-radius: 40px !important;
+    padding: 15px 20px !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    box-shadow: none !important;
+}
+
+#submit_button {
+    background: #4facd9;
+    border: none;
+    color: white;
+    border-radius: 52px;
+    font-size: 22px;
+    width: 248px;
+    padding: 15px 15px;
+}
+
+input::-webkit-file-upload-button {
+    height: inherit;
+    background-color: var(--primary-color) !important;
+    color: white !important;
+}

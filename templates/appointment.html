@@ -54,7 +54,7 @@
   {% endif %}
 
   <header>
-    <div class="container h-100">
+    <div class="container h-100 mt-3">
       <div class="row h-100 align-items-center">
         <h2 class="text-center text-white">
           Appointment
@@ -70,13 +70,66 @@
           <h4 class="mb-4">
             Personal details
           </h4>
+          {% if 'patient_email' in session %}
+
+          <div class="col-lg-5 my-3">
+            <div class="form-group">
+              <input type="text" class="form-control" id="first_name" name="first_name"
+                placeholder="First name* (Nilesh)" required value="{{patient_data[0]}}">
+            </div>
+          </div>
+          <div class=" col-lg-5 my-3">
+            <div class="form-group">
+              <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last name* (Bhatt)"
+                required value="{{patient_data[1]}}">
+            </div>
+          </div>
+          <div class="col-lg-2 my-3">
+            <select class="form-select" id="gender" name="gender" required>
+              {% if patient_data[4] == 'male' %}
+              <option disabled value="">Gender*</option>
+              <option value="male" selected>Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+              {% elif patient_data[4] == 'female' %}
+              <option disabled value="">Gender*</option>
+              <option value="male">Male</option>
+              <option value="female" selected>Female</option>
+              <option value="other">Other</option>
+              {% elif patient_data[4] == 'other' %}
+              <option disabled value="">Gender*</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other" selected>Other</option>
+              {% else %}
+              <option disabled value="" selected>Gender*</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+              {% endif %}
+            </select>
+          </div>
+          <div class="col-lg-5 my-3">
+            <div class="form-group">
+              <input type="number" class="form-control" id="number" name="number"
+                placeholder="Phone number* (99XXXXXXXX)" required value="{{patient_data[2]}}" min="6666666666"
+                max="9999999999">
+            </div>
+          </div>
+          <div class="col-lg-7 my-3">
+            <div class="form-group">
+              <input type="email" class="form-control" id="email" name="email"
+                placeholder="Email ID* (nilesh.bhatt@gmail.com)" required value="{{patient_data[3]}}">
+            </div>
+          </div>
+          {% else %}
           <div class="col-lg-5 my-3">
             <div class="form-group">
               <input type="text" class="form-control" id="first_name" name="first_name"
                 placeholder="First name* (Nilesh)" required>
             </div>
           </div>
-          <div class="col-lg-5 my-3">
+          <div class=" col-lg-5 my-3">
             <div class="form-group">
               <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last name* (Bhatt)"
                 required>
@@ -84,7 +137,7 @@
           </div>
           <div class="col-lg-2 my-3">
             <select class="form-select" id="gender" name="gender" required>
-              <option selected disabled value="">Gender*</option>
+              <option disabled selected>Gender*</option>
               <option value="male">Male</option>
               <option value="female">Female</option>
               <option value="other">Other</option>
@@ -102,11 +155,20 @@
                 placeholder="Email ID* (nilesh.bhatt@gmail.com)" required>
             </div>
           </div>
+          {% endif %}
           <hr class="my-4"
             style="background: linear-gradient(90deg, #FFFFFF 0%, #4FACD9 50%, #FFFFFF 100%) !important;  height: 2px; border: none;">
           <h4>
             Appointment*
           </h4>
+          <div class="col-12 my-3">
+            <select class="form-select" id="doctor" name="doctor" required>
+              <option disabled selected>Doctor*</option>
+              {% for doctor in doctors %}
+              <option value="{{doctor[0]}}">{{doctor[1]}}</option>
+              {% endfor %}
+            </select>
+          </div>
           <div class="col-lg-6 py-4 mb-4 position-relative">
             <label>
               <input type="radio" name="appointment_type" checked value="Doctor consultation" required>

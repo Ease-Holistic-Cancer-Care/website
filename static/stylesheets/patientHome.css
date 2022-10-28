@@ -1,0 +1,16 @@
+.patient_card {
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.patient_card:hover {
+    background-color: var(--heading-color);
+    transition: 0.3s;
+    color: white;
+}
+
+.patient_card:hover img {
+    -webkit-filter: grayscale(1) invert(1);
+    filter: grayscale(1) invert(1);
+    transition: 0.3s;
+}

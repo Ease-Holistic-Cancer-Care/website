@@ -3,16 +3,16 @@
     <div class="container">
         <div class="row align-items-end">
             <div class="col-md-8 px-md-5 mt-4 mb-3">
-                <img src="../static/images/logo/footer_logo.png" alt="Hospital logo" height="60" />
+                <img src="../../static/images/logo/footer_logo.png" alt="Hospital logo" height="60" />
                 <p class="text-white mb-0">
                     Now cure of cancer is more easy with EHCC
                 </p>
             </div>
-            <div class="col-md-4 pt-4 mb-3">
+            <div class="col-md-4 pt-4 mb-3 text-md-end">
                 {% for social in social_links %}
                 <a href="{{social[1]}}">
-                    <img src="../static/images/logo/{{social[0]}}_icon.png" alt="{{social[0]}} logo"
-                        class="img-fluid mx-2" />
+                    <img src="../../static/images/logo/{{social[0]}}_icon.png" alt="{{social[0]}} logo"
+                        class="img-fluid mx-1" style="height: 40px; width: auto;" />
                 </a>
                 {% endfor %}
             </div>
@@ -77,15 +77,16 @@
             <div class="col-md-4 col-sm-12">
                 <h4 class="mb-3">Contact details</h4>
                 <p>
-                    <img src="../static/images/logo/footercall_icon.png" alt="call logo" /><span class="ps-2">+91 12345
+                    <img src="../../static/images/logo/footercall_icon.png" alt="call logo" /><span class="ps-2">+91
+                        12345
                         63437</span>
                 </p>
                 <p>
-                    <img src="../static/images/logo/mail_icon.png" alt="mail icon" /><span
+                    <img src="../../static/images/logo/mail_icon.png" alt="mail icon" /><span
                         class="ps-2">ehcc@gmail.com</span>
                 </p>
                 <p>
-                    <img src="../static/images/logo/location_icon.png" alt="location icon" /><span class="ps-2">First
+                    <img src="../../static/images/logo/location_icon.png" alt="location icon" /><span class="ps-2">First
                         Floor,
                         Silver Point, Nr.Nidhi Hospital,Stadium Five Cross
                         Road, Navrangpura.</span>
@@ -105,3 +106,14 @@
         </div>
     </div>
 </div>
+
+
+<!-- Back to top button -->
+<a href="#" id="back_to_top">
+    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+        class="bi bi-arrow-up-circle-fill" viewBox="0 0 16 16"
+        style="position: fixed; bottom: 20px; right: 20px; box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5); color: black; background-color: white; border-radius: 50%; width: 50px; height: 50px; z-index: 1000;">
+        <path
+            d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z" />
+    </svg>
+</a>

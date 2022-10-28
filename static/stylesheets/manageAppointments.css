@@ -1,0 +1,7 @@
+h4.mt-5 {
+    color: var(--primary-color);
+}
+
+.patient_card {
+    cursor: pointer;
+}

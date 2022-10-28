@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EASE Holistic Cancer Center | Manage Appointments</title>
+
+    <link rel="shortcut icon" href="../../static/images/logo/EHCC.jpg">
+
+    <!-- Bootstrap CSS -->
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Manual CSS-->
+    <link rel="stylesheet" href="../../static/stylesheets/common.css">
+    <link rel="stylesheet" href="../../static/stylesheets/viewAppointment.css">
+</head>
+
+<body>
+    <!-- navbar -->
+    {% include 'navbar.html' %}
+    <div class="container">
+        <div class="row justify-content-center px-3 mb-5">
+            <h2 class="text-center text-capitalize mt-4 pt-5 mb-4">
+                View Appointment
+            </h2>
+            {% if appointment %}
+            <div class="col-12 mb-2">
+                <div class="row">
+                    <div class="col-12">
+                        <p style="font-size: 20px;">
+                            <strong>
+                                Id. No.:
+                            </strong>
+                            {{appointment[8]}}
+                            <br>
+                            <strong>
+                                Patient Name:
+                            </strong>
+                            {{appointment[0]}} {{appointment[1]}}
+                            <br>
+                            <strong>
+                                Gender:
+                            </strong>
+                            <span class="text-capitalize">{{appointment[2]}}</span>
+                            <br>
+                            <strong>
+                                Phone:
+                            </strong>
+                            {{appointment[3]}}
+                            <br>
+                            <strong>
+                                Email:
+                            </strong>
+                            {{appointment[4]}}
+                            <br>
+                            <strong>
+                                Doctor:
+                            </strong>
+                            {{doctor_name}}
+                            <br>
+                            <strong>
+                                Appointment Type:
+                            </strong>
+                            {{appointment[5]}}
+                            <br>
+                            <strong>
+                                Status:
+                            </strong>
+                            <span class="text-capitalize">{{appointment[7]}}</span>
+                            <br>
+                            <strong>
+                                Message from Patient:
+                            </strong>
+                            <br>
+                            {{appointment[6]}}
+                            <br>
+                            {% if appointment[7] == 'approved' or appointment[7] == 'completed' %}
+                            <strong>
+                                Date:
+                            </strong>
+                            {{appointment[10]}}
+                            <br>
+                            <strong>
+                                Time:
+                            </strong>
+                            {{appointment[11]}}
+                            <br>
+                            {% if appointment[9] != '' %}
+                            <strong>
+                                Remarks:
+                            </strong>
+                            {{appointment[9]}}
+                            {% endif %}
+                            {% elif appointment[7] == 'declined' %}
+                            <strong>
+                                Remarks:
+                            </strong>
+                            {{appointment[9]}}
+                            {% endif %}
+                        </p>
+
+                        {% if appointment[7] == 'pending' and 'user' in session %}
+                        <h4 style="color: var(--primary-color);">
+                            Actions
+                        </h4>
+                        <a onclick="deleteAppointment({{appointment[8]}})"
+                            style="color: rgb(255, 63, 63); font-size: 20px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                                class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                            </svg>
+                            &nbsp;
+                            <span style="position: relative; top: 5px;">
+                                Delete
+                            </span>
+                        </a>
+                        {% if 'patient_email' not in session %}
+                        <br><br>
+                        <p style="color: var(--heading-color); font-size: 20px;">
+                            <span style="position: relative; left: -3px">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor"
+                                    class="bi bi-check-lg" viewBox="0 0 16 16">
+                                    <path
+                                        d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
+                                </svg>
+                            </span>
+                            Approve
+                        </p>
+                        <form action="/approveAppointment/{{appointment[8]}}" method="post">
+                            <div class="row">
+                                <div class="col-lg-6 mb-3">
+                                    <input type="date" class="form-control" name="date" id="date" required>
+                                </div>
+                                <div class="col-lg-6">
+                                    <input type="time" class="form-control" name="time" id="time" required>
+                                </div>
+                                <!-- message -->
+                                <div class="col-12 mb-3">
+                                    <textarea name="message" id="message" cols="30" rows="5" class="form-control mt-3"
+                                        placeholder="Message"></textarea>
+                                </div>
+                                <div class="col-12 text-center">
+                                    <button id="submit_button" type="submit">
+                                        Approve
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        <br><br>
+                        <p style="color: rgb(255, 63, 63); font-size: 20px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                                class="bi bi-dash-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
+                            </svg>
+                            &nbsp;
+                            <span style="position: relative; top: 3px;">
+                                Decline
+                            </span>
+                        </p>
+                        <form action="/declineAppointment/{{appointment[8]}}" method="post">
+                            <div class="row">
+                                <!-- message -->
+                                <div class="col-12 mb-3">
+                                    <textarea name="message" id="message" cols="30" rows="5" class="form-control"
+                                        placeholder="Message" required></textarea>
+                                </div>
+                                <div class="col-12 text-center">
+                                    <button id="submit_button" class="logout" type="submit">
+                                        Decline
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        {% endif %}
+                        {% elif appointment[7] == 'approved' and 'user' in session and 'patient_email' not in session %}
+                        <h4 style="color: var(--primary-color);">
+                            Actions
+                        </h4>
+                        <br>
+                        <!-- Complete -->
+                        <a onclick="completeAppointment({{appointment[8]}})"
+                            style="color: var(--heading-color); font-size: 18px;">
+                            Complete</a>
+                        {% elif appointment[7] == 'completed' %}
+                        <h4 style="color: var(--primary-color);">
+                            Actions
+                        </h4>
+                        <br>
+                        {% if appointment[12] is none and 'patient_email' not in session and 'user' in session %}
+                        <p style="color: var(--heading-color); font-size: 18px;">
+                            Upload Document
+                        </p>
+                        <form action="/uploadDocument/{{appointment[8]}}" method="post" enctype='multipart/form-data'>
+                            <div class="row">
+                                <div class="col-12 mb-3">
+                                    <!-- single pdf upload -->
+                                    <input type="file" class="form-control" name="document" id="document" required
+                                        accept=".pdf">
+                                </div>
+                                <div class="col-12 text-center">
+                                    <button id="submit_button" type="submit">
+                                        Upload
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        {% else %}
+                        <p style="color: var(--heading-color); font-size: 18px;">
+                            Uploaded Document:
+                        </p>
+                        {{appointment[12]}}
+                        <!-- view -->
+                        &nbsp;
+                        <a href="../../static/uploads/{{appointment[12]}}" target="_blank"
+                            style="color: var(--heading-color); font-size: 18px;">
+                            View
+                        </a>
+                        {% if 'patient_email' not in session %}
+                        &nbsp;|&nbsp;
+                        <!-- Delete -->
+                        <a onclick="deleteDocument({{appointment[8]}})"
+                            style="color: rgb(255, 63, 63); font-size: 18px;">
+                            Delete</a>
+                        {% endif %}
+                        {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <h4 class="my-3 text-center text-danger">
+                No Appointment Found
+            </h4>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Footer -->
+    {% include 'footer.html' %}
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+        crossorigin="anonymous"></script>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- Manual Scripts -->
+    <script src="../../static/scripts/common.js"></script>
+    <script src="../../static/scripts/appointment.js"></script>
+</body>
+
+</html>

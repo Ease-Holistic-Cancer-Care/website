@@ -3,7 +3,7 @@ body {
 }
 
 header {
-    background: url(../images/header_title.png) no-repeat;
+    background: url(../images/elements/header_title.png) no-repeat;
     height: 150px;
     width: 100%;
     background-size: cover;

@@ -68,7 +68,7 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <form action="/modifyHome" method="post">
+                    <form action="/modifyHome" method="post" enctype='multipart/form-data'>
                         <h3>
                             Carousel
                         </h3>
@@ -83,6 +83,9 @@
                             <label for="carousel_description_{{i+1}}" class="form-label">Description</label>
                             <input type="text" class="form-control" id="carousel_description_{{i+1}}"
                                 name="carousel_description_{{i+1}}" value="{{carousel_data[i][1]}}" required>
+                            <label for="carousel_image_{{i+1}}" class="form-label">Image</label>
+                            <input type="file" class="form-control" id="carousel_image_{{i+1}}"
+                                name="carousel_image_{{i+1}}" accept=".jpg, .png, .jpeg">
                         </div>
                         {% endfor %}
                         <h3 class="mt-5">
@@ -95,10 +98,25 @@
                             <label for="about_description" class="form-label">Description</label>
                             <input type="text" class="form-control" id="about_description" name="about_description"
                                 value="{{about[2]}}" required>
+                            <label for="about_image" class="form-label">Image</label>
+                            <input type="file" class="form-control" id="about_image" name="about_image">
                         </div>
                         <h3 class="mt-5">
                             Statistics
                         </h3>
+                        {% for i in range(statistics|length) %}
+                        <h5>
+                            Statistic {{i+1}}
+                        </h5>
+                        <div class="mb-3">
+                            <label for="statistics_heading_{{i+1}}" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="statistics_heading_{{i+1}}"
+                                name="statistics_heading_{{i+1}}" value="{{statistics[i][0]}}" required>
+                            <label for="statistics_description_{{i+1}}" class="form-label">Number</label>
+                            <input type="text" class="form-control" id="statistics_description_{{i+1}}"
+                                name="statistics_description_{{i+1}}" value="{{statistics[i][1]}}" required>
+                        </div>
+                        {% endfor %}
                         <div class="mb-3">
                             <button class="btn btn-primary" type="submit" id="submit">Update</button>
                         </div>

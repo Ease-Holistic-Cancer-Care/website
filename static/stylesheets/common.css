@@ -5,6 +5,16 @@ body {
   overflow-x: hidden;
 }
 
+body {
+  margin-top: 150px;
+}
+
+@media screen and (max-width: 412px) {
+  body {
+    margin-top: 195px;
+  }
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -13,7 +23,7 @@ body {
 }
 
 :root {
-  --nav-color: rgba(222, 237, 239, 0.5);
+  --nav-color: #EEF6F7;
   --primary-color: #5eaaaa;
   --heading-color: #4facd9;
   --section-background-color: #cae6f4;
@@ -23,6 +33,7 @@ body {
 a {
   color: unset;
   text-decoration: none;
+  cursor: pointer;
 }
 
 a:hover {
@@ -30,9 +41,28 @@ a:hover {
   text-decoration: none;
 }
 
-
 #top_navbar {
   background-color: var(--nav-color);
+}
+
+#navbar_logo_top,
+#navbar_logo_bottom {
+  transition: 0.4s;
+}
+
+#top_navbar {
+  transition: 0.4s;
+}
+
+.navbar_top_resize {
+  padding: 0px !important;
+  transition: 0.4s;
+}
+
+.navbar_top_logo_resize {
+  width: auto;
+  height: 50px;
+  transition: 0.4s;
 }
 
 .nav-item a {
@@ -51,17 +81,23 @@ a:hover {
   width: 12rem;
   height: 3rem;
   border: 1px solid white;
-  background-color: white;
+  background-color: var(--heading-color);
   border-radius: 50px;
+  color: white;
+}
+
+.logout {
+  background-color: rgb(255, 63, 63) !important;
 }
 
 .button_cta_appointment {
   width: 12rem;
   height: 3rem;
-  border: 1px solid var(--primary-color);
+  border: 1px solid var(--primary-color) !important;
   background-color: var(--primary-color);
   border-radius: 50px;
   color: white;
+  font-size: 18px;
 }
 
 .appointment_section {
@@ -254,4 +290,36 @@ a:hover {
   border: none;
   box-shadow: 0px 12px 7px rgba(0, 0, 0, 0.05);
   padding-top: 16px;
+}
+
+.dropdown-menu li {
+  position: relative;
+}
+
+.dropdown-menu .submenu {
+  display: none !important;
+  position: absolute;
+}
+
+.dropdown-menu>li:hover>.submenu {
+  display: block !important;
+  position: absolute;
+  top: -10px;
+  left: 100%;
+  background-color: white;
+}
+
+@media screen and (max-width: 992px) {
+  .dropdown-menu .submenu {
+    display: none !important;
+    position: absolute;
+  }
+
+  .dropdown-menu>li:hover>.submenu {
+    display: block !important;
+    position: absolute;
+    top: 40px;
+    left: 0%;
+    width: 100%;
+  }
 }
