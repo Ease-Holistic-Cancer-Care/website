@@ -10,55 +10,9 @@
                     </a>
                 </div>
                 <div class="col-lg-6 text-lg-end text-center mb-3">
-                    <button class="button_cta_white" onclick="window.location.href='/patient/'" id="patient_home"
-                        style="visibility: hidden;">
-                        Patient Login
-                    </button>
 
-                    <button class="button_cta_white logout" onclick="window.location.href='/logoutPatient/'"
-                        id="patient_logout" style="visibility: hidden;">
-                        Patient Logout
-                    </button>
-
-                    <button class="button_cta_white" onclick="window.location.href='/admin/'" id="admin_home"
-                        style="visibility: hidden;">
-                        Admin Home
-                    </button>
-
-                    <button class="button_cta_white logout" onclick="window.location.href='/logoutAdmin/'"
-                        id="admin_logout" style="visibility: hidden;">
-                        Admin Logout
-                    </button>
-                    <script>
-                        // Get route
-                        var route = window.location.pathname;
-                        if (route == '/patient/') {
-                            document.getElementById('patient_logout').style.visibility = 'visible';
-                            document.getElementById('patient_home').style.display = 'none';
-                            document.getElementById('admin_home').style.display = 'none';
-                            document.getElementById('admin_logout').style.display = 'none';
-                        } else if (route == '/admin/') {
-                            document.getElementById('admin_logout').style.visibility = 'visible';
-                            document.getElementById('admin_home').style.display = 'none';
-                            document.getElementById('patient_logout').style.display = 'none';
-                            document.getElementById('patient_home').style.display = 'none';
-                        } else {
-                            if (route.match('/manage') || route.match('/viewAppointment/') || route.match('/modify')) {
-                                document.getElementById('patient_home').style.display = 'none';
-                                document.getElementById('patient_logout').style.display = 'none';
-                                document.getElementById('admin_home').style.visibility = 'visible';
-                                document.getElementById('admin_logout').style.display = 'none';
-                            }
-                            else {
-                                document.getElementById('patient_home').style.visibility = 'visible';
-                                document.getElementById('patient_logout').style.display = 'none';
-                                document.getElementById('admin_logout').style.display = 'none';
-                                document.getElementById('admin_home').style.display = 'none';
-                            }
-                        }
-                    </script>
-                    <!-- <button class="button_cta_appointment mt-2" style="background-color: white; color: black;"
-                        onclick="window.location.href='tel:911234567890'">+91 12345 67890</button> -->
+                    <button class="button_cta_appointment mt-2" style="background-color: white; color: black;"
+                        onclick="window.location.href='tel:911234567890'">+91 12345 67890</button>
                     <button class="button_cta_appointment mt-2"
                         onclick="window.location.href='/appointment/'">Appointment</button>
                 </div>
@@ -121,40 +75,8 @@
                             <li><a class="dropdown-item" href="/virtualTour/">Virtual Tour</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item mx-3 dropdown">
-                        <a class="nav-link active dropdown-toggle active" role="button" href="/contact/"
-                            data-bs-toggle="dropdown" aria-expanded="false">Contact Us</a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a class="dropdown-item" href="tel:911234567890">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
-                                        class="bi bi-telephone-fill" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd"
-                                            d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z" />
-                                    </svg>
-                                    +91 1234567890
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="mailto:ehcc@gmail.com">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
-                                        class="bi bi-envelope-fill" viewBox="0 0 16 16">
-                                        <path
-                                            d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z" />
-                                    </svg>&nbsp;&nbsp;ehcc@gmail.com
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="/contact/">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
-                                        class="bi bi-send-fill" viewBox="0 0 16 16">
-                                        <path
-                                            d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z" />
-                                    </svg>&nbsp;
-                                    Send Us a message
-                                </a>
-                            </li>
-                        </ul>
+                    <li class="nav-item mx-3">
+                        <a class="nav-link active" aria-current="page" href="/contact/">Contact Us</a>
                     </li>
                     <li class="nav-item mx-3 dropdown">
                         <a class="nav-link active dropdown-toggle active" role="button" href="/patientCare"
@@ -186,6 +108,55 @@
                                 </a>
                             </li>
                         </ul>
+                    </li>
+                    <li>
+                        <button class="button_cta_white" onclick="window.location.href='/patient/'" id="patient_home"
+                            style="visibility: hidden;">
+                            Patient Login
+                        </button>
+
+                        <button class="button_cta_white logout" onclick="window.location.href='/logoutPatient/'"
+                            id="patient_logout" style="visibility: hidden;">
+                            Patient Logout
+                        </button>
+
+                        <button class="button_cta_white" onclick="window.location.href='/admin/'" id="admin_home"
+                            style="visibility: hidden;">
+                            Admin Home
+                        </button>
+
+                        <button class="button_cta_white logout" onclick="window.location.href='/logoutAdmin/'"
+                            id="admin_logout" style="visibility: hidden;">
+                            Admin Logout
+                        </button>
+                        <script>
+                            // Get route
+                            var route = window.location.pathname;
+                            if (route == '/patient/') {
+                                document.getElementById('patient_logout').style.visibility = 'visible';
+                                document.getElementById('patient_home').style.display = 'none';
+                                document.getElementById('admin_home').style.display = 'none';
+                                document.getElementById('admin_logout').style.display = 'none';
+                            } else if (route == '/admin/') {
+                                document.getElementById('admin_logout').style.visibility = 'visible';
+                                document.getElementById('admin_home').style.display = 'none';
+                                document.getElementById('patient_logout').style.display = 'none';
+                                document.getElementById('patient_home').style.display = 'none';
+                            } else {
+                                if (route.match('/manage') || route.match('/viewAppointment/') || route.match('/modify')) {
+                                    document.getElementById('patient_home').style.display = 'none';
+                                    document.getElementById('patient_logout').style.display = 'none';
+                                    document.getElementById('admin_home').style.visibility = 'visible';
+                                    document.getElementById('admin_logout').style.display = 'none';
+                                }
+                                else {
+                                    document.getElementById('patient_home').style.visibility = 'visible';
+                                    document.getElementById('patient_logout').style.display = 'none';
+                                    document.getElementById('admin_logout').style.display = 'none';
+                                    document.getElementById('admin_home').style.display = 'none';
+                                }
+                            }
+                        </script>
                     </li>
                 </ul>
             </div>
