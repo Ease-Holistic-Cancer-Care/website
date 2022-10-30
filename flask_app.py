@@ -1,9 +1,6 @@
-from crypt import methods
-from email import message
-import email
 from flask import Flask, render_template, redirect, url_for, session, request
 import sqlite3
-from mail import send_appointment_mail, send_approval_mail, send_completed_mail, send_declined_mail
+from mail import *
 import random
 import string
 from locations import *
@@ -175,6 +172,7 @@ def contact():
         database_connection = sqlite3.connect(database_location)
         database_cursor = database_connection.cursor()
         database_cursor.execute("INSERT INTO contact VALUES (?,?,?,?,?)", (first_name, last_name, email, phone, message))
+        send_contact_mail(first_name+" "+last_name,email,message)
         database_connection.commit()
         database_connection.close()
         return render_template('contact.html',social_links=social_links, message="Your message has been sent successfully. We will contact you soon.", navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
@@ -535,6 +533,15 @@ def uploadDocument(appointment_id):
         database_connection = sqlite3.connect(database_location)
         database_cursor = database_connection.cursor()
         database_cursor.execute("UPDATE appointment SET documents = ? WHERE id = ?", (new_file_name, int(appointment_id),))
+        # get email from appointment
+        email = database_cursor.execute("SELECT email_ID FROM appointment WHERE id = ?", (int(appointment_id),))
+        email = email.fetchone()[0]
+        #get patient name
+        name = database_cursor.execute("SELECT first_name, last_name FROM patient WHERE email = ?", (email,))
+        name = name.fetchone()
+        name = name[0] + " " + name[1]
+        print(name)
+        send_document_upload_mail(name,email,appointment_id,"https://www.ehcchospital.in/viewAppointment/"+appointment_id)
         database_connection.commit()
         database_connection.close()
         return redirect(url_for('viewAppointment', appointment_id=appointment_id))

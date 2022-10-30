@@ -21,7 +21,6 @@ function deleteDocument(documentId) {
 }
 
 var uploadField = document.getElementById("document");
-
 uploadField.onchange = function () {
     if (this.files[0].size > 5242880) {
         alert("File is too big! Please upload a file smaller than 5MB.");

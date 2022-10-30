@@ -46,6 +46,9 @@
                         <a href="/blogs/">
                             <p>Blogs</p>
                         </a>
+                        <a href="/virtualTour/">
+                            <p>Virtual Tour</p>
+                        </a>
                         <a href="/contact/">
                             <p>Contact Us</p>
                         </a>
@@ -56,40 +59,54 @@
                 </div>
             </div>
             <div class="col-md-4 col-sm-6 mb-4 g-md-0">
-                <h4 class="mb-3">Specialties</h4>
+                <h4 class="mb-3">
+                    <a href="/specialty/">
+                        Specialties
+                    </a>
+                </h4>
                 <div class="row">
                     <div class="col-lg-6 col-sm-12 col-6">
-                        <p>Breast Cancer</p>
-                        <p>Homeopathy</p>
-                        <p>Colon Cancer</p>
-                        <p>Piles/Fistula</p>
-                        <p>Gall bladder</p>
+                        {% for i in range (0,((navbar_specialties|length/2)+0.5)|int) %}
+                        <a href="/diseases/{{navbar_specialties[i][0]}}/">
+                            <p>
+                                {{ navbar_specialties[i][1] }}
+                            </p>
+                        </a>
+                        {% endfor %}
                     </div>
                     <div class="col-lg-6 col-sm-12 col-6">
-                        <p>Hernia</p>
-                        <p>Stomach Cancer</p>
-                        <p>Stomach cancer</p>
-                        <p>Renal cancer</p>
-                        <p>Prostate cancer</p>
+                        {% for i in range (((navbar_specialties|length/2)+0.5)|int,navbar_specialties|length) %}
+                        <a href="/diseases/{{navbar_specialties[i][0]}}/">
+                            <p>
+                                {{ navbar_specialties[i][1] }}
+                            </p>
+                        </a>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
             <div class="col-md-4 col-sm-12">
                 <h4 class="mb-3">Contact details</h4>
                 <p>
-                    <img src="../../static/images/logo/footercall_icon.png" alt="call logo" /><span class="ps-2">+91
-                        12345
-                        63437</span>
+                    <a href="tel:91123456789">
+                        <img src="../../static/images/logo/footercall_icon.png" alt="call logo" />
+                        <span class="ps-2">+91 12345 63437</span>
+                    </a>
+
                 </p>
                 <p>
-                    <img src="../../static/images/logo/mail_icon.png" alt="mail icon" /><span
-                        class="ps-2">ehcc@gmail.com</span>
+                    <a href="mailto:ehcc@gmail.com">
+                        <img src="../../static/images/logo/mail_icon.png" alt="mail icon" />
+                        <span class="ps-2">ehcc@gmail.com</span>
+                    </a>
                 </p>
                 <p>
-                    <img src="../../static/images/logo/location_icon.png" alt="location icon" /><span class="ps-2">First
-                        Floor,
-                        Silver Point, Nr.Nidhi Hospital,Stadium Five Cross
-                        Road, Navrangpura.</span>
+                    <a href="https://goo.gl/maps/SUXSNEnxhgQroknp9" target="_blank">
+                        <img src="../../static/images/logo/location_icon.png" alt="location icon" />
+                        <span class="ps-2">
+                            First Floor, Silver Point, Nr.Nidhi Hospital,Stadium Five Cross Road, Navrangpura.
+                        </span>
+                    </a>
                 </p>
             </div>
         </div>

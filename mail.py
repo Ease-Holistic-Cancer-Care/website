@@ -63,3 +63,33 @@ def send_declined_mail(email,name,appointment_id, remarks):
                 },
             }
         )
+
+def send_contact_mail(name, email, message):
+    resp = client.send_message(
+        message={
+            "to": {
+                "email": email,
+                },
+            "template": "RPVABVC3ZH447QK5405RMZ7XASE9",
+            "data": {
+                "name": name,
+                "message": message,
+                },
+            }
+        )
+
+
+def send_document_upload_mail(name, email, appointment_id, link):
+    resp = client.send_message(
+        message={
+            "to": {
+                "email": email,
+                },
+            "template": "CK3QSXVW1MM2T0M9NSA11SPW8EE5",
+            "data": {
+                "name": name,
+                "appointment_number": appointment_id,
+                "link": link
+                },
+            }
+        )
