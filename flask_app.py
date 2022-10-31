@@ -182,15 +182,12 @@ def contact():
 def appointment():
     database_connection = sqlite3.connect(database_location)
     database_cursor = database_connection.cursor()
-    doctors = database_cursor.execute("SELECT id,name FROM doctors")
-    doctors = doctors.fetchall()
     if request.method == 'POST':
         first_name = request.form['first_name']
         last_name = request.form['last_name']
         email = request.form['email']
         gender = request.form['gender']
         phone_number = request.form['number']
-        doctor = request.form["doctor"]
         appointment_type = request.form['appointment_type']
         message = request.form['message']
         # id = date(without -)+time(without :)+random
@@ -222,7 +219,7 @@ def appointment():
             #remove first 5 characters from last_appointment_id
             last_appointment_id = str(last_appointment_id[len(last_appointment_id)-1][8])[5:]
             new_appointment_id = str(new_patient_id) + str('{:0>4}'.format(int(last_appointment_id) + 1))
-        database_cursor.execute("INSERT INTO appointment VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (first_name, last_name, gender, phone_number, email, appointment_type, message, 'pending',new_appointment_id,None, None, None, None,doctor))
+        database_cursor.execute("INSERT INTO appointment VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (first_name, last_name, gender, phone_number, email, appointment_type, message, 'pending',new_appointment_id,None, None, None, None, None))
         database_connection.commit()
         if exists:
             send_appointment_mail(first_name+" "+last_name,new_appointment_id,appointment_type, email, "")
@@ -233,13 +230,13 @@ def appointment():
             patient_data = patient_data.fetchone()
             database_connection.commit()
             database_connection.close()
-            return render_template('appointment.html',social_links=social_links, message="Your appointment has been booked successfully. We will contact you soon. Your appointment ID is "+new_appointment_id, doctors=doctors, patient_data=patient_data, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
-        return render_template('appointment.html',social_links=social_links, message="Your appointment has been sent successfully. We will contact you soon. Your appointment ID is "+new_appointment_id,doctors=doctors, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+            return render_template('appointment.html',social_links=social_links, message="Your appointment has been booked successfully. We will contact you soon. Your appointment ID is "+new_appointment_id, patient_data=patient_data, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+        return render_template('appointment.html',social_links=social_links, message="Your appointment has been sent successfully. We will contact you soon. Your appointment ID is "+new_appointment_id, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
     if 'patient_email' in session:
         patient_data = database_cursor.execute("SELECT first_name,last_name,mobile,email,gender FROM patient WHERE email=?", (session['patient_email'],))
         patient_data = patient_data.fetchone()
-        return render_template('appointment.html',social_links=social_links, message=None, patient_data=patient_data, doctors=doctors, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
-    return render_template('appointment.html',social_links=social_links, message=None, doctors=doctors, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+        return render_template('appointment.html',social_links=social_links, message=None, patient_data=patient_data, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+    return render_template('appointment.html',social_links=social_links, message=None, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
 
 #bmr, calorie, exercise, break examination
 @app.route('/bmi/', methods=['GET','POST'])
@@ -448,10 +445,17 @@ def viewAppointment(appointment_id):
         database_cursor = database_connection.cursor()
         appointment = database_cursor.execute("SELECT * FROM appointment WHERE id = ?", (appointment_id,))
         appointment = appointment.fetchone()
-        doctor_name = database_connection.execute("SELECT name FROM doctors WHERE id = ?", (appointment[13],))
-        doctor_name = doctor_name.fetchone()[0]
-        database_connection.commit()
-        database_connection.close()
+        doctor_name = None
+        if appointment[13] is not None:
+            doctor_name = database_cursor.execute("SELECT name FROM doctors WHERE id = ?", (appointment[13],))
+            doctor_name = doctor_name.fetchone()
+            doctor_name = doctor_name[0]
+        if appointment[7] == 'pending':
+            doctors = database_cursor.execute("SELECT id, name FROM doctors")
+            doctors = doctors.fetchall()
+            database_connection.commit()
+            database_connection.close()
+            return render_template('viewAppointment.html', social_links=social_links, appointment=appointment, doctor_name=doctor_name, doctors=doctors, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
         return render_template('viewAppointment.html', social_links=social_links, appointment=appointment, doctor_name=doctor_name, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
     return redirect(url_for('patientLogin'))
 
@@ -478,14 +482,13 @@ def approveAppointment(appointment_id):
     if 'user' in session and request.method == 'POST':
         date = request.form['date']
         time = request.form['time']
+        doctor = request.form['doctor']
         message = request.form['message']
         database_connection = sqlite3.connect(database_location)
         database_cursor = database_connection.cursor()
-        database_cursor.execute("UPDATE appointment SET status = 'approved' WHERE id = ?", (int(appointment_id),))
+        database_cursor.execute("UPDATE appointment SET status = 'approved', doctor_id = ?, date = ?, time = ? WHERE id = ?", (int(doctor),str(date),str(time),int(appointment_id)))
         if message != '':
-            database_cursor.execute("UPDATE appointment SET hospital_message = ?, date = ?, time = ? WHERE id = ?", (message,str(date),str(time), int(appointment_id),))
-        else:
-            database_cursor.execute("UPDATE appointment SET date = ?, time = ? WHERE id = ?", (str(date),str(time), int(appointment_id),))
+            database_cursor.execute("UPDATE appointment SET hospital_message = ? WHERE id = ?", (message, int(appointment_id)))
         appointment_details = database_cursor.execute("SELECT * FROM appointment WHERE id = ?", (int(appointment_id),))
         appointment_details = appointment_details.fetchone()
         send_approval_mail(appointment_details[4],appointment_details[0]+" "+appointment_details[1],appointment_id,appointment_details[5],date,time,message)

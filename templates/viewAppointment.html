@@ -66,14 +66,16 @@
                             {{appointment[4]}}
                             <br>
                             <strong>
-                                Doctor:
-                            </strong>
-                            {{doctor_name}}
-                            <br>
-                            <strong>
                                 Appointment Type:
                             </strong>
                             {{appointment[5]}}
+                            {% if doctor_name is not none %}
+                            <br>
+                            <strong>
+                                Assigned Doctor:
+                            </strong>
+                            {{doctor_name}}
+                            {% endif %}
                             <br>
                             <strong>
                                 Status:
@@ -147,6 +149,14 @@
                                 <div class="col-lg-6">
                                     <input type="time" class="form-control" name="time" id="time" required>
                                 </div>
+                                <div class="col-12 my-3">
+                                    <select class="form-select" id="doctor" name="doctor" required>
+                                        <option disabled selected value="">Doctor*</option>
+                                        {% for doctor in doctors %}
+                                        <option value="{{doctor[0]}}">{{doctor[1]}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
                                 <!-- message -->
                                 <div class="col-12 mb-3">
                                     <textarea name="message" id="message" cols="30" rows="5" class="form-control mt-3"
@@ -219,6 +229,7 @@
                             </div>
                         </form>
                         {% else %}
+                        {% if appointment[12] is not none %}
                         <p style="color: var(--heading-color); font-size: 18px;">
                             Uploaded Document:
                         </p>
@@ -235,6 +246,7 @@
                         <a onclick="deleteDocument({{appointment[8]}})"
                             style="color: rgb(255, 63, 63); font-size: 18px;">
                             Delete</a>
+                        {% endif %}
                         {% endif %}
                         {% endif %}
                         {% endif %}

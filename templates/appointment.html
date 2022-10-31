@@ -112,7 +112,7 @@
           <div class="col-lg-5 my-3">
             <div class="form-group">
               <input type="number" class="form-control" id="number" name="number"
-                placeholder="Phone number* (99XXXXXXXX)" required value="{{patient_data[2]}}" min="6666666666"
+                placeholder="Phone number* (99XXXXXXXX)" required value="{{patient_data[2]}}" min="6000000000"
                 max="9999999999">
             </div>
           </div>
@@ -146,7 +146,7 @@
           <div class="col-lg-5 my-3">
             <div class="form-group">
               <input type="number" class="form-control" id="number" name="number"
-                placeholder="Phone number* (99XXXXXXXX)" required min="6666666666" max="9999999999">
+                placeholder="Phone number* (99XXXXXXXX)" required min="6000000000" max="9999999999">
             </div>
           </div>
           <div class="col-lg-7 my-3">
@@ -161,14 +161,6 @@
           <h4>
             Appointment*
           </h4>
-          <div class="col-12 my-3">
-            <select class="form-select" id="doctor" name="doctor" required>
-              <option disabled selected>Doctor*</option>
-              {% for doctor in doctors %}
-              <option value="{{doctor[0]}}">{{doctor[1]}}</option>
-              {% endfor %}
-            </select>
-          </div>
           <div class="col-lg-6 py-4 mb-4 position-relative">
             <label>
               <input type="radio" name="appointment_type" checked value="Doctor consultation" required>
