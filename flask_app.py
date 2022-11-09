@@ -321,7 +321,6 @@ def blog(id):
         database_connection.close()
         return redirect(url_for('index'))
     data = list(data)
-    print(data)
     data[4] = data[4].replace("\r","\n")
     data[4] = data[4].split('\n\n')
     return render_template('blog.html', data=data,social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
@@ -545,7 +544,6 @@ def uploadDocument(appointment_id):
         name = database_cursor.execute("SELECT first_name, last_name FROM patient WHERE email = ?", (email,))
         name = name.fetchone()
         name = name[0] + " " + name[1]
-        print(name)
         send_document_upload_mail(name,email,appointment_id,"https://www.ehcchospital.in/viewAppointment/"+appointment_id)
         database_connection.commit()
         database_connection.close()
