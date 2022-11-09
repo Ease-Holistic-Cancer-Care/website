@@ -157,7 +157,7 @@
         <h2 class="my-2">Statistics</h2>
         <p class="mb-5">We are growing with numbers that never lie</p>
       </div>
-      <div class="row text-center position-relative">
+      <div class="row text-center position-relative justify-content-center">
         {% for stat in statistics %}
         <div class="col-lg-3 col-md-6 px-4" style="position: relative;" data-aos="fade-up" data-aos-duration="1000">
           <div class="statistics_card">
@@ -185,7 +185,7 @@
           {% for testimonial in testimonials %}
           <div class="col-lg-4" data-aos="fade-up" data-aos-duration="1000">
             <div class="card card_testimonial p-4 mx-lg-4 mx-md-3 mx-2">
-              <p>{{testimonial[3]}}</p>
+              <p>"{{testimonial[3]}}"</p>
               <hr>
               <div class="card_content d-flex align-items-center">
                 <img src="{{testimonial[4]}}" class="rounded-circle" height="80" alt="">

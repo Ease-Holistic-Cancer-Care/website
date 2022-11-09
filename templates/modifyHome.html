@@ -68,7 +68,7 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <form action="/modifyHome" method="post" enctype='multipart/form-data'>
+                    <form action="/modifyHome/" method="post" enctype='multipart/form-data'>
                         <h3>
                             Carousel
                         </h3>
@@ -77,15 +77,23 @@
                             Carousel {{i+1}}
                         </h5>
                         <div class="mb-3">
-                            <label for="carousel_heading_{{i+1}}" class="form-label">Heading</label>
-                            <input type="text" class="form-control" id="carousel_heading_{{i+1}}"
-                                name="carousel_heading_{{i+1}}" value="{{carousel_data[i][0]}}" required>
-                            <label for="carousel_description_{{i+1}}" class="form-label">Description</label>
-                            <input type="text" class="form-control" id="carousel_description_{{i+1}}"
-                                name="carousel_description_{{i+1}}" value="{{carousel_data[i][1]}}" required>
-                            <label for="carousel_image_{{i+1}}" class="form-label">Image</label>
-                            <input type="file" class="form-control" id="carousel_image_{{i+1}}"
-                                name="carousel_image_{{i+1}}" accept=".jpg, .png, .jpeg">
+                            <label for="carousel_heading_{{carousel_data[i][3]}}" class="form-label">Heading</label>
+                            <input type="text" class="form-control" id="carousel_heading_{{carousel_data[i][3]}}"
+                                name="carousel_heading_{{carousel_data[i][3]}}" value="{{carousel_data[i][0]}}"
+                                required>
+                            <label for="carousel_description_{{carousel_data[i][3]}}"
+                                class="form-label">Description</label>
+                            <input type="text" class="form-control" id="carousel_description_{{carousel_data[i][3]}}"
+                                name="carousel_description_{{carousel_data[i][3]}}" value="{{carousel_data[i][1]}}"
+                                required>
+                            <label for="carousel_image_{{carousel_data[i][3]}}" class="form-label">Image</label>
+                            <input type="file" class="form-control" id="carousel_image_{{carousel_data[i][3]}}"
+                                name="carousel_image_{{carousel_data[i][3]}}" accept=".jpg, .png, .jpeg">
+                            {% if carousel_data|length != 1 %}
+                            <button type="button" class="btn btn-danger mt-2"
+                                onclick="deleteCarousel({{carousel_data[i][3]}})">Delete
+                                Carousel {{i+1}}</button>
+                            {% endif %}
                         </div>
                         {% endfor %}
                         <h3 class="mt-5">
@@ -109,12 +117,18 @@
                             Statistic {{i+1}}
                         </h5>
                         <div class="mb-3">
-                            <label for="statistics_heading_{{i+1}}" class="form-label">Title</label>
-                            <input type="text" class="form-control" id="statistics_heading_{{i+1}}"
-                                name="statistics_heading_{{i+1}}" value="{{statistics[i][0]}}" required>
-                            <label for="statistics_description_{{i+1}}" class="form-label">Number</label>
-                            <input type="text" class="form-control" id="statistics_description_{{i+1}}"
-                                name="statistics_description_{{i+1}}" value="{{statistics[i][1]}}" required>
+                            <label for="statistics_heading_{{statistics[i][2]}}" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="statistics_heading_{{statistics[i][2]}}"
+                                name="statistics_heading_{{statistics[i][2]}}" value="{{statistics[i][0]}}" required>
+                            <label for="statistics_description_{{statistics[i][2]}}" class="form-label">Number</label>
+                            <input type="text" class="form-control" id="statistics_description_{{statistics[i][2]}}"
+                                name="statistics_description_{{statistics[i][2]}}" value="{{statistics[i][1]}}"
+                                required>
+                            {% if statistics|length != 1 %}
+                            <button type="button" class="btn btn-danger mt-2"
+                                onclick="deleteStatistic({{statistics[i][2]}})">Delete
+                                Statistic {{i+1}}</button>
+                            {% endif %}
                         </div>
                         {% endfor %}
                         <div class="mb-3">

@@ -4,6 +4,7 @@ from mail import *
 import random
 import string
 from locations import *
+import json
 
 #Initialize Flask App
 app = Flask(__name__)
@@ -909,30 +910,26 @@ def modifyHome():
         database_cursor = database_connection.cursor()
         if request.method == 'POST':
             #carousel
-            carousel_items = database_cursor.execute("SELECT COUNT(*) FROM home_carousel;")
-            carousel_items = carousel_items.fetchone()[0]
+            carousel_items = database_cursor.execute("SELECT id FROM home_carousel")
+            carousel_items = carousel_items.fetchone()
             carousel = []
-            for i in range(carousel_items):
+            for i in range(len(carousel_items)):
                 temp = []
-                carousel_heading = request.form['carousel_heading_'+str(i+1)]
-                carousel_description = request.form['carousel_description_'+str(i+1)]
-                carousel_image = request.files['carousel_image_'+str(i+1)]
+                carousel_heading = request.form['carousel_heading_'+str(carousel_items[i])]
+                carousel_description = request.form['carousel_description_'+str(carousel_items[i])]
+                carousel_image = request.files['carousel_image_'+str(carousel_items[i])]
                 temp.append(carousel_heading)
                 temp.append(carousel_description)
                 if carousel_image.filename != '':
-                    carousel_image.save(os.path.join(HOME_CAROUSEL_FOLDER,carousel_image.filename))
-                    temp.append("../../static/images/Homepage/"+carousel_image.filename)
-                    # remove old image
-                    #old_image = database_cursor.execute("SELECT image FROM home_carousel WHERE id = ?", (i+1,))
-                    #old_image = old_image.fetchone()[0]
-                    #old_image.replace("../../", "")
-                    #os.remove(os.path.join(THIS_FOLDER,old_image))
+                    image_filename = "carousel_"+str(carousel_items[i])+"."+carousel_image.filename.split('.')[1]
+                    carousel_image.save(os.path.join(HOME_CAROUSEL_FOLDER,image_filename))
+                    temp.append("../../static/images/Homepage/"+image_filename)
                 carousel.append(temp)
-            for i in range(carousel_items):
+            for i in range(len(carousel_items)):
                 if len(carousel[i]) == 3:
-                    database_cursor.execute("UPDATE home_carousel SET heading=?, description=?, image = ? WHERE id=?;", (carousel[i][0], carousel[i][1], carousel[i][2], i+1))
+                    database_cursor.execute("UPDATE home_carousel SET heading=?, description=?, image = ? WHERE id=?;", (carousel[i][0], carousel[i][1], carousel[i][2], carousel_items[i]))
                 else:
-                    database_cursor.execute("UPDATE home_carousel SET heading=?, description=? WHERE id=?;", (carousel[i][0], carousel[i][1], i+1))
+                    database_cursor.execute("UPDATE home_carousel SET heading=?, description=? WHERE id=?;", (carousel[i][0], carousel[i][1], carousel_items[i]))
             #about
             about_heading = request.form['about_heading']
             about_description = request.form['about_description']
@@ -948,18 +945,18 @@ def modifyHome():
             database_connection.commit()
             
             #statistics
-            statistics_items = database_cursor.execute("SELECT COUNT(*) FROM home_statistics;")
-            statistics_items = statistics_items.fetchone()[0]
+            statistics_items = database_cursor.execute("SELECT id FROM home_statistics;")
+            statistics_items = statistics_items.fetchone()
             statistics = []
-            for i in range(statistics_items):
+            for i in range(len(statistics_items)):
                 temp = []
-                statistics_heading = request.form['statistics_heading_'+str(i+1)]
-                statistics_description = request.form['statistics_description_'+str(i+1)]
+                statistics_heading = request.form['statistics_heading_'+str(statistics_items[i])]
+                statistics_description = request.form['statistics_description_'+str(statistics_items[i])]
                 temp.append(statistics_heading)
                 temp.append(statistics_description)
                 statistics.append(temp)
-            for i in range(statistics_items):
-                database_cursor.execute("UPDATE home_statistics SET title=?, count=? WHERE id=?;", (statistics[i][0], statistics[i][1], i+1))
+            for i in range(len(statistics_items)):
+                database_cursor.execute("UPDATE home_statistics SET title=?, count=? WHERE id=?;", (statistics[i][0], statistics[i][1], statistics_items[i]))
             database_connection.commit()
             
             carousel_data = database_cursor.execute("SELECT * FROM home_carousel")
@@ -978,6 +975,76 @@ def modifyHome():
             database_connection.commit()
             database_connection.close()
             return render_template('modifyHome.html', social_links = social_links, about=about, carousel_data = carousel_data, statistics=statistics, message = None, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+    return redirect(url_for('patientLogin'))
+
+@app.route("/modifyTestimonial/", methods=['GET', 'POST'])
+def modifyTestimonial():
+    if 'user' in session:
+        database_connection = sqlite3.connect(database_location)
+        database_cursor = database_connection.cursor()
+        if request.method == "POST":
+            testimonial_id = request.form["testimonial_id"]
+            testimonial_name = request.form["testimonial_name"]
+            testimonial_designation = request.form["testimonial_designation"]
+            testimonial_content = request.form["testimonial_content"]
+            testimonial_image = request.files["testimonial_image"]
+            if testimonial_image.filename is not "" and testimonial_image.filename is not None:
+                previous_image = database_cursor.execute("SELECT image FROM testimonials WHERE id = ?", (int(testimonial_id),)).fetchone()[0]
+                os.remove(os.path.join(THIS_FOLDER,previous_image.replace("../","")))
+                testimonial_image_filepath = "testimonial_"+ testimonial_id+ "."  + testimonial_image.filename.split(".")[1]
+                testimonial_image.save(os.path.join(TESTIMONIALS_FOLDER,"testimonial_"+ testimonial_id + "." + testimonial_image.filename.split(".")[1]))
+                database_cursor.execute("UPDATE testimonials SET name=?, designation=?, content = ?, image=? WHERE id=?;", (testimonial_name, testimonial_designation,testimonial_content, "../static/images/testimonial/"+testimonial_image_filepath, testimonial_id))
+            else:
+                database_cursor.execute("UPDATE testimonials SET name = ?, designation = ?, content = ? WHERE id = ?", (testimonial_name, testimonial_designation,testimonial_content, int(testimonial_id)))
+            testimonials_main = database_cursor.execute("SELECT id, name FROM testimonials")
+            testimonials_main = testimonials_main.fetchall()
+            database_connection.commit()
+            database_connection.close()
+            return render_template('modifyTestimonial.html', testimonials_main = testimonials_main, message = "Testimonial updated successfully.",social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+        testimonials_main = database_cursor.execute("SELECT id, name FROM testimonials")
+        testimonials_main = testimonials_main.fetchall() 
+        database_connection.commit()
+        database_connection.close()  
+        return render_template("modifyTestimonial.html",testimonials_main=testimonials_main, message=None, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+    return redirect(url_for('patientLogin'))
+
+@app.route("/getTestimonial/<string:id>/")
+def getTestimonial(id):
+    database_connection = sqlite3.connect(database_location)
+    database_cursor = database_connection.cursor()
+    testimonial = database_cursor.execute("SELECT * FROM testimonials WHERE id = ?", (int(id),))
+    testimonial = testimonial.fetchone()
+    if testimonial is not None:
+        testimonial = list(testimonial)
+        json_data = json.dumps(testimonial)
+        database_connection.commit()
+        database_connection.close()
+        return json_data
+    return "No data found"
+
+@app.route("/deleteCarousel/<string:carousel_id>/")
+def deleteCarousel(carousel_id):
+    if 'user' in session:
+        database_connection = sqlite3.connect(database_location)
+        database_cursor = database_connection.cursor()
+        filename = database_cursor.execute("SELECT image FROM home_carousel WHERE id = ?", (int(carousel_id),))
+        filename = filename.fetchone()[0]
+        os.remove(os.path.join(THIS_FOLDER,filename.replace("../../","")))
+        database_cursor.execute("DELETE FROM home_carousel WHERE id = ?", (int(carousel_id),))
+        database_connection.commit()
+        database_connection.close()
+        return redirect(url_for('modifyHome'))
+    return redirect(url_for('patientLogin'))
+
+@app.route("/deleteStatistic/<string:statistic_id>/")
+def deleteStatistic(statistic_id):
+    if 'user' in session:
+        database_connection = sqlite3.connect(database_location)
+        database_cursor = database_connection.cursor()
+        database_cursor.execute("DELETE FROM home_statistics WHERE id = ?", (int(statistic_id),))
+        database_connection.commit()
+        database_connection.close()
+        return redirect(url_for('modifyHome'))
     return redirect(url_for('patientLogin'))
 
 @app.route('/modifyAbout/', methods=['GET', 'POST'])
