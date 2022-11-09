@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EASE Holistic Cancer Center | Modify Testimonials</title>
+    <title>EASE Holistic Cancer Center | Delete Specialty</title>
 
     <link rel="shortcut icon" href="../static/images/logo/EHCC.jpg">
 
@@ -62,43 +62,38 @@
             <div class="col-lg-6 col-md-8 pb-4 pt-2 mt-5">
                 <h2 class="mt-4 text-center">
                     <strong>
-                        Modify Testimonial
+                        Delete Specialty
                     </strong>
                 </h2>
             </div>
             <div class="row">
                 <div class="col-12">
-                    <form action="/deleteTestimonial/" method="post" enctype='multipart/form-data'>
+                    <form action="/deleteSpecialty/" method="post" enctype='multipart/form-data'>
                         <div class="mb-3">
-                            <label for="testimonial_id" class="form-label">Select Testimonial</label>
-                            <select id="testimonial_id" name="testimonial_id" class="form-select">
+                            <label for="specialty_id" class="form-label">Select Specialty</label>
+                            <select id="specialty_id" name="specialty_id" class="form-select">
                                 <option value="none" selected disabled hidden>
-                                    Select Testimonial
+                                    Select Specialty
                                 </option>
-                                {% for testimonial in testimonials_main %}
-                                <option value="{{testimonial[0]}}" id="{{testimonial[0]}}">
-                                    {{testimonial[1]}}
+                                {% for specialty in specialty_main %}
+                                <option value="{{specialty[0]}}" id="{{specialty[0]}}">
+                                    {{specialty[1]}}
                                 </option>
                                 {% endfor %}
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="testimonial_name" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="testimonial_name" name="testimonial_name"
-                                required readonly disabled>
+                            <label for="specialty_name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="specialty_name" name="specialty_name" required
+                                readonly disabled>
                         </div>
                         <div class="mb-3">
-                            <label for="testimonial_designation" class="form-label">Designation</label>
-                            <input type="text" class="form-control" id="testimonial_designation"
-                                name="testimonial_designation" required readonly disabled>
+                            <label for="specialty_description" class="form-label">Specialty</label>
+                            <textarea class="form-control" id="specialty_description" name="specialty_description"
+                                rows="3" required readonly disabled></textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="testimonial_content" class="form-label">Testimonial</label>
-                            <textarea class="form-control" id="testimonial_content" name="testimonial_content" rows="3"
-                                required readonly disabled></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <img src="" id="testimonial_image" alt="">
+                            <img src="" id="specialty_image" alt="">
                         </div>
                         <div class="mb-3">
                             <button class="btn btn-danger" type="submit" id="submit">Delete</button>
@@ -122,7 +117,7 @@
 
     <!-- Manual Scripts -->
     <script src="../static/scripts/common.js"></script>
-    <script src="../static/scripts/deleteTestimonial.js"></script>
+    <script src="../static/scripts/deleteSpecialty.js"></script>
 </body>
 
 </html>

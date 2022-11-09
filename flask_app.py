@@ -1237,6 +1237,58 @@ def recentAppointments():
         return render_template("recentAppointments.html", appointments=None, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
     return redirect(url_for('patientLogin'))
 
+@app.route("/deleteSpecialty/",methods=["POST","GET"])
+def deleteSpecialty():
+    if 'user' in session:
+        database_connection = sqlite3.connect(database_location)
+        database_cursor = database_connection.cursor()
+        if request.method == "POST":
+            specialty_id = request.form["specialty_id"]
+            previous_illustration = database_cursor.execute("SELECT illustration FROM specialty WHERE id = ?", (int(specialty_id),)).fetchone()[0]
+            os.remove(os.path.join(THIS_FOLDER,previous_illustration.replace("../../","")))
+            database_cursor.execute("DELETE FROM specialty WHERE id = ?", (int(specialty_id),))
+            diseases = database_cursor.execute("SELECT id FROM diseases WHERE specialty_id = ?", (int(specialty_id),)).fetchall()
+            for i in diseases:
+                database_cursor.execute("DELETE FROM disease_profile WHERE disease_id = ?", (i[0],))
+                database_cursor.execute("DELETE FROM disease_symptoms WHERE disease_id = ?", (i[0],))
+                database_cursor.execute("DELETE FROM disease_treatment WHERE disease_id = ?", (i[0],))
+                database_cursor.execute("DELETE FROM disease_severity WHERE disease_id = ?", (i[0],))
+                database_cursor.execute("DELETE FROM disease_diagnosis WHERE disease_id = ?", (i[0],))
+                database_cursor.execute("DELETE FROM disease_causes WHERE disease_id = ?", (i[0],))
+                types_images = database_cursor.execute("SELECT image FROM disease_types WHERE disease_id = ?", (i[0],)).fetchall()
+                for i in types_images:
+                    os.remove(os.path.join(THIS_FOLDER,i[0].replace("../../","")))
+                database_cursor.execute("DELETE FROM disease_types WHERE disease_id = ?", (i[0],))
+            disease_images = database_cursor.execute("SELECT illustration, main_image FROM diseases WHERE specialty_id = ?", (int(specialty_id),))
+            for i in disease_images:
+                os.remove(os.path.join(THIS_FOLDER,i[0].replace("../../","")))
+                os.remove(os.path.join(THIS_FOLDER,i[1].replace("../../","")))
+            database_cursor.execute("DELETE FROM diseases WHERE specialty_id = ?", (int(specialty_id),))
+            specialty_main = database_cursor.execute("SELECT * FROM specialty")
+            specialty_main = specialty_main.fetchall() 
+            database_connection.commit()
+            database_connection.close()
+            return render_template("deleteTestimonial.html", specialty_main = specialty_main, message = "Specialty and its diseases Deleted successfully", social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+        specialty_main = database_cursor.execute("SELECT * FROM specialty")
+        specialty_main = specialty_main.fetchall() 
+        database_connection.commit()
+        database_connection.close()
+        return render_template("deleteSpecialty.html", specialty_main = specialty_main, message = None, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+    
+@app.route("/getSpecialty/<string:id>/")
+def getSpecialty(id):
+    database_connection = sqlite3.connect(database_location)
+    database_cursor = database_connection.cursor()
+    specialty = database_cursor.execute("SELECT * FROM specialty WHERE id = ?", (int(id),))
+    specialty = specialty.fetchone()
+    if specialty is not None:
+        specialty = list(specialty)
+        json_data = json.dumps(specialty)
+        database_connection.commit()
+        database_connection.close()
+        return json_data
+    return "No data found"
+
 
 if __name__ == '__main__':
     app.run(debug=True,port=5000)
