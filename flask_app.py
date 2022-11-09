@@ -1022,6 +1022,27 @@ def getTestimonial(id):
         return json_data
     return "No data found"
 
+@app.route("/deleteTestimonial/",methods=["POST","GET"])
+def deleteTestimonial():
+    if 'user' in session:
+        database_connection = sqlite3.connect(database_location)
+        database_cursor = database_connection.cursor()
+        if request.method == "POST":
+            testimonial_id = request.form["testimonial_id"]
+            previous_image = database_cursor.execute("SELECT image FROM testimonials WHERE id = ?", (int(testimonial_id),)).fetchone()[0]
+            os.remove(os.path.join(THIS_FOLDER,previous_image.replace("../","")))
+            database_cursor.execute("DELETE FROM testimonials WHERE id = ?", (int(testimonial_id),))
+            testimonials_main = database_cursor.execute("SELECT * FROM testimonials")
+            testimonials_main = testimonials_main.fetchall() 
+            database_connection.commit()
+            database_connection.close()
+            return render_template("deleteTestimonial.html", testimonials_main = testimonials_main, message = "Testimonial Deleted successfully", social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+        testimonials_main = database_cursor.execute("SELECT * FROM testimonials")
+        testimonials_main = testimonials_main.fetchall() 
+        database_connection.commit()
+        database_connection.close()
+        return render_template("deleteTestimonial.html", testimonials_main = testimonials_main, message = None, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+
 @app.route("/deleteCarousel/<string:carousel_id>/")
 def deleteCarousel(carousel_id):
     if 'user' in session:
