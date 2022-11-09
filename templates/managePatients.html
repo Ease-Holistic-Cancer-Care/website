@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EASE Holistic Cancer Center | Manage Patients</title>
+
+    <link rel="shortcut icon" href="../static/images/logo/EHCC.jpg">
+
+    <!-- Bootstrap CSS -->
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Manual CSS-->
+    <link rel="stylesheet" href="../static/stylesheets/common.css">
+</head>
+
+<body>
+    <!-- navbar -->
+    {% include 'navbar.html' %}
+
+    <div class="container">
+        <div class="row justify-content-center px-3 mb-5">
+            <h2 class="text-center mt-4 pt-5">
+                Manage Patients
+            </h2>
+            <hr style="border: 1px solid var(--primary-color)">
+            <div class="col-12 mb-2">
+                <div class="row">
+                    <div class="col-lg-1">
+                        <strong>
+                            ID
+                        </strong>
+                    </div>
+                    <div class="col-lg-2">
+                        <strong>
+                            Patient Name
+                        </strong>
+                    </div>
+                    <div class="col-lg-3">
+                        <strong>
+                            Patient Email ID
+                        </strong>
+                    </div>
+                    <div class="col-lg-2">
+                        <strong>
+                            Patient Phone No
+                        </strong>
+                    </div>
+                    <div class="col-lg-2">
+                        <strong>
+                            Patient Gender
+                        </strong>
+                    </div>
+                    <div class="col-lg-2">
+                        <strong class="mb-2">
+                            Actions
+                        </strong>
+                    </div>
+                </div>
+                {% for patient in patients %}
+                <hr class="mt-2">
+                <div class="row">
+                    <div class="col-lg-1">
+                        {{patient[0]}}
+                    </div>
+                    <div class="col-lg-2">
+                        {{patient[1]}} {{patient[2]}}
+                    </div>
+                    <div class="col-lg-3">
+                        {{patient[4]}}
+                    </div>
+                    <div class="col-lg-2">
+                        {{patient[3]}}
+                    </div>
+                    <div class="col-lg-2 text-capitalize">
+                        {{patient[5]}}
+                    </div>
+                    <div class="col-lg-2">
+                        <a onclick="deletePatient('{{patient[0]}}','{{patient[1]}} {{patient[2]}}')"
+                            style="color: rgb(255, 63, 63)">Delete</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    {% include 'footer.html' %}
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+        crossorigin="anonymous"></script>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- Manual Scripts -->
+    <script src="../../static/scripts/common.js"></script>
+    <script src="../../static/scripts/managePatients.js"></script>
+</body>
+
+</html>

@@ -44,6 +44,13 @@
                 </p>
             </div>
             <div class="row justify-content-center">
+                <div class="text-center col-lg-4 col-md-6 mb-5">
+                    <div class="admin_card shadow py-5 rounded" onclick="window.location.href='/manageAppointments/'">
+                        <img src="../static/images/icons/appointment.png" width="150" alt="">
+                        <br><br>
+                        Manage Appointments
+                    </div>
+                </div>
                 {% if session["user_type"] == "admin" %}
                 <div class="text-center col-lg-4 col-md-6 mb-5">
                     <div class="admin_card shadow py-5 rounded" onclick="window.location.href='/modifyPages/'">
@@ -59,21 +66,21 @@
                         Add Content
                     </div>
                 </div>
-                {% endif %}
                 <div class="text-center col-lg-4 col-md-6 mb-5">
-                    <div class="admin_card shadow py-5 rounded" onclick="window.location.href='/manageAppointments/'">
-                        <img src="../static/images/icons/appointment.png" width="150" alt="">
+                    <div class="admin_card shadow py-5 rounded" onclick="window.location.href='/manageAdmins/'">
+                        <img src="../static/images/icons/admin.png" width="150" alt="">
                         <br><br>
-                        Manage Appointments
+                        Manage Admins
                     </div>
                 </div>
-                <!-- <div class="text-center col-lg-4 col-md-6 mb-5">
-                    <div class="admin_card shadow py-5 rounded">
-                        <img src="../static/images/icons/group.png" width="150" alt="">
-                        <br>
-                        Manage Users
+                <div class="text-center col-lg-4 col-md-6 mb-5">
+                    <div class="admin_card shadow py-5 rounded" onclick="window.location.href='/managePatients/'">
+                        <img src="../static/images/icons/patient.png" width="150" alt="">
+                        <br><br>
+                        Manage Patients
                     </div>
-                </div> -->
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>

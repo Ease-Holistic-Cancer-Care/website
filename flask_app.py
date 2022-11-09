@@ -988,7 +988,7 @@ def modifyTestimonial():
             testimonial_designation = request.form["testimonial_designation"]
             testimonial_content = request.form["testimonial_content"]
             testimonial_image = request.files["testimonial_image"]
-            if testimonial_image.filename is not "" and testimonial_image.filename is not None:
+            if testimonial_image.filename != "" and testimonial_image.filename is not None:
                 previous_image = database_cursor.execute("SELECT image FROM testimonials WHERE id = ?", (int(testimonial_id),)).fetchone()[0]
                 os.remove(os.path.join(THIS_FOLDER,previous_image.replace("../","")))
                 testimonial_image_filepath = "testimonial_"+ testimonial_id+ "."  + testimonial_image.filename.split(".")[1]
@@ -1157,6 +1157,63 @@ def editProfile():
         database_connection.commit()
         database_connection.close()
         return render_template('editProfile.html', message=None, data=data, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+    return redirect(url_for('patientLogin'))
+
+@app.route('/manageAdmins/')
+def manageAdmins():
+    if 'user' in session:
+        database_connection = sqlite3.connect(database_location)
+        database_cursor = database_connection.cursor()
+        admins = database_cursor.execute("SELECT email, type FROM users")
+        admins = admins.fetchall()
+        return render_template('manageAdmins.html', social_links=social_links, admins=admins, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+    return redirect(url_for('patientLogin'))
+
+@app.route("/addAdmin/<string:email>/<string:password>/<int:userType>/")
+def addAdmin(email,password,userType):
+    if 'user' in session:
+        database_connection = sqlite3.connect(database_location)
+        database_cursor = database_connection.cursor()
+        if userType == 1:
+            userType = 'admin'
+        elif userType == 2:
+            userType = 'reception'
+        database_cursor.execute("INSERT INTO users VALUES (?,?,?)",(email,password,userType))
+        database_connection.commit()
+        database_connection.close()
+        return redirect(url_for('manageAdmins'))
+    return redirect(url_for('patientLogin'))
+
+@app.route("/deleteAdmin/<string:email>/")
+def deleteAdmin(email):
+    if 'user' in session:
+        database_connection = sqlite3.connect(database_location)
+        database_cursor = database_connection.cursor()
+        database_cursor.execute("DELETE FROM users WHERE email = ?", (email,))
+        database_connection.commit()
+        database_connection.close()
+        return redirect(url_for('manageAdmins'))
+    return redirect(url_for('patientLogin'))
+
+@app.route('/managePatients/')
+def managePatients():
+    if 'user' in session:
+        database_connection = sqlite3.connect(database_location)
+        database_cursor = database_connection.cursor()
+        patients = database_cursor.execute("SELECT id,first_name,last_name,mobile,email,gender FROM patient")
+        patients = patients.fetchall()
+        return render_template('managePatients.html', social_links=social_links, patients=patients, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+    return redirect(url_for('patientLogin'))
+
+@app.route("/deletePatient/<int:id>/")
+def deletePatients(id):
+    if 'user' in session:
+        database_connection = sqlite3.connect(database_location)
+        database_cursor = database_connection.cursor()
+        database_cursor.execute("DELETE FROM patient WHERE id = ?", (id,))
+        database_connection.commit()
+        database_connection.close()
+        return redirect(url_for('managePatients'))
     return redirect(url_for('patientLogin'))
 
 
