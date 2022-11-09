@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EASE Holistic Cancer Center | Recent Appointments</title>
+
+    <link rel="shortcut icon" href="../static/images/logo/EHCC.jpg">
+
+    <!-- Bootstrap CSS -->
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Manual CSS-->
+    <link rel="stylesheet" href="../static/stylesheets/common.css">
+</head>
+
+<body>
+    <!-- navbar -->
+    {% include 'navbar.html' %}
+
+    <div class="container">
+        <div class="row justify-content-center px-3 mb-5">
+            <h2 class="text-center mt-4 pt-5">
+                Recent Appointments
+            </h2>
+            <hr style="border: 1px solid var(--primary-color)">
+            <div class="col-12 mb-2">
+                <form action="/recentAppointments/" method="post">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-4">
+                            <label for="from_date" class="form-label">From Date</label>
+                            <input type="date" class="form-control" name="from_date" id="from_date" required>
+                        </div>
+                        <div class="col-lg-4">
+                            <label for="to_date" class="form-label">To Date</label>
+                            <input type="date" class="form-control" name="to_date" id="to_date  " required>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-lg-4 my-4">
+                            <div class="row">
+                                <button class="btn btn-primary" type="submit">Request Data</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            {% if appointments is not none and appointments|length != 0 %}
+            <div class="col-12 my-4">
+                <div class="row">
+                    <h5 class="text-center mb-5" style="color: var(--primary-color);">
+                        Appointments from {{from_date}} to {{to_date}}
+                    </h5>
+                    <div class="col-lg-2">
+                        <strong>
+                            Id. No.
+                        </strong>
+                    </div>
+                    <div class="col-lg-4">
+                        <strong>
+                            Patient Name
+                        </strong>
+                    </div>
+                    <div class="col-lg-2">
+                        <strong>
+                            Appointment Type
+                        </strong>
+                    </div>
+                    <div class="col-lg-2">
+                        <strong>
+                            Appointment Status
+                        </strong>
+                    </div>
+                    <div class="col-lg-2">
+                        <strong class="mb-2">
+                            Actions
+                        </strong>
+                    </div>
+                    {% for appointment in appointments %}
+                    <hr class="mt-2">
+                    <div class="col-lg-2">
+                        {{ appointment[0] }}
+                    </div>
+                    <div class="col-lg-4">
+                        {{ appointment[1] }} {{ appointment[2] }}
+                    </div>
+                    <div class="col-lg-2">
+                        {{ appointment[3] }}
+                    </div>
+                    <div class="col-lg-2 text-capitalize">
+                        {{ appointment[4] }}
+                    </div>
+                    <div class="col-lg-2 mb-2">
+                        <a href="/viewAppointment/{{appointment[0]}}" style="color: var(--primary-color);">View</a>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="row mt-4">
+                    <div class="col">
+                        <a href="../../static/appointment_reports/{{fileName}}" target="_blank" class="btn btn-success">
+                            Download Report as Excel Sheet
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+            {% endif %}
+            {% if appointments is not none and appointments|length == 0 %}
+            <h4 class="my-3 text-center text-danger">
+                No Appointments Found
+            </h4>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Footer -->
+    {% include 'footer.html' %}
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+        crossorigin="anonymous"></script>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- Manual Scripts -->
+    <script src="../../static/scripts/common.js"></script>
+    <script src="../../static/scripts/managePatients.js"></script>
+</body>
+
+</html>

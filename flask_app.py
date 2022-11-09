@@ -5,6 +5,7 @@ import random
 import string
 from locations import *
 import json
+import numpy as np
 
 #Initialize Flask App
 app = Flask(__name__)
@@ -1214,6 +1215,28 @@ def deletePatients(id):
         database_connection.commit()
         database_connection.close()
         return redirect(url_for('managePatients'))
+    return redirect(url_for('patientLogin'))
+
+@app.route("/recentAppointments/", methods=["POST", "GET"])
+def recentAppointments():
+    if 'user' in session:
+        if request.method == "POST":
+            from_date = request.form["from_date"]
+            to_date = request.form["to_date"]
+            database_connection = sqlite3.connect(database_location)
+            database_cursor = database_connection.cursor()
+            appointments_final = database_cursor.execute("SELECT id, first_name,last_name,type,status FROM appointment WHERE date>= ? AND date <= ?",(from_date,to_date))
+            appointments_final = appointments_final.fetchall()
+            appointments = [["ID","First Name","Last Name","Appointment Type","Appointment Status"]]
+            for i in appointments_final:
+                appointments.append(list(i))
+            fileName = from_date + to_date + ".csv"
+            for file_name in os.listdir(APPOINTMENT_REPORTS):
+                os.remove(APPOINTMENT_REPORTS + "/" + file_name)
+            np.savetxt(os.path.join(APPOINTMENT_REPORTS,fileName),appointments,delimiter =", ", fmt ='% s')
+            appointments.pop(0)
+            return render_template("recentAppointments.html",from_date=from_date,to_date=to_date,fileName=fileName, appointments=appointments, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+        return render_template("recentAppointments.html", appointments=None, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
     return redirect(url_for('patientLogin'))
 
 
