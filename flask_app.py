@@ -1341,6 +1341,47 @@ def getAward(id):
         return json_data
     return "No data found"
 
+@app.route("/deleteDoctor/", methods=["POST","GET"])
+def deleteDoctor():
+    if 'user' in session:
+        database_connection = sqlite3.connect(database_location)
+        database_cursor = database_connection.cursor()
+        if request.method == "POST":
+            doctor_id = request.form["doctor_id"]
+            #doctors, doctor_profile, doctor_degree, doctor_experience
+            doctor_image = database_cursor.execute("SELECT profile_image FROM doctors WHERE id = ? ",(doctor_id,))
+            doctor_image = doctor_image.fetchone()[0]
+            os.remove(os.path.join(THIS_FOLDER,doctor_image.replace("../../","")))
+            database_cursor.execute("DELETE FROM doctors WHERE id = ?",(doctor_id,))
+            database_cursor.execute("DELETE FROM doctor_profile WHERE id = ?",(doctor_id,))
+            database_cursor.execute("DELETE FROM doctor_degree WHERE id = ?",(doctor_id,))
+            database_cursor.execute("DELETE FROM doctor_experience WHERE id = ?",(doctor_id,))
+            doctors = database_cursor.execute("SELECT id, name FROM doctors")
+            doctors = doctors.fetchall()
+            database_connection.commit()
+            database_connection.close()
+            return render_template("deleteDoctor.html", doctors=doctors, message = "Doctor deleted successfully!", social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+        doctors = database_cursor.execute("SELECT id, name FROM doctors")
+        doctors = doctors.fetchall()
+        database_connection.commit()
+        database_connection.close()
+        return render_template("deleteDoctor.html", doctors=doctors, message = None, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+    return redirect(url_for('patientLogin'))
+
+@app.route("/getDoctor/<string:id>/")
+def getDoctor(id):
+    database_connection = sqlite3.connect(database_location)
+    database_cursor = database_connection.cursor()
+    doctors = database_cursor.execute("SELECT name, current_appointment, profile_image FROM doctors WHERE id = ?", (int(id),))
+    doctors = doctors.fetchone()
+    if doctors is not None:
+        doctors = list(doctors)
+        json_data = json.dumps(doctors)
+        database_connection.commit()
+        database_connection.close()
+        return json_data
+    return "No data found"
+
 @app.route("/deleteDisease/",methods=["POST","GET"])
 def deleteDisease():
     if 'user' in session:
