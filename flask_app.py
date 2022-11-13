@@ -16,10 +16,15 @@ database_connection = sqlite3.connect(database_location)
 database_cursor = database_connection.cursor()
 social_links = database_cursor.execute("SELECT * FROM social_links")
 social_links = social_links.fetchall()
+
+# specialties
 navbar_specialties = database_cursor.execute("SELECT id,name FROM specialty")
 navbar_specialties = navbar_specialties.fetchall()
+
+# diseases
 navbar_diseases = database_cursor.execute("SELECT id,title FROM diseases")
 navbar_diseases = navbar_diseases.fetchall()
+
 database_connection.commit()
 database_connection.close()
 
@@ -997,6 +1002,38 @@ def modifyHome():
             return render_template('modifyHome.html', social_links = social_links, faqs=faqs, about=about, carousel_data = carousel_data, statistics=statistics, message = None, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
     return redirect(url_for('patientLogin'))
 
+@app.route('/modifySpecialty/', methods=['GET', 'POST'])
+def modifySpecialty():
+    if 'user' in session:
+        database_connection = sqlite3.connect(database_location)
+        database_cursor = database_connection.cursor()
+        if request.method == "POST":
+            specialty_id = request.form['specialty_id']
+            specialty_name = request.form["specialty_name"]
+            specialty_description = request.form["specialty_description"]
+            specialty_illustration = request.files["specialty_illustration"]
+            if specialty_illustration.filename != '':
+                illustration_filename = "specialty_"+str(specialty_id)+"."+specialty_illustration.filename.split('.')[1]
+                specialty_illustration.save(os.path.join(SPECIALTY_FOLDER,illustration_filename))
+                specialty_illustration = "../../static/images/illustrations/specialty/"+illustration_filename
+                database_cursor.execute("UPDATE specialty SET name=?, description=?, illustration=? WHERE id=?;", (specialty_name, specialty_description, specialty_illustration, specialty_id))
+            else:
+                specialty_illustration = database_cursor.execute("SELECT illustration FROM specialty WHERE id=?;", (specialty_id,))
+                specialty_illustration = specialty_illustration.fetchone()[0]
+                database_cursor.execute("UPDATE specialty SET name=?, description=? WHERE id=?;", (specialty_name, specialty_description, specialty_id))
+            specialty_main = database_cursor.execute("SELECT * FROM specialty")
+            specialty_main = specialty_main.fetchall() 
+            database_connection.commit()
+            database_connection.close()
+            return render_template('modifySpecialty.html', specialty_main=specialty_main, message = "Specialty updated successfully.", navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+        specialty_main = database_cursor.execute("SELECT * FROM specialty")
+        specialty_main = specialty_main.fetchall() 
+        database_connection.commit()
+        database_connection.close()
+        return render_template('modifySpecialty.html', specialty_main=specialty_main, message = None, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+    return redirect(url_for('patientLogin'))
+        
+
 @app.route("/modifyTestimonial/", methods=['GET', 'POST'])
 def modifyTestimonial():
     if 'user' in session:
@@ -1421,7 +1458,6 @@ def deleteDoctor():
         database_cursor = database_connection.cursor()
         if request.method == "POST":
             doctor_id = request.form["doctor_id"]
-            #doctors, doctor_profile, doctor_degree, doctor_experience
             doctor_image = database_cursor.execute("SELECT profile_image FROM doctors WHERE id = ? ",(doctor_id,))
             doctor_image = doctor_image.fetchone()[0]
             os.remove(os.path.join(THIS_FOLDER,doctor_image.replace("../../","")))
@@ -1479,11 +1515,15 @@ def deleteDisease():
             database_cursor.execute("DELETE FROM diseases WHERE id = ?", (int(disease_id),))
             diseases = database_cursor.execute("SELECT id, title FROM diseases")
             diseases = diseases.fetchall()
+            navbar_diseases = database_cursor.execute("SELECT id,title FROM diseases")
+            navbar_diseases = navbar_diseases.fetchall()
             database_connection.commit()
             database_connection.close()
             return render_template("deleteDisease.html", diseases=diseases, message = "Disease deleted successfully!", social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
         diseases = database_cursor.execute("SELECT id, title FROM diseases")
         diseases = diseases.fetchall()
+        navbar_diseases = database_cursor.execute("SELECT id,title FROM diseases")
+        navbar_diseases = navbar_diseases.fetchall()
         database_connection.commit()
         database_connection.close()
         return render_template("deleteDisease.html", diseases=diseases, message = None, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
@@ -1536,11 +1576,15 @@ def deleteSpecialty():
             database_cursor.execute("DELETE FROM diseases WHERE specialty_id = ?", (int(specialty_id),))
             specialty_main = database_cursor.execute("SELECT * FROM specialty")
             specialty_main = specialty_main.fetchall() 
+            navbar_specialties = database_cursor.execute("SELECT id,name FROM specialty")
+            navbar_specialties = navbar_specialties.fetchall()
             database_connection.commit()
             database_connection.close()
             return render_template("deleteTestimonial.html", specialty_main = specialty_main, message = "Specialty and its diseases Deleted successfully", social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
         specialty_main = database_cursor.execute("SELECT * FROM specialty")
-        specialty_main = specialty_main.fetchall() 
+        specialty_main = specialty_main.fetchall()
+        navbar_specialties = database_cursor.execute("SELECT id,name FROM specialty")
+        navbar_specialties = navbar_specialties.fetchall()
         database_connection.commit()
         database_connection.close()
         return render_template("deleteSpecialty.html", specialty_main = specialty_main, message = None, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)    
