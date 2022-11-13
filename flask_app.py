@@ -1307,6 +1307,43 @@ def getVirtualTour(id):
         return json_data
     return "No data found"
 
+@app.route("/deleteBlog/", methods=["POST","GET"])
+def deleteBlog():
+    if 'user' in session:
+        database_connection = sqlite3.connect(database_location)
+        database_cursor = database_connection.cursor()
+        if request.method == "POST":
+            blog_id = request.form["blog_id"]
+            previous_image = database_cursor.execute("SELECT image FROM blogs WHERE id = ?",(blog_id,))
+            previous_image = previous_image.fetchone()[0]
+            os.remove(os.path.join(THIS_FOLDER,previous_image.replace("../../","")))
+            database_cursor.execute("DELETE FROM blogs WHERE id = ?", (blog_id,))
+            blogs = database_cursor.execute("SELECT id, title FROM blogs")
+            blogs = blogs.fetchall()
+            database_connection.commit()
+            database_connection.close()
+            return render_template("deleteBlog.html", blogs=blogs, message="Blog deleted successfully!", social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+        blogs = database_cursor.execute("SELECT id, title FROM blogs")
+        blogs = blogs.fetchall()
+        database_connection.commit()
+        database_connection.close()
+        return render_template("deleteBlog.html", blogs=blogs, message=None, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+    return redirect(url_for('patientLogin'))
+
+@app.route("/getBlog/<string:id>/")
+def getBlog(id):
+    database_connection = sqlite3.connect(database_location)
+    database_cursor = database_connection.cursor()
+    blogs = database_cursor.execute("SELECT title,description,image FROM blogs WHERE id = ?", (int(id),))
+    blogs = blogs.fetchone()
+    if blogs is not None:
+        blogs = list(blogs)
+        json_data = json.dumps(blogs)
+        database_connection.commit()
+        database_connection.close()
+        return json_data
+    return "No data found"
+
 @app.route("/deleteNews/",methods=["POST","GET"])
 def deleteNews():
     if 'user' in session:
