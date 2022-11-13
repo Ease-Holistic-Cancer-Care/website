@@ -5,17 +5,17 @@ function httpGet(theUrl) {
     return xmlHttp.responseText;
 }
 
-$("#specialty_id").on('change', function () {
+$("#virtual_tour_id").on('change', function () {
     var id = $(this).find('option:selected').attr('id');
     var url = document.URL;
     var domain = url.split('/')[0] + "//" + url.split('/')[2] + "/";
-    data = httpGet(domain + "getSpecialty/" + String(id) + "/");
+    data = httpGet(domain + "getVirtualTour/" + String(id) + "/");
     data = data.split('", "');
-    temp_data = data[0].split(', \"')
-    data[0] = temp_data[1]
-    data = [temp_data[0]].concat(data)
+    console.log(data);
     data[data.length - 1] = data[data.length - 1].replaceAll('\"]', "")
-    document.getElementById("specialty_name").value = data[1];
-    document.getElementById("specialty_description").innerText = data[2];
-    document.getElementById("specialty_image").src = data[3]
+    data[0] = data[0].replaceAll('[\"', "")
+
+    document.getElementById("virtual_tour_title").value = data[0];
+    document.getElementById("virtual_tour_description").innerText = data[1];
+    document.getElementById("virtual_tour_image").src = data[2]
 });

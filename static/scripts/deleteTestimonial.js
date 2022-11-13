@@ -7,7 +7,9 @@ function httpGet(theUrl) {
 
 $("#testimonial_id").on('change', function () {
     var id = $(this).find('option:selected').attr('id');
-    data = httpGet("http://127.0.0.1:5000/getTestimonial/" + String(id) + "/");
+    var url = document.URL;
+    var domain = url.split('/')[0] + "//" + url.split('/')[2] + "/";
+    data = httpGet(domain + "getTestimonial/" + String(id) + "/");
     data = data.replaceAll('[', '');
     data = data.replaceAll(']', '');
     data = data.replaceAll('"', '');

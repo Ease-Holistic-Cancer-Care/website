@@ -958,12 +958,31 @@ def modifyHome():
                 database_cursor.execute("UPDATE home_statistics SET title=?, count=? WHERE id=?;", (statistics[i][0], statistics[i][1], statistics_items[i]))
             database_connection.commit()
             
+            #faqs
+            faq_items = database_cursor.execute("SELECT id FROM home_faq;")
+            faq_items = faq_items.fetchall()
+            faqs = []
+            for i in range(len(faq_items)):
+                temp = []
+                faq_question = request.form['faq_question_'+str(faq_items[i][0])]
+                faq_answer = request.form['faq_answer_'+str(faq_items[i][0])]
+                temp.append(faq_question)
+                temp.append(faq_answer)
+                faqs.append(temp)
+            for i in range(len(faq_items)):
+                database_cursor.execute("UPDATE home_faq SET question=?, answer=? WHERE id=?;", (faqs[i][0], faqs[i][1], faq_items[i][0]))
+            database_connection.commit()   
+            
             carousel_data = database_cursor.execute("SELECT * FROM home_carousel")
             carousel_data = carousel_data.fetchall()
             about = database_cursor.execute("SELECT * FROM home_page")
             about = about.fetchone()
+            statistics = database_cursor.execute("SELECT * FROM home_statistics")
+            statistics = statistics.fetchall()
+            faqs = database_cursor.execute("SELECT * FROM home_faq")
+            faqs = faqs.fetchall()
             database_connection.close()
-            return render_template('modifyHome.html', social_links = social_links, about=about, carousel_data = carousel_data, message = "Details updated successfully.", navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+            return render_template('modifyHome.html', social_links = social_links, faqs=faqs, about=about, carousel_data = carousel_data, message = "Details updated successfully.", navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
         else:
             carousel_data = database_cursor.execute("SELECT * FROM home_carousel")
             carousel_data = carousel_data.fetchall()
@@ -971,9 +990,11 @@ def modifyHome():
             about = about.fetchone()
             statistics = database_cursor.execute("SELECT * FROM home_statistics")
             statistics = statistics.fetchall()
+            faqs = database_cursor.execute("SELECT * FROM home_faq")
+            faqs = faqs.fetchall()
             database_connection.commit()
             database_connection.close()
-            return render_template('modifyHome.html', social_links = social_links, about=about, carousel_data = carousel_data, statistics=statistics, message = None, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+            return render_template('modifyHome.html', social_links = social_links, faqs=faqs, about=about, carousel_data = carousel_data, statistics=statistics, message = None, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
     return redirect(url_for('patientLogin'))
 
 @app.route("/modifyTestimonial/", methods=['GET', 'POST'])
@@ -1062,6 +1083,18 @@ def deleteStatistic(statistic_id):
         database_connection = sqlite3.connect(database_location)
         database_cursor = database_connection.cursor()
         database_cursor.execute("DELETE FROM home_statistics WHERE id = ?", (int(statistic_id),))
+        database_connection.commit()
+        database_connection.close()
+        return redirect(url_for('modifyHome'))
+    return redirect(url_for('patientLogin'))
+
+
+@app.route("/deleteFAQ/<string:faq_id>/")
+def deleteFAQ(faq_id):
+    if 'user' in session:
+        database_connection = sqlite3.connect(database_location)
+        database_cursor = database_connection.cursor()
+        database_cursor.execute("DELETE FROM home_faq WHERE id = ?", (int(faq_id),))
         database_connection.commit()
         database_connection.close()
         return redirect(url_for('modifyHome'))
@@ -1237,6 +1270,129 @@ def recentAppointments():
         return render_template("recentAppointments.html", appointments=None, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
     return redirect(url_for('patientLogin'))
 
+@app.route("/deleteVirtualTour/", methods=["POST", "GET"])
+def deleteVirtualTour():
+    if 'user' in session:
+        database_connection = sqlite3.connect(database_location)
+        database_cursor = database_connection.cursor()
+        if request.method == "POST":
+            vt_id = request.form["virtual_tour_id"]
+            previous_image = database_cursor.execute("SELECT image FROM virtual_tour WHERE id = ?",(vt_id,))
+            previous_image = previous_image.fetchone()[0]
+            os.remove(os.path.join(THIS_FOLDER,previous_image.replace("../","")))
+            database_cursor.execute("DELETE FROM virtual_tour WHERE id = ?", (vt_id,))
+            virtual_tours = database_cursor.execute("SELECT id, title FROM virtual_tour")
+            virtual_tours = virtual_tours.fetchall()
+            database_connection.commit()
+            database_connection.close()
+            return render_template("deleteVirtualTour.html", virtual_tours=virtual_tours, message="Virtual Tour deleted successfully!", social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+        virtual_tours = database_cursor.execute("SELECT id, title FROM virtual_tour")
+        virtual_tours = virtual_tours.fetchall()
+        database_connection.commit()
+        database_connection.close()
+        return render_template("deleteVirtualTour.html", virtual_tours=virtual_tours, message=None, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+    return redirect(url_for('patientLogin'))
+
+@app.route("/getVirtualTour/<string:id>/")
+def getVirtualTour(id):
+    database_connection = sqlite3.connect(database_location)
+    database_cursor = database_connection.cursor()
+    virtual_tours = database_cursor.execute("SELECT title,description,image FROM virtual_tour WHERE id = ?", (int(id),))
+    virtual_tours = virtual_tours.fetchone()
+    if virtual_tours is not None:
+        virtual_tours = list(virtual_tours)
+        json_data = json.dumps(virtual_tours)
+        database_connection.commit()
+        database_connection.close()
+        return json_data
+    return "No data found"
+
+@app.route("/deleteAward/",methods=["POST","GET"])
+def deleteAward():
+    if 'user' in session:
+        database_connection = sqlite3.connect(database_location)
+        database_cursor = database_connection.cursor()
+        if request.method == "POST":
+            award_id = request.form["award_id"]
+            previous_image = database_cursor.execute("SELECT image FROM awards WHERE id = ?",(award_id,))
+            previous_image = previous_image.fetchone()[0]
+            os.remove(os.path.join(THIS_FOLDER,previous_image.replace("../","")))
+            database_cursor.execute("DELETE FROM awards WHERE id = ?",(award_id,))
+            awards = database_cursor.execute("SELECT id, title FROM awards")
+            awards = awards.fetchall()
+            database_connection.commit()
+            database_connection.close()
+            return render_template("deleteAward.html",awards=awards, message = "Award deleted successfully!", social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+        awards = database_cursor.execute("SELECT id, title FROM awards")
+        awards = awards.fetchall()
+        return render_template("deleteAward.html",awards=awards, message = None, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+
+@app.route("/getAward/<string:id>/")
+def getAward(id):
+    database_connection = sqlite3.connect(database_location)
+    database_cursor = database_connection.cursor()
+    awards = database_cursor.execute("SELECT title,type,description,image FROM awards WHERE id = ?", (int(id),))
+    awards = awards.fetchone()
+    if awards is not None:
+        awards = list(awards)
+        json_data = json.dumps(awards)
+        database_connection.commit()
+        database_connection.close()
+        return json_data
+    return "No data found"
+
+@app.route("/deleteDisease/",methods=["POST","GET"])
+def deleteDisease():
+    if 'user' in session:
+        database_connection = sqlite3.connect(database_location)
+        database_cursor = database_connection.cursor()
+        if request.method == "POST":
+            disease_id = request.form["disease_id"]
+            database_cursor.execute("DELETE FROM disease_profile WHERE disease_id = ?", (disease_id,))
+            database_cursor.execute("DELETE FROM disease_symptoms WHERE disease_id = ?", (disease_id,))
+            database_cursor.execute("DELETE FROM disease_treatment WHERE disease_id = ?", (disease_id,))
+            database_cursor.execute("DELETE FROM disease_severity WHERE disease_id = ?", (disease_id,))
+            database_cursor.execute("DELETE FROM disease_diagnosis WHERE disease_id = ?", (disease_id,))
+            database_cursor.execute("DELETE FROM disease_causes WHERE disease_id = ?", (disease_id,))
+            types_images = database_cursor.execute("SELECT image FROM disease_types WHERE disease_id = ?", (disease_id,)).fetchall()
+            for i in types_images:
+                os.remove(os.path.join(THIS_FOLDER,i[0].replace("../../","")))
+            database_cursor.execute("DELETE FROM disease_types WHERE disease_id = ?", (disease_id,))
+            disease_images = database_cursor.execute("SELECT illustration, main_image FROM diseases WHERE id = ?", (int(disease_id),))
+            for i in disease_images:
+                os.remove(os.path.join(THIS_FOLDER,i[0].replace("../../","")))
+                os.remove(os.path.join(THIS_FOLDER,i[1].replace("../../","")))
+            database_cursor.execute("DELETE FROM diseases WHERE id = ?", (int(disease_id),))
+            diseases = database_cursor.execute("SELECT id, title FROM diseases")
+            diseases = diseases.fetchall()
+            database_connection.commit()
+            database_connection.close()
+            return render_template("deleteDisease.html", diseases=diseases, message = "Disease deleted successfully!", social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+        diseases = database_cursor.execute("SELECT id, title FROM diseases")
+        diseases = diseases.fetchall()
+        database_connection.commit()
+        database_connection.close()
+        return render_template("deleteDisease.html", diseases=diseases, message = None, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+    return redirect(url_for('patientLogin'))
+
+@app.route("/getDisease/<string:id>/")
+def getDisease(id):
+    database_connection = sqlite3.connect(database_location)
+    database_cursor = database_connection.cursor()
+    disease = database_cursor.execute("SELECT title,specialty_id,description,illustration FROM diseases WHERE id = ?", (int(id),))
+    disease = disease.fetchone()
+    specialty = database_cursor.execute("SELECT name FROM specialty WHERE id = ?", (disease[1],))
+    specialty = specialty.fetchone()[0]
+    disease = list(disease)
+    disease[1] = specialty
+    if disease is not None:
+        disease = list(disease)
+        json_data = json.dumps(disease)
+        database_connection.commit()
+        database_connection.close()
+        return json_data
+    return "No data found"
+
 @app.route("/deleteSpecialty/",methods=["POST","GET"])
 def deleteSpecialty():
     if 'user' in session:
@@ -1273,7 +1429,7 @@ def deleteSpecialty():
         specialty_main = specialty_main.fetchall() 
         database_connection.commit()
         database_connection.close()
-        return render_template("deleteSpecialty.html", specialty_main = specialty_main, message = None, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+        return render_template("deleteSpecialty.html", specialty_main = specialty_main, message = None, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)    
     
 @app.route("/getSpecialty/<string:id>/")
 def getSpecialty(id):
@@ -1288,6 +1444,30 @@ def getSpecialty(id):
         database_connection.close()
         return json_data
     return "No data found"
+
+@app.route("/addDiseaseFAQ/", methods = ["POST","GET"])
+def addDiseaseFAQ():
+    if 'user' in session:
+        database_connection = sqlite3.connect(database_location)
+        database_cursor = database_connection.cursor()
+        diseases = database_cursor.execute("SELECT id, title FROM diseases")
+        diseases = diseases.fetchall()
+        if request.method == "POST":
+            disease_id = request.form["disease_id"]
+            question = request.form["faq_question"]
+            answer = request.form["faq_answer"]
+            database_cursor.execute("INSERT INTO disease_faq VALUES (?,?,?)",(disease_id,question,answer))
+            database_connection.commit()
+            database_connection.close()
+            return render_template("addDiseaseFAQ.html",diseases=diseases, message = "FAQ Added Successfully", social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+        database_connection.commit()
+        database_connection.close()
+        return render_template("addDiseaseFAQ.html",diseases=diseases, message = None, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+    return redirect(url_for('patientLogin'))
+
+@app.errorhandler(404)
+def not_found(e):
+  return render_template("404.html")
 
 
 if __name__ == '__main__':

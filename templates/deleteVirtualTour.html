@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EASE Holistic Cancer Center | Add FAQ</title>
+    <title>EASE Holistic Cancer Center | Delete Virtual Tour</title>
 
     <link rel="shortcut icon" href="../static/images/logo/EHCC.jpg">
 
@@ -62,29 +62,41 @@
             <div class="col-lg-6 col-md-8 pb-4 pt-2 mt-5">
                 <h2 class="mt-4 text-center">
                     <strong>
-                        Add Home FAQ
+                        Delete Virtual Tour
                     </strong>
                 </h2>
             </div>
             <div class="row">
                 <div class="col-12">
-                    <form action="/addFAQ/" method="post">
+                    <form action="/deleteVirtualTour/" method="post">
                         <div class="mb-3">
-                            <label for="faq_question" class="form-label">
-                                <b>FAQ Question</b>
-                            </label>
-                            <input type="text" class="form-control" id="faq_question" name="faq_question" required
-                                placeholder="Enter Question">
+                            <label for="virtual_tour_id" class="form-label">Select Virtual Tour</label>
+                            <select id="virtual_tour_id" name="virtual_tour_id" class="form-select">
+                                <option value="none" selected disabled hidden>
+                                    Select Virtual Tour
+                                </option>
+                                {% for virtual_tour in virtual_tours %}
+                                <option value="{{virtual_tour[0]}}" id="{{virtual_tour[0]}}">
+                                    {{virtual_tour[1]}}
+                                </option>
+                                {% endfor %}
+                            </select>
                         </div>
                         <div class="mb-3">
-                            <label for="faq_answer" class="form-label">
-                                <b>FAQ Answer</b>
-                            </label>
-                            <textarea class="form-control" id="faq_answer" name="faq_answer" rows="3" required
-                                placeholder="Enter Answer"></textarea>
+                            <label for="virtual_tour_title" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="virtual_tour_title" name="virtual_tour_title"
+                                required readonly disabled>
                         </div>
                         <div class="mb-3">
-                            <button class="btn btn-primary" type="submit" id="submit">Add</button>
+                            <label for="irtual_tour_description" class="form-label">Specialty</label>
+                            <textarea class="form-control" id="virtual_tour_description" name="virtual_tour_description"
+                                rows="3" required readonly disabled></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <img src="" class="w-25" id="virtual_tour_image" alt="">
+                        </div>
+                        <div class="mb-3">
+                            <button class="btn btn-danger" type="submit" id="submit">Delete</button>
                         </div>
                     </form>
                 </div>
@@ -105,6 +117,7 @@
 
     <!-- Manual Scripts -->
     <script src="../static/scripts/common.js"></script>
+    <script src="../static/scripts/deleteVirtualTour.js"></script>
 </body>
 
 </html>

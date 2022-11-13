@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EASE Holistic Cancer Center | Add FAQ</title>
+    <title>EASE Holistic Cancer Center | Delete Disease</title>
 
     <link rel="shortcut icon" href="../static/images/logo/EHCC.jpg">
 
@@ -62,29 +62,46 @@
             <div class="col-lg-6 col-md-8 pb-4 pt-2 mt-5">
                 <h2 class="mt-4 text-center">
                     <strong>
-                        Add Home FAQ
+                        Delete Award
                     </strong>
                 </h2>
             </div>
             <div class="row">
                 <div class="col-12">
-                    <form action="/addFAQ/" method="post">
+                    <form action="/deleteDisease/" method="post">
                         <div class="mb-3">
-                            <label for="faq_question" class="form-label">
-                                <b>FAQ Question</b>
-                            </label>
-                            <input type="text" class="form-control" id="faq_question" name="faq_question" required
-                                placeholder="Enter Question">
+                            <label for="disease_id" class="form-label">Select Disease</label>
+                            <select id="disease_id" name="disease_id" class="form-select">
+                                <option value="none" selected disabled hidden>
+                                    Select Disease
+                                </option>
+                                {% for disease in diseases %}
+                                <option value="{{disease[0]}}" id="{{disease[0]}}">
+                                    {{disease[1]}}
+                                </option>
+                                {% endfor %}
+                            </select>
                         </div>
                         <div class="mb-3">
-                            <label for="faq_answer" class="form-label">
-                                <b>FAQ Answer</b>
-                            </label>
-                            <textarea class="form-control" id="faq_answer" name="faq_answer" rows="3" required
-                                placeholder="Enter Answer"></textarea>
+                            <label for="disease_title" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="disease_title" name="disease_title" required
+                                readonly disabled>
                         </div>
                         <div class="mb-3">
-                            <button class="btn btn-primary" type="submit" id="submit">Add</button>
+                            <label for="disease_specialty" class="form-label">Specialty</label>
+                            <input type="text" class="form-control" id="disease_specialty" name="disease_specialty"
+                                required readonly disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="disease_description" class="form-label">Description</label>
+                            <textarea class="form-control" id="disease_description" name="disease_description" rows="3"
+                                required readonly disabled></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <img src="" id="disease_image" alt="">
+                        </div>
+                        <div class="mb-3">
+                            <button class="btn btn-danger" type="submit" id="submit">Delete</button>
                         </div>
                     </form>
                 </div>
@@ -105,6 +122,7 @@
 
     <!-- Manual Scripts -->
     <script src="../static/scripts/common.js"></script>
+    <script src="../static/scripts/deleteDisease.js"></script>
 </body>
 
 </html>

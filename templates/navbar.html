@@ -12,7 +12,7 @@
                 <div class="col-lg-6 text-lg-end text-center mb-3">
 
                     <button class="button_cta_appointment mt-2" style="background-color: white; color: black;"
-                        onclick="window.location.href='tel:911234567890'">+91 12345 67890</button>
+                        onclick="window.location.href='tel:919510006262'">+91 95100 06262</button>
                     <button class="button_cta_appointment mt-2"
                         onclick="window.location.href='/appointment/'">Appointment</button>
                 </div>
@@ -143,7 +143,7 @@
                                 document.getElementById('patient_logout').style.display = 'none';
                                 document.getElementById('patient_home').style.display = 'none';
                             } else {
-                                if (route.match('/manage') || route.match('/viewAppointment/') || route.match('/modify')) {
+                                if (route.match('/manage') || route.match('/viewAppointment/') || route.match('/modify') || route.match('/recent') || route.match('/add') || route.match('/delete')) {
                                     document.getElementById('patient_home').style.display = 'none';
                                     document.getElementById('patient_logout').style.display = 'none';
                                     document.getElementById('admin_home').style.visibility = 'visible';

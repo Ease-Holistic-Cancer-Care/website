@@ -165,15 +165,18 @@
                         {% endfor %}
                     </div>
                     <div class="col-lg-4 pt-4">
-                        <img src="../../static/images/disease/diagnosis.webp" alt="disease image" class="w-100" />
+                        <img src="../../static/images/disease/diagnosis.webp" alt="disease image" class="w-100"
+                            style="border-radius: 15px;" />
                     </div>
+                </div>
+                <div class="row justify-content-end">
                     <div class="col-lg-4 col-8 g-0 description_line1">
                         <strong>
                             <h4>Severity</h4>
                         </strong>
                     </div>
                     <div class="col-lg-8 col-4 g-0 description_line2"></div>
-                    <div class="col-12 pt-4">
+                    <div class="col-lg-8 pt-4">
                         {% for severity in disease_severity %}
                         {% if loop.index == 1 %}
                         <button class="button_option_disease active_button mb-2" id="button3">
@@ -197,6 +200,10 @@
                         </p>
                         {% endif %}
                         {% endfor %}
+                    </div>
+                    <div class="col-lg-4 pt-4">
+                        <img src="../../static/images/disease/diagnosis.webp" alt="disease image" class="w-100"
+                            style="border-radius: 15px;" />
                     </div>
                 </div>
             </div>
@@ -260,6 +267,7 @@
                     {% endfor %}
                 </div>
             </div>
+            {% if disease_faq|length != 0 %}
             <div class="row pt-5 px-3 description3 align-items-end">
                 <div class="col-lg-4 col-8 g-0 description_line1">
                     <strong>
@@ -284,6 +292,9 @@
                     </div>
                 </div>
             </div>
+            {% else %}
+            <br>
+            {% endif %}
         </div>
     </main>
 

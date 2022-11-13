@@ -17,7 +17,7 @@
 
 .about_content p {
   margin-top: 25px;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 400;
   color: #8D8D8D;
 }
@@ -96,6 +96,14 @@
 .card_disease img {
   width: 80px;
   height: 80px;
+}
+
+.card_content_name h3 {
+  font-size: 20px;
+}
+
+.card_content_name p {
+  font-size: 16px;
 }
 
 .disease_content h3 {

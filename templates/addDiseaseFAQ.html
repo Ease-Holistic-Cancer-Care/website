@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EASE Holistic Cancer Center | Add FAQ</title>
+    <title>EASE Holistic Cancer Center | Add Disease FAQs</title>
 
     <link rel="shortcut icon" href="../static/images/logo/EHCC.jpg">
 
@@ -28,6 +28,7 @@
 </head>
 
 <body>
+
     <!-- navbar -->
     {% include 'navbar.html' %}
 
@@ -62,25 +63,41 @@
             <div class="col-lg-6 col-md-8 pb-4 pt-2 mt-5">
                 <h2 class="mt-4 text-center">
                     <strong>
-                        Add Home FAQ
+                        Add Disease FAQ
                     </strong>
                 </h2>
             </div>
             <div class="row">
                 <div class="col-12">
-                    <form action="/addFAQ/" method="post">
+                    <form action="/addDiseaseFAQ/" method="post">
+                        <div class="mb-3">
+                            <!-- Select Disease -->
+                            <label for="disease_id" class="form-label">
+                                <b>Select Disease</b>
+                            </label>
+                            <select id="disease_id" name="disease_id" class="form-select">
+                                <option value="none" selected disabled hidden>
+                                    Select Disease
+                                </option>
+                                {% for disease in diseases %}
+                                <option value="{{disease[0]}}">
+                                    {{disease[1]}}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
                         <div class="mb-3">
                             <label for="faq_question" class="form-label">
-                                <b>FAQ Question</b>
+                                <b>Question</b>
                             </label>
                             <input type="text" class="form-control" id="faq_question" name="faq_question" required
                                 placeholder="Enter Question">
                         </div>
                         <div class="mb-3">
                             <label for="faq_answer" class="form-label">
-                                <b>FAQ Answer</b>
+                                <b>Answer</b>
                             </label>
-                            <textarea class="form-control" id="faq_answer" name="faq_answer" rows="3" required
+                            <textarea class="form-control" id="faq_answer" name="faq_answer" rows="3"
                                 placeholder="Enter Answer"></textarea>
                         </div>
                         <div class="mb-3">
@@ -91,7 +108,6 @@
             </div>
         </div>
     </div>
-
     <!-- Footer -->
     {% include 'footer.html' %}
 

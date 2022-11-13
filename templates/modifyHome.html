@@ -131,6 +131,26 @@
                             {% endif %}
                         </div>
                         {% endfor %}
+                        <h3 class="mt-5">
+                            FAQs
+                        </h3>
+                        {% for i in range(faqs|length) %}
+                        <h5>
+                            FAQ {{i+1}}
+                        </h5>
+                        <div class="mb-3">
+                            <label for="faq_question_{{faqs[i][2]}}" class="form-label">Question</label>
+                            <input type="text" class="form-control" id="faq_question_{{faqs[i][2]}}"
+                                name="faq_question_{{faqs[i][2]}}" value="{{faqs[i][0]}}" required>
+                            <label for="faq_answer_{{faqs[i][2]}}" class="form-label">Answer</label>
+                            <input type="text" class="form-control" id="faq_answer_{{faqs[i][2]}}"
+                                name="faq_answer_{{faqs[i][2]}}" value="{{faqs[i][1]}}" required>
+                            {% if faqs|length != 1 %}
+                            <button type="button" class="btn btn-danger mt-2" onclick="deleteFAQ({{faqs[i][2]}})">Delete
+                                FAQ {{i+1}}</button>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
                         <div class="mb-3">
                             <button class="btn btn-primary" type="submit" id="submit">Update</button>
                         </div>
@@ -153,6 +173,7 @@
 
     <!-- Manual Scripts -->
     <script src="../static/scripts/common.js"></script>
+    <script src="../static/scripts/modifyHome.js"></script>
 </body>
 
 </html>
