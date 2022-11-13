@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EASE Holistic Cancer Center | Delete Disease</title>
+    <title>EASE Holistic Cancer Center | Add Award</title>
 
     <link rel="shortcut icon" href="../static/images/logo/EHCC.jpg">
 
@@ -62,46 +62,60 @@
             <div class="col-lg-6 col-md-8 pb-4 pt-2 mt-5">
                 <h2 class="mt-4 text-center">
                     <strong>
-                        Delete Award
+                        Add Award
                     </strong>
                 </h2>
             </div>
             <div class="row">
                 <div class="col-12">
-                    <form action="/deleteDisease/" method="post">
+                    <form action="/modifyAward/" method="post" enctype="multipart/form-data">
                         <div class="mb-3">
-                            <label for="disease_id" class="form-label">Select Disease</label>
-                            <select id="disease_id" name="disease_id" class="form-select">
+                            <label for="award_id" class="form-label">Select Award</label>
+                            <select id="award_id" name="award_id" class="form-select" required>
                                 <option value="" selected disabled hidden>
-                                    Select Disease
+                                    Select Award
                                 </option>
-                                {% for disease in diseases %}
-                                <option value="{{disease[0]}}" id="{{disease[0]}}">
-                                    {{disease[1]}}
+                                {% for award in awards %}
+                                <option value="{{award[0]}}" id="{{award[0]}}">
+                                    {{award[1]}}
                                 </option>
                                 {% endfor %}
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="disease_title" class="form-label">Title</label>
-                            <input type="text" class="form-control" id="disease_title" name="disease_title" required
-                                readonly disabled>
+                            <label for="award_type" class="form-label">
+                                <b>Award Type</b>
+                            </label>
+                            <input type="text" class="form-control" id="award_type" name="award_type" required
+                                placeholder="Enter Award Type">
+                        </div>
+                        <!-- title -->
+                        <div class="mb-3">
+                            <label for="award_title" class="form-label">
+                                <b>Award Title</b>
+                            </label>
+                            <input type="text" class="form-control" id="award_title" name="award_title" required
+                                placeholder="Enter Award Title">
+                        </div>
+                        <!-- description -->
+                        <div class="mb-3">
+                            <label for="award_description" class="form-label">
+                                <b>Award Description</b>
+                            </label>
+                            <textarea class="form-control" id="award_description" name="award_description" rows="3"
+                                required placeholder="Enter Award Description"></textarea>
+                        </div>
+                        <!-- image -->
+                        <div class="mb-3">
+                            <label for="award_image_input" class="form-label">
+                                <b>Award Image</b>
+                            </label>
+                            <input class="form-control" type="file" id="award_image_input" name="award_image_input">
+                            <br>
+                            <img src="" id="award_image" alt="">
                         </div>
                         <div class="mb-3">
-                            <label for="disease_specialty" class="form-label">Specialty</label>
-                            <input type="text" class="form-control" id="disease_specialty" name="disease_specialty"
-                                required readonly disabled>
-                        </div>
-                        <div class="mb-3">
-                            <label for="disease_description" class="form-label">Description</label>
-                            <textarea class="form-control" id="disease_description" name="disease_description" rows="3"
-                                required readonly disabled></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <img src="" id="disease_image" alt="">
-                        </div>
-                        <div class="mb-3">
-                            <button class="btn btn-danger" type="submit" id="submit">Delete</button>
+                            <button class="btn btn-primary" type="submit" id="submit">Update</button>
                         </div>
                     </form>
                 </div>
@@ -122,7 +136,7 @@
 
     <!-- Manual Scripts -->
     <script src="../static/scripts/common.js"></script>
-    <script src="../static/scripts/deleteDisease.js"></script>
+    <script src="../static/scripts/deleteAward.js"></script>
 </body>
 
 </html>
