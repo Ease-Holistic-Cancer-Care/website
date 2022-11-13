@@ -1307,6 +1307,42 @@ def getVirtualTour(id):
         return json_data
     return "No data found"
 
+@app.route("/deleteNews/",methods=["POST","GET"])
+def deleteNews():
+    if 'user' in session:
+        database_connection = sqlite3.connect(database_location)
+        database_cursor = database_connection.cursor()
+        if request.method == "POST":
+            news_id = request.form["news_id"]
+            previous_image = database_cursor.execute("SELECT image FROM news WHERE id = ?",(news_id,))
+            previous_image = previous_image.fetchone()[0]
+            os.remove(os.path.join(THIS_FOLDER,previous_image.replace("../","")))
+            database_cursor.execute("DELETE FROM news WHERE id = ?", (news_id,))
+            news = database_cursor.execute("SELECT id, title FROM news")
+            news = news.fetchall()
+            database_connection.commit()
+            database_connection.close()
+            return render_template("deleteNews.html",news=news,message="News deleted successfully!", social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+        news = database_cursor.execute("SELECT id, title FROM news")
+        news = news.fetchall()
+        database_connection.commit()
+        database_connection.close()
+        return render_template("deleteNews.html",news=news, message=None, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+
+@app.route("/getNews/<string:id>/")
+def getNews(id):
+    database_connection = sqlite3.connect(database_location)
+    database_cursor = database_connection.cursor()
+    news = database_cursor.execute("SELECT title,description,image FROM news WHERE id = ?", (int(id),))
+    news = news.fetchone()
+    if news is not None:
+        news = list(news)
+        json_data = json.dumps(news)
+        database_connection.commit()
+        database_connection.close()
+        return json_data
+    return "No data found"
+
 @app.route("/deleteAward/",methods=["POST","GET"])
 def deleteAward():
     if 'user' in session:
