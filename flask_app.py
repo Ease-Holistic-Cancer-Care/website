@@ -757,6 +757,35 @@ def addVirtualTour():
         return render_template('addVirtualTour.html', social_links=social_links, message=None, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
     return redirect(url_for('patientLogin'))
 
+@app.route('/modifyAward/', methods = ["POST","GET"])
+def modifyAward():
+    if 'user' in session:
+        database_connection = sqlite3.connect(database_location)
+        database_cursor = database_connection.cursor()
+        if request.method == "POST":
+            award_id = request.form['award_id']
+            award_title = request.form['award_title']
+            award_type = request.form['award_type']
+            award_description = request.form['award_description']
+            award_image = request.files['award_image_input']
+            if award_image.filename != '':
+                award_image_filename = "award_"+str(award_id)+"."+award_image.filename.split('.')[1]
+                award_image.save(os.path.join(AWARDS_FOLDER,award_image_filename))
+                database_cursor.execute("UPDATE awards SET title = ?, description = ?, image = ?, type = ? WHERE id = ?", (award_title,award_description,"../static/images/awards/"+award_image_filename,award_type,award_id))
+            else:
+                database_cursor.execute("UPDATE awards SET title = ?, description = ?, type = ? WHERE id = ?", (award_title,award_description,award_type,award_id))
+            awards = database_cursor.execute("SELECT id,title FROM awards")
+            awards = awards.fetchall()
+            database_connection.commit()
+            database_connection.close()
+            return render_template('modifyAward.html', awards=awards, social_links=social_links, message="Award Modified Successfully", navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+        awards = database_cursor.execute("SELECT id,title FROM awards")
+        awards = awards.fetchall()
+        database_connection.commit()
+        database_connection.close()
+        return render_template('modifyAward.html', awards=awards, social_links=social_links, message=None, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+    return redirect(url_for('patientLogin'))
+
 @app.route('/addAward/', methods=['POST', 'GET'])
 def addAward():
     if 'user' in session:
@@ -1001,6 +1030,7 @@ def modifyHome():
             database_connection.close()
             return render_template('modifyHome.html', social_links = social_links, faqs=faqs, about=about, carousel_data = carousel_data, statistics=statistics, message = None, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
     return redirect(url_for('patientLogin'))
+            
 
 @app.route('/modifySpecialty/', methods=['GET', 'POST'])
 def modifySpecialty():
