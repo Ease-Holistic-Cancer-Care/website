@@ -786,7 +786,48 @@ def modifyBLog():
         return render_template('modifyBlog.html', social_links=social_links, message=None, blogs=blogs, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
     return redirect(url_for('patientLogin'))
     
-            
+@app.route("/modifyNews/", methods=["POST","GET"])
+def modifyNews():
+    if 'user' in session:
+        database_connection = sqlite3.connect(database_location)
+        database_cursor = database_connection.cursor()
+        if request.method == "POST":
+            news_id = request.form["news_id"]
+            news_title = request.form['news_title']
+            news_description = request.form['news_description']
+            news_image = request.files['news_image_input']
+            # check if is_head is checked
+            if 'is_head' in request.form:
+                is_head = "yes"
+                news_heading = request.form['news_heading']
+            else:
+                is_head = "no"
+            if is_head == "yes":
+                if news_image.filename != '':
+                    image_filename = "head_news_"+str(news_id)+"."+news_image.filename.split('.')[1]
+                    news_image.save(os.path.join(HEAD_NEWS_FOLDER,image_filename))
+                    database_cursor.execute("UPDATE news SET title = ?, description = ?, heading = ?, image = ?, headline = 'yes' WHERE id = ?", (news_title,news_description,news_heading,"../static/images/news/head_news/"+image_filename,news_id))
+                else:
+                    database_cursor.execute("UPDATE news SET title = ?, description = ?, heading = ?, headline = 'yes' WHERE id = ?", (news_title,news_description,news_heading,news_id))
+            else:
+                if news_image.filename != '':
+                    image_filename = "news_"+str(news_id)+"."+news_image.filename.split('.')[1]
+                    news_image.save(os.path.join(NEWS_FOLDER,image_filename))
+                    database_cursor.execute("UPDATE news SET title = ?, description = ?, heading = ?, image = ?, headline = 'no' WHERE id = ?", (news_title,news_description,None,"../static/images/news/"+image_filename,news_id))
+                else:
+                    database_cursor.execute("UPDATE news SET title = ?, description = ?, heading = ?, headline = 'no' WHERE id = ?", (news_title,news_description,None,news_id))
+            news = database_cursor.execute("SELECT id,title FROM news")
+            news = news.fetchall()
+            database_connection.commit()
+            database_connection.close()
+            return render_template('modifyNews.html',news=news, social_links=social_links, message="News Modified Successfully", navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+        news = database_cursor.execute("SELECT id,title FROM news")
+        news = news.fetchall()
+        database_connection.commit()
+        database_connection.close()
+        return render_template('modifyNews.html',news=news, social_links=social_links, message=None, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+    return redirect(url_for('patientLogin'))
+                      
     
 @app.route('/modifyAward/', methods = ["POST","GET"])
 def modifyAward():
@@ -1482,8 +1523,11 @@ def deleteNews():
 def getNews(id):
     database_connection = sqlite3.connect(database_location)
     database_cursor = database_connection.cursor()
-    news = database_cursor.execute("SELECT title,description,image FROM news WHERE id = ?", (int(id),))
+    news = database_cursor.execute("SELECT title,description,heading,image FROM news WHERE id = ?", (int(id),))
     news = news.fetchone()
+    if news[2] == None:
+        news = list(news)
+        news.pop(2)
     if news is not None:
         news = list(news)
         json_data = json.dumps(news)
