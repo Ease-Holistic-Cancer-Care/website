@@ -1,0 +1,119 @@
+<!-- navbar -->
+<div class="fixed-top">
+    <div id="top_navbar" class="py-2">
+        <div class="container-fluid px-4">
+            <div class="row align-items-center">
+                <div class="col-lg-6 text-lg-start text-center mb-2">
+                    <a href="/" class="top_navbar_logo">
+                        <img src="../../static/images/logo/navbar_logo.png" alt="Hospital logo" height="60"
+                            id="navbar_logo_top" />
+                    </a>
+                </div>
+                <div class="col-lg-6 text-lg-end text-center mb-2 mt-1">
+
+                    <button class="button_cta_white" onclick="window.location.href='/admin/'" id="admin_home"
+                        style="visibility: hidden;">
+                        Admin Home
+                    </button>
+
+                    <button class="button_cta_white logout" onclick="window.location.href='/logoutAdmin/'"
+                        id="admin_logout" style="visibility: hidden;">
+                        Admin Logout
+                    </button>
+                    <script>
+                        // Get route
+                        var route = window.location.pathname;
+                        if (route == '/admin/') {
+                            document.getElementById('admin_logout').style.visibility = 'visible';
+                            document.getElementById('admin_home').style.display = 'none';
+                        } else {
+                            document.getElementById('admin_home').style.visibility = 'visible';
+                            document.getElementById('admin_logout').style.display = 'none';
+                        }
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <nav class="navbar navbar-expand-lg bg-white shadow">
+        <div class="container-fluid pt-2">
+            <a class="navbar-brand bottom_navbar_logo" href="/"><img src="../../static/images/logo/navbar_logo.png"
+                    height="60" alt="Hospital logo" id="navbar_logo_bottom" /></a>
+            <button class="navbar-toggler collapsed d-flex d-lg-none flex-column justify-content-around" type="button"
+                data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="toggler-icon top-bar"></span>
+                <span class="toggler-icon middle-bar"></span>
+                <span class="toggler-icon bottom-bar"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav m-auto mb-2 mb-lg-md-0">
+                    <li class="nav-item mx-3">
+                        <a class="nav-link active" aria-current="page" href="/recentAppointments/">
+                            Appointment Report
+                        </a>
+                    </li>
+                    <li class="nav-item mx-3">
+                        <a class="nav-link active" aria-current="page" href="/manageAppointments/">
+                            View Appointments
+                        </a>
+                    </li>
+                    <li class="nav-item mx-3 dropdown">
+                        <a href="" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown"
+                            href="/modifyPages/">Modify Content</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/modifyHome/">Home Page</a></li>
+                            <li><a class="dropdown-item" href="/modifyAbout/">About Page</a></li>
+                            <li><a class="dropdown-item" href="/modifyTestimonial/">Modify Testimonials</a></li>
+                            <li><a class="dropdown-item" href="/modifySpecialty/">Modify Specialty</a></li>
+                            <li><a class="dropdown-item" href="/modifyAward/">Modify Award</a></li>
+                            <li><a class="dropdown-item" href="/modifyVirtualTour/">Modify Virtual Tour</a></li>
+                            <li><a class="dropdown-item" href="/modifyDisease/">Modify Disease</a></li>
+                            <li><a class="dropdown-item" href="/modifyDoctor/">Modify Doctor</a></li>
+                            <li><a class="dropdown-item" href="/modifyNews/">Modify News</a></li>
+                            <li><a class="dropdown-item" href="/modifyBlog/">Modify Blog</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item mx-3 dropdown">
+                        <a href="" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown"
+                            href="/modifyPages/">Delete Content</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/deleteTestimonial/">Delete Testimonials</a></li>
+                            <li><a class="dropdown-item" href="/deleteSpecialty/">Delete Specialty</a></li>
+                            <li><a class="dropdown-item" href="/deleteAward/">Delete Award</a></li>
+                            <li><a class="dropdown-item" href="/deleteVirtualTour/">Delete Virtual Tour</a></li>
+                            <li><a class="dropdown-item" href="/deleteDisease/">Delete Disease</a></li>
+                            <li><a class="dropdown-item" href="/deleteDoctor/">Delete Doctor</a></li>
+                            <li><a class="dropdown-item" href="/deleteNews/">Delete News</a></li>
+                            <li><a class="dropdown-item" href="/deleteBlog/">Delete Blog</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item mx-3 dropdown">
+                        <a href="" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown"
+                            href="/addPages/">Add Content</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/addDoctor/">Add Doctors</a></li>
+                            <li><a class="dropdown-item" href="/addSpecialty/">Add Specialty</a></li>
+                            <li><a class="dropdown-item" href="/addDisease/">Add Disease</a></li>
+                            <li><a class="dropdown-item" href="/addVirtualTour/">Add Virtual Tour</a></li>
+                            <li><a class="dropdown-item" href="/addAward/">Add Award</a></li>
+                            <li><a class="dropdown-item" href="/addNews/">Add News</a></li>
+                            <li><a class="dropdown-item" href="/addBlog/">Add Blog</a></li>
+                            <li><a class="dropdown-item" href="/addTestimonial/">Add Testimonial</a></li>
+                            <li><a class="dropdown-item" href="/addFAQ/">Add Home FAQs</a></li>
+                            <li><a class="dropdown-item" href="/addDiseaseFAQ/">Add Disease FAQs</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item mx-3">
+                        <a class="nav-link active" aria-current="page" href="/manageAdmins/">Manage Admins</a>
+                    </li>
+                    <li class="nav-item mx-3">
+                        <a class="nav-link active" aria-current="page" href="/managePatients/">Manage Patients</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>

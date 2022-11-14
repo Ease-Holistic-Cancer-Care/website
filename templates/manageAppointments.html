@@ -29,7 +29,11 @@
 
 <body>
     <!-- navbar -->
+    {% if 'user' in session %}
+    {% include 'admin_navbar.html' %}
+    {% else %}
     {% include 'navbar.html' %}
+    {% endif %}
 
     <div class="container">
         <div class="row justify-content-center px-3 mb-5">
