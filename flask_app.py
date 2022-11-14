@@ -748,9 +748,9 @@ def addVirtualTour():
                 last_id = 0
             else:
                 last_id = last_id[0]
-            image_filename = "vt_"+str(last_id+1)+"."+image.filename.split('.')[1]
+            image_filename = "virtual_tour_"+str(last_id+1)+"."+image.filename.split('.')[1]
             image.save(os.path.join(VIRTUAL_TOUR_FOLDER,image_filename))
-            database_cursor.execute("INSERT INTO virtual_tour VALUES (?,?,?,?)", ("../../static/images/virtual_tour/"+image_filename,title,description,last_id+1))
+            database_cursor.execute("INSERT INTO virtual_tour VALUES (?,?,?,?)", ("../static/images/virtual_tour/"+image_filename,title,description,last_id+1))
             database_connection.commit()
             database_connection.close()
             return render_template('addVirtualTour.html', social_links=social_links, message="Specialty Added Successfully", navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
@@ -828,6 +828,31 @@ def modifyNews():
         return render_template('modifyNews.html',news=news, social_links=social_links, message=None, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
     return redirect(url_for('patientLogin'))
                       
+@app.route("/modifyVirtualTour/", methods = ["POST","GET"])    
+def modifyVirtualTour():
+    if 'user' in session:
+        database_connection = sqlite3.connect(database_location)
+        database_cursor = database_connection.cursor()
+        if request.method == "POST":
+            vt_id = request.form["virtual_tour_id"]
+            title = request.form['vt_title']
+            description = request.form['vt_description']
+            image = request.files['vt_image']
+            if image.filename != '':
+                image_filename = "virtual_tour_"+str(vt_id)+"."+image.filename.split('.')[1]
+                image.save(os.path.join(VIRTUAL_TOUR_FOLDER,image_filename))
+                database_cursor.execute("UPDATE virtual_tour SET title = ?, description = ?, image = ? WHERE id = ?", (title,description,"../static/images/virtual_tour/"+image_filename,vt_id))
+            else:
+                database_cursor.execute("UPDATE virtual_tour SET title = ?, description = ? WHERE id = ?", (title,description,vt_id))
+            virtual_tours = database_cursor.execute("SELECT id,title FROM virtual_tour")
+            virtual_tours = virtual_tours.fetchall()
+            database_connection.commit()
+            database_connection.close()
+            return render_template('modifyVirtualTour.html',virtual_tours=virtual_tours, social_links=social_links, message="Virtual Tour modified Successfully", navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+        virtual_tours = database_cursor.execute("SELECT id,title FROM virtual_tour")
+        virtual_tours = virtual_tours.fetchall()
+        return render_template('modifyVirtualTour.html',virtual_tours=virtual_tours, social_links=social_links, message=None, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+    return redirect(url_for('patientLogin'))
     
 @app.route('/modifyAward/', methods = ["POST","GET"])
 def modifyAward():

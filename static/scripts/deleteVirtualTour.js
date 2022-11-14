@@ -15,7 +15,7 @@ $("#virtual_tour_id").on('change', function () {
     data[data.length - 1] = data[data.length - 1].replaceAll('\"]', "")
     data[0] = data[0].replaceAll('[\"', "")
 
-    document.getElementById("virtual_tour_title").value = data[0];
-    document.getElementById("virtual_tour_description").innerText = data[1];
+    document.getElementById("vt_title").value = data[0];
+    document.getElementById("vt_description").innerText = data[1];
     document.getElementById("virtual_tour_image").src = data[2]
 });
