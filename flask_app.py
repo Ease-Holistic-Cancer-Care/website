@@ -757,6 +757,37 @@ def addVirtualTour():
         return render_template('addVirtualTour.html', social_links=social_links, message=None, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
     return redirect(url_for('patientLogin'))
 
+@app.route("/modifyBlog/",methods = ["POST", "GET"])
+def modifyBLog():
+    if 'user' in session:
+        database_connection = sqlite3.connect(database_location)
+        database_cursor = database_connection.cursor()
+        if request.method == "POST":
+            blog_id = request.form["blog_id"]
+            blog_title = request.form['blog_title']
+            blog_description = request.form['blog_description']
+            blog_image = request.files['blog_image_input']
+            blog_content = request.form['blog_content']
+            if blog_image.filename != '':
+                image_filename = "blog_"+str(blog_id)+"."+blog_image.filename.split('.')[1]
+                blog_image.save(os.path.join(BLOGS_FOLDER,image_filename))
+                database_cursor.execute("UPDATE blogs SET title = ?, description = ?, content = ?, image = ? WHERE id = ?", (blog_title,blog_description,blog_content,"../../static/images/blogs/"+image_filename,blog_id))
+            else:
+                database_cursor.execute("UPDATE blogs SET title = ?, description = ?, content = ? WHERE id = ?", (blog_title,blog_description,blog_content,blog_id))
+            blogs = database_cursor.execute("SELECT id,title FROM blogs")
+            blogs = blogs.fetchall()
+            database_connection.commit()
+            database_connection.close()
+            return render_template('modifyBlog.html', social_links=social_links, message="Blog Modified Successfully", blogs=blogs, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+        blogs = database_cursor.execute("SELECT id,title FROM blogs")
+        blogs = blogs.fetchall()
+        database_connection.commit()
+        database_connection.close()
+        return render_template('modifyBlog.html', social_links=social_links, message=None, blogs=blogs, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+    return redirect(url_for('patientLogin'))
+    
+            
+    
 @app.route('/modifyAward/', methods = ["POST","GET"])
 def modifyAward():
     if 'user' in session:
@@ -1402,6 +1433,20 @@ def getBlog(id):
     database_connection = sqlite3.connect(database_location)
     database_cursor = database_connection.cursor()
     blogs = database_cursor.execute("SELECT title,description,image FROM blogs WHERE id = ?", (int(id),))
+    blogs = blogs.fetchone()
+    if blogs is not None:
+        blogs = list(blogs)
+        json_data = json.dumps(blogs)
+        database_connection.commit()
+        database_connection.close()
+        return json_data
+    return "No data found"
+
+@app.route("/getBlogContent/<string:id>/")
+def getBlogContent(id):
+    database_connection = sqlite3.connect(database_location)
+    database_cursor = database_connection.cursor()
+    blogs = database_cursor.execute("SELECT title,description,content,image FROM blogs WHERE id = ?", (int(id),))
     blogs = blogs.fetchone()
     if blogs is not None:
         blogs = list(blogs)
