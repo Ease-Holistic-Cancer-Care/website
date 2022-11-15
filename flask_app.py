@@ -652,6 +652,129 @@ def addSpecialty():
         return render_template('addSpecialty.html', social_links=social_links, message=None, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
     return redirect(url_for('patientLogin'))
 
+@app.route("/modifyDisease/",methods=["POST","GET"])
+def modifyDisease():
+    if 'user' in session:
+        database_connection = sqlite3.connect(database_location)
+        database_cursor = database_connection.cursor()
+        specialties = database_cursor.execute("SELECT id,name FROM specialty")
+        specialties = specialties.fetchall()
+        doctors = database_cursor.execute("SELECT id,name FROM doctors")
+        doctors = doctors.fetchall()
+        if request.method == "POST":
+            disease_id = request.form['disease_id']
+            specialty_id = request.form['specialty_name']
+            disease_title = request.form['disease_title']
+            disease_description = request.form['disease_description']
+
+            disease_illustration = request.files['disease_illustration']
+            if disease_illustration.filename != "":
+                disease_illustration_filename = "disease_"+str(disease_id)+"."+disease_illustration.filename.split('.')[1]
+                disease_illustration.save(os.path.join(DISEASES_ILLUSTRATION_FOLDER,disease_illustration_filename))
+            else:
+                disease_illustration_filename = database_cursor.execute("SELECT illustration FROM diseases WHERE id = ?", (disease_id,))
+                disease_illustration_filename = disease_illustration_filename.fetchone()[0].split("/")
+                disease_illustration_filename = disease_illustration_filename[len(disease_illustration_filename)-1]
+            
+            doctors_disease = request.form.getlist('doctors')
+            
+            # file
+            main_image = request.files['main_image']
+            if main_image.filename != "":
+                main_image_filename = "disease_img"+str(disease_id)+"."+main_image.filename.split('.')[1]
+                main_image.save(os.path.join(DISEASES_FOLDER,main_image_filename))
+            else:
+                main_image_filename = database_cursor.execute("SELECT main_image FROM diseases WHERE id = ?", (disease_id,))
+                main_image_filename = main_image_filename.fetchone()[0].split("/")
+                main_image_filename = main_image_filename[len(main_image_filename)-1]
+            
+            disease_profile_title1 = request.form['disease_profile_title1']
+            disease_profile_content1 = request.form['disease_profile_content1']
+            disease_profile_title2 = request.form['disease_profile_title2']
+            disease_content2 = request.form['disease_profile_content1']
+            disease_type_title1 = request.form['disease_type_title1']
+            disease_type_description1 = request.form['disease_type_description1']
+            
+            # file
+            disease_type_image1 = request.files['disease_type_image1']
+            if disease_type_image1.filename != "":
+                disease_type_image1_filename = "disease_type_img1_"+str(disease_id)+"."+disease_type_image1.filename.split('.')[1]
+                disease_type_image1.save(os.path.join(DISEASES_FOLDER,disease_type_image1_filename))
+            else:
+                disease_type_image1_filename = database_cursor.execute("SELECT image FROM disease_types WHERE disease_id = ?", (disease_id,))
+                disease_type_image1_filename = disease_type_image1_filename.fetchone()[0].split("/")
+                disease_type_image1_filename = disease_type_image1_filename[len(disease_type_image1_filename)-1]
+            
+            disease_type_title2 = request.form['disease_type_title2']
+            disease_type_description2 = request.form['disease_type_description2']
+            
+            # file
+            disease_type_image2 = request.files['disease_type_image2']
+            if disease_type_image2.filename != "":
+                disease_type_image2_filename = "disease_type_img2_"+str(disease_id)+"."+disease_type_image2.filename.split('.')[1]
+                disease_type_image2.save(os.path.join(DISEASES_FOLDER,disease_type_image2_filename))
+            else:
+                disease_type_image2_filename = database_cursor.execute("SELECT image FROM disease_types WHERE disease_id = ?", (disease_id,))
+                disease_type_image2_filename = disease_type_image2_filename.fetchall()[1][0].split("/")
+                disease_type_image2_filename = disease_type_image2_filename[len(disease_type_image2_filename)-1]
+            
+            causes = request.form['disease_causes']
+            symptoms = request.form['disease_symptoms']
+            disease_diagnosis_type1 = request.form['disease_diagnosis_type1']
+            disease_diagnosis_description1 = request.form['disease_diagnosis_description1']
+            disease_diagnosis_type2 = request.form['disease_diagnosis_type2']
+            disease_description2 = request.form['disease_diagnosis_description1']
+            disease_severity_type1 = request.form['disease_severity_type1']
+            disease_severity_description1 = request.form['disease_severity_description1']
+            disease_severity_type2 = request.form['disease_severity_type2']
+            disease_severity_description2 = request.form['disease_severity_description2']
+            disease_treatment_type1 = request.form['disease_treatment_type1']
+            disease_treatment_description1 = request.form['disease_treatment_description1']
+            disease_treatment_type2 = request.form['disease_treatment_type2']
+            disease_treatment_description2 = request.form['disease_treatment_description2']
+            
+            database_cursor.execute("UPDATE diseases SET title = ?, specialty_id = ?, description = ?, illustration = ?, doctors = ? , main_image = ? WHERE id = ?", (disease_title, specialty_id, disease_description, "../../static/images/illustrations/diseases/"+disease_illustration_filename, ",".join(doctors_disease), "../../static/images/disease/"+main_image_filename, disease_id))
+            
+            database_cursor.execute("DELETE FROM disease_profile WHERE disease_id = ?", (disease_id,))
+            database_cursor.execute("INSERT INTO disease_profile VALUES (?,?,?)", (disease_id,disease_profile_title1,disease_profile_content1))
+            database_cursor.execute("INSERT INTO disease_profile VALUES (?,?,?)", (disease_id,disease_profile_title2,disease_content2))
+            
+            database_cursor.execute("DELETE FROM disease_types WHERE disease_id = ?", (disease_id,))
+            database_cursor.execute("INSERT INTO disease_types VALUES (?,?,?,?)", (disease_id,disease_type_title1,disease_type_description1,"../../static/images/disease/"+disease_type_image1_filename))
+            database_cursor.execute("INSERT INTO disease_types VALUES (?,?,?,?)", (disease_id,disease_type_title2,disease_type_description2,"../../static/images/disease/"+disease_type_image2_filename))
+            
+            database_cursor.execute("DELETE FROM disease_causes WHERE disease_id = ?", (disease_id,))
+            causes = causes.split(';')
+            for cause in causes:
+                database_cursor.execute("INSERT INTO disease_causes VALUES (?,?)", (disease_id,cause))
+                
+            database_cursor.execute("DELETE FROM disease_symptoms WHERE disease_id = ?", (disease_id,))
+            symptoms = symptoms.split(';')
+            for symptom in symptoms:
+                database_cursor.execute("INSERT INTO disease_symptoms VALUES (?,?)", (disease_id,symptom))
+                
+            database_cursor.execute("DELETE FROM disease_diagnosis WHERE disease_id = ?", (disease_id,))
+            database_cursor.execute("INSERT INTO disease_diagnosis VALUES (?,?,?)", (disease_id,disease_diagnosis_type1,disease_diagnosis_description1))
+            database_cursor.execute("INSERT INTO disease_diagnosis VALUES (?,?,?)", (disease_id,disease_diagnosis_type2,disease_description2))
+            
+            database_cursor.execute("DELETE FROM disease_severity WHERE disease_id = ?", (disease_id,))
+            database_cursor.execute("INSERT INTO disease_severity VALUES (?,?,?)", (disease_id,disease_severity_type1,disease_severity_description1))
+            database_cursor.execute("INSERT INTO disease_severity VALUES (?,?,?)", (disease_id,disease_severity_type2,disease_severity_description2))
+            
+            database_cursor.execute("DELETE FROM disease_treatment WHERE disease_id = ?", (disease_id,))
+            database_cursor.execute("INSERT INTO disease_treatment VALUES (?,?,?)", (disease_id,disease_treatment_type1,disease_treatment_description1))
+            database_cursor.execute("INSERT INTO disease_treatment VALUES (?,?,?)", (disease_id,disease_treatment_type2,disease_treatment_description2))
+            diseases = database_cursor.execute("SELECT id,title FROM diseases")
+            diseases = diseases.fetchall()
+            database_connection.commit()
+            database_connection.close()
+            return render_template('modifyDisease.html', diseases=diseases, social_links=social_links, specialties=specialties, doctors=doctors, message="Disease modified Successfully",navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+        diseases = database_cursor.execute("SELECT id,title FROM diseases")
+        diseases = diseases.fetchall()
+        database_connection.close()
+        return render_template('modifyDisease.html', diseases=diseases, social_links=social_links, doctors=doctors, specialties=specialties, message=None,navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+    return redirect(url_for('patientLogin'))
+            
 @app.route('/addDisease/', methods=['POST', 'GET'])
 def addDisease():
     if 'user' in session:
@@ -708,7 +831,7 @@ def addDisease():
             disease_type_image1.save(os.path.join(DISEASES_FOLDER,disease_type_image1_filename))
             disease_type_image2_filename = "disease_type_img2_"+str(last_id+1)+"."+disease_type_image2.filename.split('.')[1]
             disease_type_image2.save(os.path.join(DISEASES_FOLDER,disease_type_image2_filename))
-            database_cursor.execute("INSERT INTO diseases VALUES (?,?,?,?,?,?,?)", (last_id+1,disease_title,specialty_id,disease_description,"../../static/images/illustrations/diseases/"+disease_illustration_filename,';'.join(doctors_disease),"../../static/images/disease/"+main_image_filename))
+            database_cursor.execute("INSERT INTO diseases VALUES (?,?,?,?,?,?,?)", (last_id+1,disease_title,specialty_id,disease_description,"../../static/images/illustrations/diseases/"+disease_illustration_filename,','.join(doctors_disease),"../../static/images/disease/"+main_image_filename))
             database_cursor.execute("INSERT INTO disease_profile VALUES (?,?,?)", (last_id+1,disease_profile_title1,disease_profile_content1))
             database_cursor.execute("INSERT INTO disease_profile VALUES (?,?,?)", (last_id+1,disease_profile_title2,disease_content2))
             database_cursor.execute("INSERT INTO disease_types VALUES (?,?,?,?)", (last_id+1,disease_type_title1,disease_type_description1,"../../static/images/disease/"+disease_type_image1_filename))
@@ -1686,6 +1809,51 @@ def getDisease(id):
     if disease is not None:
         disease = list(disease)
         json_data = json.dumps(disease)
+        database_connection.commit()
+        database_connection.close()
+        return json_data
+    return "No data found"
+
+@app.route("/getDisease/content/<string:id>/")
+def getDiseaseContent(id):
+    database_connection = sqlite3.connect(database_location)
+    database_cursor = database_connection.cursor()
+    disease = database_cursor.execute("SELECT * FROM diseases WHERE id = ?", (int(id),))
+    disease = disease.fetchone()
+    #disease_profile
+    #disease_types
+    #disease_causes
+    #disease_symptoms
+    #disease_diagnosis
+    #disease_severity
+    #disease_treatment
+    disease_profile = database_cursor.execute("SELECT * FROM disease_profile WHERE disease_id = ? ", (int(id),))
+    disease_profile = disease_profile.fetchall()
+    disease_types = database_cursor.execute("SELECT * FROM disease_types WHERE disease_id = ? ", (int(id),))
+    disease_types = disease_types.fetchall()
+    disease_causes = database_cursor.execute("SELECT * FROM disease_causes WHERE disease_id = ? ", (int(id),))
+    disease_causes = disease_causes.fetchall()
+    disease_symptoms = database_cursor.execute("SELECT * FROM disease_symptoms WHERE disease_id = ? ", (int(id),))
+    disease_symptoms = disease_symptoms.fetchall()
+    disease_diagnosis = database_cursor.execute("SELECT * FROM disease_diagnosis WHERE disease_id = ? ", (int(id),))
+    disease_diagnosis = disease_diagnosis.fetchall()
+    disease_severity = database_cursor.execute("SELECT * FROM disease_severity WHERE disease_id = ? ", (int(id),))
+    disease_severity = disease_severity.fetchall()
+    disease_treatment = database_cursor.execute("SELECT * FROM disease_treatment WHERE disease_id = ? ", (int(id),))
+    disease_treatment = disease_treatment.fetchall()
+    # combine all
+    details = []
+    details.append(disease)
+    details.append(disease_profile)
+    details.append(disease_types)
+    details.append(disease_causes)
+    details.append(disease_symptoms)
+    details.append(disease_diagnosis)
+    details.append(disease_severity)
+    details.append(disease_treatment)
+    if details is not None:
+        details = list(details)
+        json_data = json.dumps(details, indent=4)
         database_connection.commit()
         database_connection.close()
         return json_data

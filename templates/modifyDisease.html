@@ -61,13 +61,26 @@
             <div class="col-lg-6 col-md-8 pb-4 pt-2 mt-5">
                 <h2 class="mt-4 text-center">
                     <strong>
-                        Add Disease
+                        Modify Disease
                     </strong>
                 </h2>
             </div>
             <div class="row">
                 <div class="col-12">
-                    <form action="/addDisease/" method="post" enctype="multipart/form-data">
+                    <form action="/modifyDisease/" method="post" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="disease_id" class="form-label">Select Disease</label>
+                            <select id="disease_id" name="disease_id" class="form-select" required>
+                                <option value="" selected disabled hidden>
+                                    Select Disease
+                                </option>
+                                {% for disease in diseases %}
+                                <option value="{{disease[0]}}" id="{{disease[0]}}">
+                                    {{disease[1]}}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
                         <div class="mb-3">
                             <!-- Select specialty -->
                             <label for="specialty_name" class="form-label">
@@ -105,7 +118,9 @@
                                 <b>Disease Illustration</b>
                             </label>
                             <input class="form-control" type="file" id="disease_illustration"
-                                name="disease_illustration" required accept="image/*">
+                                name="disease_illustration" accept="image/*">
+                            <br>
+                            <img id="disease_illustration_preview">
                         </div>
                         <!-- select doctors -->
                         <div class="mb-3">
@@ -125,8 +140,9 @@
                             <label for="main_image" class="form-label">
                                 <b>Main Image</b>
                             </label>
-                            <input class="form-control" type="file" id="main_image" name="main_image" required
-                                accept="image/*">
+                            <input class="form-control" type="file" id="main_image" name="main_image" accept="image/*">
+                            <br>
+                            <img id="main_image_preview" class="w-25">
                         </div>
                         <div class="mb-3">
                             <b>Disease Profile</b><br>
@@ -168,7 +184,10 @@
                                 Type Image 1
                             </label>
                             <input class="form-control" type="file" id="disease_type_image1" name="disease_type_image1"
-                                required accept="image/*">
+                                accept="image/*">
+                            <br>
+                            <img id="disease_type_image_preview1" class="w-25">
+                            <br><br>
                             <label class="form-label" for="disease_type_title2">
                                 Type Title 2
                             </label>
@@ -184,7 +203,9 @@
                                 Type Image 2
                             </label>
                             <input class="form-control" type="file" id="disease_type_image2" name="disease_type_image2"
-                                required accept="image/*">
+                                accept="image/*">
+                            <br>
+                            <img id="disease_type_image_preview2" class="w-25">
                         </div>
                         <!-- causes -->
                         <div class="mb-3">
@@ -289,7 +310,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <button class="btn btn-primary" type="submit" id="submit">Add</button>
+                            <button class="btn btn-primary" type="submit" id="submit">Update</button>
                         </div>
                     </form>
                 </div>
@@ -310,6 +331,7 @@
 
     <!-- Manual Scripts -->
     <script src="../static/scripts/common.js"></script>
+    <script src="../static/scripts/modifyDisease.js"></script>
 </body>
 
 </html>
