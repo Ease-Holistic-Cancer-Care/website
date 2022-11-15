@@ -623,8 +623,61 @@ def addDoctor():
                 database_cursor.execute("INSERT INTO doctor_degree VALUES (?,?,?,?)", (last_id+1,doctor_degree[i][0],doctor_degree[i][1],doctor_degree[i][2]))
                 database_cursor.execute("INSERT INTO doctor_experience VALUES (?,?,?,?)", (last_id+1,doctor_experience[i][0],doctor_experience[i][1],doctor_experience[i][2]))
             database_connection.commit()
+            database_connection.close()
             return render_template('addDoctor.html', social_links=social_links, message="Doctor Added Successfully", navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
         return render_template('addDoctor.html', social_links=social_links, message=None, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+    return redirect(url_for('patientLogin'))
+
+@app.route('/modifyDoctor/', methods=['POST', 'GET'])
+def modifyDoctor():
+    if 'user' in session:
+        database_connection = sqlite3.connect(database_location)
+        database_cursor = database_connection.cursor()
+        if request.method == 'POST':
+            doctor_id = request.form["doctor_id"]
+            doctor_name = request.form['doctor_name']
+            doctor_current_appointment = request.form['doctor_current_appointment']
+            doctor_image = request.files['doctor_image']
+            doctor_qualification = request.form['doctor_qualification']
+            doctor_post_qualification = request.form['doctor_post_qualification']
+            doctor_overseas_qualification = request.form['doctor_overseas_qualification']
+            doctor_about = request.form['doctor_about']
+            doctor_degree = []
+            for i in range(3):
+                temp = []
+                temp.append(request.form['doctor_degree'+str(i+1)])
+                temp.append(request.form['doctor_institute'+str(i+1)])
+                temp.append(request.form['doctor_year'+str(i+1)])
+                doctor_degree.append(temp)
+            doctor_experience = []
+            for i in range(3):
+                temp = []
+                temp.append(request.form['doctor_organization'+str(i+1)])
+                temp.append(request.form['doctor_experience_from_year'+str(i+1)])
+                temp.append(request.form['doctor_experience_to_year'+str(i+1)])
+                doctor_experience.append(temp)
+            if doctor_image.filename != '':
+                doctor_image_filename = "doctor_"+str(doctor_id)+"."+doctor_image.filename.split('.')[1]
+                doctor_image.save(os.path.join(DOCTOR_FOLDER,doctor_image_filename))
+                database_cursor.execute("UPDATE doctors SET name=?,current_appointment = ?,profile_image=? WHERE id=?", (doctor_name,doctor_current_appointment,"../../static/images/doctors/"+doctor_image_filename,doctor_id))
+            else:
+                database_cursor.execute("UPDATE doctors SET name=?,current_appointment = ? WHERE id=?", (doctor_name,doctor_current_appointment,doctor_id))
+            database_cursor.execute("UPDATE doctor_profile SET qualification=?,post_qualification=?,overseas_qualification=?,current_appointment=?,about=? WHERE id=?", (doctor_qualification,doctor_post_qualification, doctor_overseas_qualification, doctor_current_appointment, doctor_about,doctor_id))
+            database_cursor.execute("DELETE FROM doctor_degree WHERE id=?", (doctor_id,))
+            database_cursor.execute("DELETE FROM doctor_experience WHERE id=?", (doctor_id,))
+            for i in range(3):
+                database_cursor.execute("INSERT INTO doctor_degree VALUES (?,?,?,?)", (doctor_id,doctor_degree[i][0],doctor_degree[i][1],doctor_degree[i][2]))
+                database_cursor.execute("INSERT INTO doctor_experience VALUES (?,?,?,?)", (doctor_id,doctor_experience[i][0],doctor_experience[i][1],doctor_experience[i][2]))
+            doctors = database_cursor.execute("SELECT id,name FROM doctors")
+            doctors = doctors.fetchall()
+            database_connection.commit()
+            database_connection.close()
+            return render_template('modifyDoctor.html',doctors=doctors, social_links=social_links, message="Doctor Modified Successfully", navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+        doctors = database_cursor.execute("SELECT id,name FROM doctors")
+        doctors = doctors.fetchall()
+        database_connection.commit()
+        database_connection.close()
+        return render_template('modifyDoctor.html',doctors=doctors, social_links=social_links, message=None, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
     return redirect(url_for('patientLogin'))
 
 @app.route('/addSpecialty/', methods=['POST', 'GET'])
@@ -1820,13 +1873,6 @@ def getDiseaseContent(id):
     database_cursor = database_connection.cursor()
     disease = database_cursor.execute("SELECT * FROM diseases WHERE id = ?", (int(id),))
     disease = disease.fetchone()
-    #disease_profile
-    #disease_types
-    #disease_causes
-    #disease_symptoms
-    #disease_diagnosis
-    #disease_severity
-    #disease_treatment
     disease_profile = database_cursor.execute("SELECT * FROM disease_profile WHERE disease_id = ? ", (int(id),))
     disease_profile = disease_profile.fetchall()
     disease_types = database_cursor.execute("SELECT * FROM disease_types WHERE disease_id = ? ", (int(id),))
@@ -1851,6 +1897,31 @@ def getDiseaseContent(id):
     details.append(disease_diagnosis)
     details.append(disease_severity)
     details.append(disease_treatment)
+    if details is not None:
+        details = list(details)
+        json_data = json.dumps(details, indent=4)
+        database_connection.commit()
+        database_connection.close()
+        return json_data
+    return "No data found"
+
+@app.route("/getDoctor/content/<string:id>/")
+def getDoctorContent(id):
+    database_connection = sqlite3.connect(database_location)
+    database_cursor = database_connection.cursor()
+    doctors = database_cursor.execute("SELECT * FROM doctors WHERE id = ?", (int(id),))
+    doctors = doctors.fetchone()
+    doctor_profile = database_cursor.execute("SELECT * FROM doctor_profile WHERE id = ?", (int(id),))
+    doctor_profile = doctor_profile.fetchall()
+    doctor_degree = database_cursor.execute("SELECT * FROM doctor_degree WHERE id = ?", (int(id),))
+    doctor_degree = doctor_degree.fetchall()
+    doctor_experience = database_cursor.execute("SELECT * FROM doctor_experience WHERE id = ?", (int(id),))
+    doctor_experience = doctor_experience.fetchall()
+    details = []
+    details.append(doctors)
+    details.append(doctor_profile)
+    details.append(doctor_degree)
+    details.append(doctor_experience)
     if details is not None:
         details = list(details)
         json_data = json.dumps(details, indent=4)

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EASE Holistic Cancer Center | Add Doctor</title>
+    <title>EASE Holistic Cancer Center | Modify Doctor</title>
 
     <link rel="shortcut icon" href="../static/images/logo/EHCC.jpg">
 
@@ -62,13 +62,26 @@
             <div class="col-lg-6 col-md-8 pb-4 pt-2 mt-5">
                 <h2 class="mt-4 text-center">
                     <strong>
-                        Add Doctor
+                        Modify Doctor
                     </strong>
                 </h2>
             </div>
             <div class="row">
                 <div class="col-12">
-                    <form action="/addDoctor/" method="post" enctype="multipart/form-data">
+                    <form action="/modifyDoctor/" method="post" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="doctor_id" class="form-label">Select Doctor</label>
+                            <select id="doctor_id" name="doctor_id" class="form-select" required>
+                                <option value="" selected disabled hidden>
+                                    Select Doctor
+                                </option>
+                                {% for doctor in doctors %}
+                                <option value="{{doctor[0]}}" id="{{doctor[0]}}">
+                                    {{doctor[1]}}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
                         <div class="mb-3">
                             <label for="doctor_name" class="form-label">
                                 <b>Full Name</b>
@@ -89,8 +102,10 @@
                                     Doctor Image
                                 </b>
                             </label>
-                            <input type="file" class="form-control" id="doctor_image" name="doctor_image" required
+                            <input type="file" class="form-control" id="doctor_image" name="doctor_image"
                                 placeholder="Enter Current Appointment" accept="image/*">
+                            <br>
+                            <img src="" id="doctor_image_preview" class="w-25">
                         </div>
                         <div class="mb-3">
                             <label for="doctor_qualification" class="form-label">
@@ -142,18 +157,24 @@
                                 <div class="col-lg-2">
                                     <!-- Degree -->
                                     <label for="doctor_degree1" class="form-label">Degree</label>
-                                    <input type="text" class="form-control" id="doctor_degree1" name="doctor_degree1"
-                                        required placeholder="Enter Degree">
                                 </div>
                                 <div class="col-lg-8">
                                     <!-- Institute -->
                                     <label for="doctor_institute1" class="form-label">Institute</label>
-                                    <input type="text" class="form-control" id="doctor_institute1"
-                                        name="doctor_institute1" required placeholder="Enter Institute">
                                 </div>
                                 <div class="col-lg-2">
                                     <!-- Year -->
                                     <label for="doctor_year1" class="form-label">Year</label>
+                                </div>
+                                <div class="col-lg-2">
+                                    <input type="text" class="form-control" id="doctor_degree1" name="doctor_degree1"
+                                        required placeholder="Enter Degree">
+                                </div>
+                                <div class="col-lg-8">
+                                    <input type="text" class="form-control" id="doctor_institute1"
+                                        name="doctor_institute1" required placeholder="Enter Institute">
+                                </div>
+                                <div class="col-lg-2">
                                     <input type="text" class="form-control" id="doctor_year1" name="doctor_year1"
                                         required placeholder="Enter Year">
                                 </div>
@@ -202,18 +223,24 @@
                                 <div class="col-lg-8">
                                     <!-- Organization -->
                                     <label for="doctor_organization1" class="form-label">Organization</label>
-                                    <input type="text" class="form-control" id="doctor_organization1"
-                                        name="doctor_organization1" required placeholder="Enter Organization">
                                 </div>
                                 <div class="col-lg-2">
                                     <!-- From Year -->
                                     <label for="doctor_experience_from_year1" class="form-label">From Year</label>
-                                    <input type="text" class="form-control" id="doctor_experience_from_year1"
-                                        name="doctor_experience_from_year1" required placeholder="Enter Year">
                                 </div>
                                 <div class="col-lg-2">
                                     <!-- To Year -->
                                     <label for="doctor_experience_to_year1" class="form-label">To Year</label>
+                                </div>
+                                <div class="col-lg-8">
+                                    <input type="text" class="form-control" id="doctor_organization1"
+                                        name="doctor_organization1" required placeholder="Enter Organization">
+                                </div>
+                                <div class="col-lg-2">
+                                    <input type="text" class="form-control" id="doctor_experience_from_year1"
+                                        name="doctor_experience_from_year1" required placeholder="Enter Year">
+                                </div>
+                                <div class="col-lg-2">
                                     <input type="text" class="form-control" id="doctor_experience_to_year1"
                                         name="doctor_experience_to_year1" required placeholder="Enter Year">
                                 </div>
@@ -254,7 +281,7 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <button class="btn btn-primary" type="submit" id="submit">Add</button>
+                            <button class="btn btn-primary" type="submit" id="submit">Update</button>
                         </div>
                     </form>
                 </div>
@@ -275,6 +302,7 @@
 
     <!-- Manual Scripts -->
     <script src="../static/scripts/common.js"></script>
+    <script src="../static/scripts/modifyDoctor.js"></script>
 </body>
 
 </html>
