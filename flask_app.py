@@ -1,4 +1,5 @@
 from flask import Flask, render_template, redirect, url_for, session, request
+from flask.wrappers import Response
 import sqlite3
 from mail import *
 import random
@@ -7,6 +8,7 @@ from locations import *
 import json
 import numpy as np
 from datetime import datetime
+import git
 
 #Initialize Flask App
 app = Flask(__name__)
@@ -2042,6 +2044,14 @@ def addDiseaseFAQ():
 def not_found(e):
   return render_template("404.html")
 
+@app.route("/gitUpdate/", methods=["POST"])
+def gitUpdate():
+    repo = git.Repo('./website')
+    origin = repo.remotes.origin
+    repo.create_head('main',
+                     origin.refs.main).set_tracking_branch(origin.refs.main).checkout()
+    origin.pull()
+    return '',200
 
 if __name__ == '__main__':
     app.run(debug=True,port=5000)
