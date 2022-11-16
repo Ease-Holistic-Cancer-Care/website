@@ -535,7 +535,7 @@ def declineAppointment(appointment_id):
 
 @app.route('/uploadDocument/<string:appointment_id>/', methods=['POST'])
 def uploadDocument(appointment_id):
-    if 'user' in session and request.method == 'POST':
+    if 'user' in session and request.method == 'POST' and session["user_type"] == "admin":
         file = request.files['document']
         # set the file name to the appointment id
         new_file_name = appointment_id +"."+ file.filename.split('.')[1]
@@ -558,7 +558,7 @@ def uploadDocument(appointment_id):
 
 @app.route('/deleteDocument/<string:appointment_id>/')
 def deleteDocument(appointment_id):
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         database_connection = sqlite3.connect(database_location)
         database_cursor = database_connection.cursor()
         filename = database_cursor.execute("SELECT documents FROM appointment WHERE id = ?", (int(appointment_id),))
@@ -572,19 +572,19 @@ def deleteDocument(appointment_id):
                   
 @app.route('/modifyPages/')
 def modifyPages():
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         return render_template('modifyPages.html', social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
     return redirect(url_for('patientLogin'))
 
 @app.route('/addPages/')
 def addPages():
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         return render_template('addPages.html', social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
     return redirect(url_for('patientLogin'))
 
 @app.route('/addDoctor/', methods=['POST', 'GET'])
 def addDoctor():
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         if request.method == 'POST':
             doctor_name = request.form['doctor_name']
             doctor_current_appointment = request.form['doctor_current_appointment']
@@ -631,7 +631,7 @@ def addDoctor():
 
 @app.route('/modifyDoctor/', methods=['POST', 'GET'])
 def modifyDoctor():
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         database_connection = sqlite3.connect(database_location)
         database_cursor = database_connection.cursor()
         if request.method == 'POST':
@@ -683,7 +683,7 @@ def modifyDoctor():
 
 @app.route('/addSpecialty/', methods=['POST', 'GET'])
 def addSpecialty():
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         if request.method == "POST":
             name = request.form['specialty_name']
             description = request.form['specialty_description']
@@ -708,7 +708,7 @@ def addSpecialty():
 
 @app.route("/modifyDisease/",methods=["POST","GET"])
 def modifyDisease():
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         database_connection = sqlite3.connect(database_location)
         database_cursor = database_connection.cursor()
         specialties = database_cursor.execute("SELECT id,name FROM specialty")
@@ -831,7 +831,7 @@ def modifyDisease():
             
 @app.route('/addDisease/', methods=['POST', 'GET'])
 def addDisease():
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         # fetch all specialties
         database_connection = sqlite3.connect(database_location)
         database_cursor = database_connection.cursor()
@@ -911,7 +911,7 @@ def addDisease():
   
 @app.route('/addVirtualTour/', methods=['POST', 'GET'])
 def addVirtualTour():
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         if request.method == "POST":
             title = request.form['vt_title']
             description = request.form['vt_description']
@@ -936,7 +936,7 @@ def addVirtualTour():
 
 @app.route("/modifyBlog/",methods = ["POST", "GET"])
 def modifyBLog():
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         database_connection = sqlite3.connect(database_location)
         database_cursor = database_connection.cursor()
         if request.method == "POST":
@@ -965,7 +965,7 @@ def modifyBLog():
     
 @app.route("/modifyNews/", methods=["POST","GET"])
 def modifyNews():
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         database_connection = sqlite3.connect(database_location)
         database_cursor = database_connection.cursor()
         if request.method == "POST":
@@ -1007,7 +1007,7 @@ def modifyNews():
                       
 @app.route("/modifyVirtualTour/", methods = ["POST","GET"])    
 def modifyVirtualTour():
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         database_connection = sqlite3.connect(database_location)
         database_cursor = database_connection.cursor()
         if request.method == "POST":
@@ -1033,7 +1033,7 @@ def modifyVirtualTour():
     
 @app.route('/modifyAward/', methods = ["POST","GET"])
 def modifyAward():
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         database_connection = sqlite3.connect(database_location)
         database_cursor = database_connection.cursor()
         if request.method == "POST":
@@ -1062,7 +1062,7 @@ def modifyAward():
 
 @app.route('/addAward/', methods=['POST', 'GET'])
 def addAward():
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         if request.method == "POST":
             award_type = request.form['award_type']
             title = request.form['award_title']
@@ -1088,7 +1088,7 @@ def addAward():
       
 @app.route('/addNews/', methods=['POST', 'GET'])
 def addNews():
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         if request.method == "POST":
             title = request.form['news_title']
             # check if is_head is checked
@@ -1123,7 +1123,7 @@ def addNews():
 
 @app.route('/addBlog/', methods=['POST', 'GET'])
 def addBlog():
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         if request.method == "POST":
             title = request.form['blog_title']
             description = request.form['blog_description']
@@ -1148,7 +1148,7 @@ def addBlog():
 
 @app.route('/addTestimonial/', methods=['POST', 'GET'])
 def addTestimonial():
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         if request.method == "POST":
             name = request.form["person_name"]
             designation = request.form["person_designation"]
@@ -1173,7 +1173,7 @@ def addTestimonial():
 
 @app.route('/addFAQ/', methods=["POST","GET"])
 def addFAQs():
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         if request.method == "POST":
             question = request.form["faq_question"]
             answer = request.form["faq_answer"]
@@ -1212,7 +1212,7 @@ def logout():
 
 @app.route('/modifyHome/', methods=['GET', 'POST'])
 def modifyHome():
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         database_connection = sqlite3.connect(database_location)
         database_cursor = database_connection.cursor()
         if request.method == 'POST':
@@ -1311,7 +1311,7 @@ def modifyHome():
 
 @app.route('/modifySpecialty/', methods=['GET', 'POST'])
 def modifySpecialty():
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         database_connection = sqlite3.connect(database_location)
         database_cursor = database_connection.cursor()
         if request.method == "POST":
@@ -1343,7 +1343,7 @@ def modifySpecialty():
 
 @app.route("/modifyTestimonial/", methods=['GET', 'POST'])
 def modifyTestimonial():
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         database_connection = sqlite3.connect(database_location)
         database_cursor = database_connection.cursor()
         if request.method == "POST":
@@ -1388,7 +1388,7 @@ def getTestimonial(id):
 
 @app.route("/deleteTestimonial/",methods=["POST","GET"])
 def deleteTestimonial():
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         database_connection = sqlite3.connect(database_location)
         database_cursor = database_connection.cursor()
         if request.method == "POST":
@@ -1409,7 +1409,7 @@ def deleteTestimonial():
 
 @app.route("/addCarousel/", methods=["POST","GET"])
 def addCarousel():
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         if request.method == "POST":
             heading = request.form["carousel_heading"]
             description = request.form["carousel_description"]
@@ -1435,7 +1435,7 @@ def addCarousel():
 
 @app.route("/deleteCarousel/<string:carousel_id>/")
 def deleteCarousel(carousel_id):
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         database_connection = sqlite3.connect(database_location)
         database_cursor = database_connection.cursor()
         filename = database_cursor.execute("SELECT image FROM home_carousel WHERE id = ?", (int(carousel_id),))
@@ -1449,7 +1449,7 @@ def deleteCarousel(carousel_id):
 
 @app.route("/deleteStatistic/<string:statistic_id>/")
 def deleteStatistic(statistic_id):
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         database_connection = sqlite3.connect(database_location)
         database_cursor = database_connection.cursor()
         database_cursor.execute("DELETE FROM home_statistics WHERE id = ?", (int(statistic_id),))
@@ -1461,7 +1461,7 @@ def deleteStatistic(statistic_id):
 
 @app.route("/deleteFAQ/<string:faq_id>/")
 def deleteFAQ(faq_id):
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         database_connection = sqlite3.connect(database_location)
         database_cursor = database_connection.cursor()
         database_cursor.execute("DELETE FROM home_faq WHERE id = ?", (int(faq_id),))
@@ -1472,7 +1472,7 @@ def deleteFAQ(faq_id):
 
 @app.route('/modifyAbout/', methods=['GET', 'POST'])
 def modifyAbout():
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         database_connection = sqlite3.connect(database_location)
         database_cursor = database_connection.cursor()
         if request.method == 'POST':
@@ -1563,7 +1563,7 @@ def editProfile():
 
 @app.route('/manageAdmins/')
 def manageAdmins():
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         database_connection = sqlite3.connect(database_location)
         database_cursor = database_connection.cursor()
         admins = database_cursor.execute("SELECT email, type FROM users")
@@ -1573,7 +1573,7 @@ def manageAdmins():
 
 @app.route("/addAdmin/<string:email>/<string:password>/<int:userType>/")
 def addAdmin(email,password,userType):
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         database_connection = sqlite3.connect(database_location)
         database_cursor = database_connection.cursor()
         if userType == 1:
@@ -1588,7 +1588,7 @@ def addAdmin(email,password,userType):
 
 @app.route("/deleteAdmin/<string:email>/")
 def deleteAdmin(email):
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         database_connection = sqlite3.connect(database_location)
         database_cursor = database_connection.cursor()
         database_cursor.execute("DELETE FROM users WHERE email = ?", (email,))
@@ -1599,7 +1599,7 @@ def deleteAdmin(email):
 
 @app.route('/managePatients/')
 def managePatients():
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         database_connection = sqlite3.connect(database_location)
         database_cursor = database_connection.cursor()
         patients = database_cursor.execute("SELECT id,first_name,last_name,mobile,email,gender FROM patient")
@@ -1609,7 +1609,7 @@ def managePatients():
 
 @app.route("/deletePatient/<int:id>/")
 def deletePatients(id):
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         database_connection = sqlite3.connect(database_location)
         database_cursor = database_connection.cursor()
         database_cursor.execute("DELETE FROM patient WHERE id = ?", (id,))
@@ -1644,7 +1644,7 @@ def recentAppointments():
 
 @app.route("/deleteVirtualTour/", methods=["POST", "GET"])
 def deleteVirtualTour():
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         database_connection = sqlite3.connect(database_location)
         database_cursor = database_connection.cursor()
         if request.method == "POST":
@@ -1681,7 +1681,7 @@ def getVirtualTour(id):
 
 @app.route("/deleteBlog/", methods=["POST","GET"])
 def deleteBlog():
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         database_connection = sqlite3.connect(database_location)
         database_cursor = database_connection.cursor()
         if request.method == "POST":
@@ -1732,7 +1732,7 @@ def getBlogContent(id):
 
 @app.route("/deleteNews/",methods=["POST","GET"])
 def deleteNews():
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         database_connection = sqlite3.connect(database_location)
         database_cursor = database_connection.cursor()
         if request.method == "POST":
@@ -1771,7 +1771,7 @@ def getNews(id):
 
 @app.route("/deleteAward/",methods=["POST","GET"])
 def deleteAward():
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         database_connection = sqlite3.connect(database_location)
         database_cursor = database_connection.cursor()
         if request.method == "POST":
@@ -1805,7 +1805,7 @@ def getAward(id):
 
 @app.route("/deleteDoctor/", methods=["POST","GET"])
 def deleteDoctor():
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         database_connection = sqlite3.connect(database_location)
         database_cursor = database_connection.cursor()
         if request.method == "POST":
@@ -1845,7 +1845,7 @@ def getDoctor(id):
 
 @app.route("/deleteDisease/",methods=["POST","GET"])
 def deleteDisease():
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         database_connection = sqlite3.connect(database_location)
         database_cursor = database_connection.cursor()
         if request.method == "POST":
@@ -1964,7 +1964,7 @@ def getDoctorContent(id):
 
 @app.route("/deleteSpecialty/",methods=["POST","GET"])
 def deleteSpecialty():
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         database_connection = sqlite3.connect(database_location)
         database_cursor = database_connection.cursor()
         if request.method == "POST":
@@ -2020,7 +2020,7 @@ def getSpecialty(id):
 
 @app.route("/addDiseaseFAQ/", methods = ["POST","GET"])
 def addDiseaseFAQ():
-    if 'user' in session:
+    if 'user' in session and session["user_type"] == "admin":
         database_connection = sqlite3.connect(database_location)
         database_cursor = database_connection.cursor()
         diseases = database_cursor.execute("SELECT id, title FROM diseases")

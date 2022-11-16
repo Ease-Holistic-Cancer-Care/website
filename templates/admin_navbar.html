@@ -65,6 +65,7 @@
                             <li><a class="dropdown-item" href="/manageAppointments/declined/">Declined</a></li>
                         </ul>
                     </li>
+                    {% if session["user_type"] == "admin" %}
                     <li class="nav-item mx-3 dropdown">
                         <a href="" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown"
                             href="/modifyPages/">Modify Content</a>
@@ -118,6 +119,7 @@
                     <li class="nav-item mx-3">
                         <a class="nav-link active" aria-current="page" href="/managePatients/">Manage Patients</a>
                     </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
