@@ -55,10 +55,15 @@
                             Appointment Report
                         </a>
                     </li>
-                    <li class="nav-item mx-3">
-                        <a class="nav-link active" aria-current="page" href="/manageAppointments/">
-                            View Appointments
-                        </a>
+                    <li class="nav-item mx-3 dropdown">
+                        <a href="" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown"
+                            href="/modifyAppointments/">View Appointments</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/manageAppointments/pending/">Pending</a></li>
+                            <li><a class="dropdown-item" href="/manageAppointments/approved">Approved</a></li>
+                            <li><a class="dropdown-item" href="/manageAppointments/completed/">Completed</a></li>
+                            <li><a class="dropdown-item" href="/manageAppointments/declined/">Declined</a></li>
+                        </ul>
                     </li>
                     <li class="nav-item mx-3 dropdown">
                         <a href="" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown"

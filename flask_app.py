@@ -6,6 +6,7 @@ import string
 from locations import *
 import json
 import numpy as np
+from datetime import datetime
 
 #Initialize Flask App
 app = Flask(__name__)
@@ -1601,7 +1602,9 @@ def recentAppointments():
             appointments = [["ID","First Name","Last Name","Appointment Type","Appointment Status"]]
             for i in appointments_final:
                 appointments.append(list(i))
-            fileName = from_date + to_date + ".csv"
+            to_date = str((datetime.strptime(to_date, '%Y-%M-%d')).strftime("%d-%M-%Y"))
+            from_date = str((datetime.strptime(from_date, '%Y-%M-%d')).strftime("%d-%M-%Y"))
+            fileName = from_date + " to "+ to_date + ".csv"
             for file_name in os.listdir(APPOINTMENT_REPORTS):
                 os.remove(APPOINTMENT_REPORTS + "/" + file_name)
             np.savetxt(os.path.join(APPOINTMENT_REPORTS,fileName),appointments,delimiter =", ", fmt ='% s')

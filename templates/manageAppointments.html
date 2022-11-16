@@ -40,6 +40,22 @@
             <h2 class="text-center mt-4 pt-5">
                 Manage Appointments
             </h2>
+            <button class="button_cta_white mt-4 mx-1" onclick="window.location.href='/manageAppointments/pending/'"
+                id="admin_home">
+                Pending
+            </button>
+            <button class="button_cta_white mt-4 mx-1" onclick="window.location.href='/manageAppointments/approved/'"
+                id="admin_home">
+                Approved
+            </button>
+            <button class="button_cta_white mt-4 mx-1" onclick="window.location.href='/manageAppointments/completed/'"
+                id="admin_home">
+                Completed
+            </button>
+            <button class="button_cta_white mt-4 mx-1" onclick="window.location.href='/manageAppointments/declined/'"
+                id="admin_home">
+                Declined
+            </button>
             {% if pending_appointments %}
             <h4 class="mt-5">
                 Pending Appointments
@@ -87,7 +103,7 @@
                 </div>
             </div>
             <div class="col-12">
-                <a href="/manageAppointments/pending" style="color: var(--primary-color);">
+                <a href="/manageAppointments/pending/" style="color: var(--primary-color);">
                     See All...
                 </a>
             </div>
@@ -138,7 +154,7 @@
                 </div>
             </div>
             <div class="col-12">
-                <a href="/manageAppointments/approved" style="color: var(--primary-color);">
+                <a href="/manageAppointments/approved/" style="color: var(--primary-color);">
                     See All...
                 </a>
             </div>
@@ -189,7 +205,7 @@
                 </div>
             </div>
             <div class="col-12">
-                <a href="/manageAppointments/completed" style="color: var(--primary-color);">
+                <a href="/manageAppointments/completed/" style="color: var(--primary-color);">
                     See All...
                 </a>
             </div>
@@ -240,7 +256,7 @@
                 </div>
             </div>
             <div class="col-12">
-                <a href="/manageAppointments/declined" style="color: var(--primary-color);">
+                <a href="/manageAppointments/declined/" style="color: var(--primary-color);">
                     See All...
                 </a>
             </div>
