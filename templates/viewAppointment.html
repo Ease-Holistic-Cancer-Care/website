@@ -43,80 +43,142 @@
             {% if appointment %}
             <div class="col-12 mb-2">
                 <div class="row">
-                    <div class="col-12">
-                        <p style="font-size: 20px;">
-                            <strong>
-                                Id. No.:
-                            </strong>
-                            {{appointment[8]}}
-                            <br>
-                            <strong>
-                                Patient Name:
-                            </strong>
-                            {{appointment[0]}} {{appointment[1]}}
-                            <br>
-                            <strong>
-                                Gender:
-                            </strong>
-                            <span class="text-capitalize">{{appointment[2]}}</span>
-                            <br>
-                            <strong>
-                                Phone:
-                            </strong>
-                            {{appointment[3]}}
-                            <br>
-                            <strong>
-                                Email:
-                            </strong>
-                            {{appointment[4]}}
-                            <br>
-                            <strong>
-                                Appointment Type:
-                            </strong>
-                            {{appointment[5]}}
+                    <div class="col-12 py-3" style="background-color: #f5f5f5; border-radius: 10px;">
+                        <div class="row">
+                            <div class="col-lg-4 mb-2">
+                                <strong>
+                                    Appointment Id. No.:
+                                </strong>
+                            </div>
+                            <div class="col-lg-8 mb-2">
+                                {{appointment[8]}}
+                            </div>
+                            <h5 class="mt-3">
+                                Personal Details
+                            </h5>
+                            <hr>
+                            <div class="col-lg-4 mb-2">
+                                <strong>
+                                    Patient Name:
+                                </strong>
+                            </div>
+                            <div class="col-lg-8 mb-2">
+                                {{appointment[0]}} {{appointment[1]}}
+                            </div>
+                            <div class="col-lg-4 mb-2">
+                                <strong>
+                                    Gender:
+                                </strong>
+                            </div>
+                            <div class="col-lg-8 mb-2 text-capitalize">
+                                {{appointment[2]}}
+                            </div>
+                            <div class="col-lg-4 mb-2">
+                                <strong>
+                                    Phone:
+                                </strong>
+                            </div>
+                            <div class="col-lg-8 mb-2">
+                                {{appointment[3]}}
+                            </div>
+                            <div class="col-lg-4 mb-2">
+                                <strong>
+                                    Email:
+                                </strong>
+                            </div>
+                            <div class="col-lg-8 mb-2">
+                                {{appointment[4]}}
+                            </div>
+                            <h5 class="mt-3">
+                                Appointment Details
+                            </h5>
+                            <hr>
+                            <div class="col-lg-4 mb-2">
+                                <strong>
+                                    Appointment Type:
+                                </strong>
+                            </div>
+                            <div class="col-lg-8 mb-2 text-capitalize">
+                                {{appointment[5]}}
+                            </div>
                             {% if doctor_name is not none %}
-                            <br>
-                            <strong>
-                                Assigned Doctor:
-                            </strong>
-                            {{doctor_name}}
+                            <div class="col-lg-4 mb-2">
+                                <strong>
+                                    Assigned Doctor:
+                                </strong>
+                            </div>
+                            <div class="col-lg-8 mb-2 text-capitalize">
+                                {{doctor_name}}
+                            </div>
                             {% endif %}
-                            <br>
-                            <strong>
-                                Status:
-                            </strong>
-                            <span class="text-capitalize">{{appointment[7]}}</span>
-                            <br>
-                            <strong>
-                                Message from Patient:
-                            </strong>
-                            {{appointment[6]}}
-                            <br>
+                            <div class="col-lg-4 mb-2">
+                                <strong>
+                                    Status:
+                                </strong>
+                            </div>
+                            <div class="col-lg-8 mb-2 text-capitalize">
+                                {% if appointment[7] == 'pending' %}
+                                <span class="text-warning">
+                                    {{appointment[7]}}
+                                </span>
+                                {% elif appointment[7] == 'approved' %}
+                                <span class="text-success">
+                                    {{appointment[7]}}
+                                </span>
+                                {% elif appointment[7] == 'declined' %}
+                                <span class="text-danger">
+                                    {{appointment[7]}}
+                                </span>
+                                {% endif %}
+                            </div>
+                            <div class="col-lg-4 mb-2">
+                                <strong>
+                                    Message from Patient:
+                                </strong>
+                            </div>
+                            <div class="col-lg-8 mb-2">
+                                {{appointment[6]}}
+                            </div>
                             {% if appointment[7] == 'approved' or appointment[7] == 'completed' %}
-                            <strong>
-                                Date:
-                            </strong>
-                            {{appointment[10]}}
-                            <br>
-                            <strong>
-                                Time:
-                            </strong>
-                            {{appointment[11]}}
-                            <br>
+                            <div class="col-lg-4 mb-2">
+                                <strong>
+                                    Date:
+                                </strong>
+                            </div>
+                            <div class="col-lg-8 mb-2">
+                                {{appointment[10]}}
+                            </div>
+                            <div class="col-lg-4 mb-2">
+                                <strong>
+                                    Time:
+                                </strong>
+                            </div>
+                            <div class="col-lg-8 mb-2">
+                                {{appointment[11]}}
+                            </div>
                             {% if appointment[9] != '' %}
-                            <strong>
-                                Remarks:
-                            </strong>
-                            {{appointment[9]}}
+                            <div class="col-lg-4 mb-2">
+                                <strong>
+                                    Remarks:
+                                </strong>
+                            </div>
+                            <div class="col-lg-8 mb-2">
+                                {{appointment[9]}}
+                            </div>
                             {% endif %}
                             {% elif appointment[7] == 'declined' %}
-                            <strong>
-                                Remarks:
-                            </strong>
-                            {{appointment[9]}}
+                            <div class="col-lg-4 mb-2">
+                                <strong>
+                                    Reason:
+                                </strong>
+                            </div>
+                            <div class="col-lg-8 mb-2">
+                                {{appointment[9]}}
+                            </div>
                             {% endif %}
-                        </p>
-
+                        </div>
+                    </div>
+                    <div class="col-12 mt-3 py-3" style="background-color: #f5f5f5; border-radius: 10px;">
                         {% if appointment[7] == 'pending' and 'user' in session %}
                         <h4 style="color: var(--primary-color);">
                             Actions
@@ -200,7 +262,8 @@
                             </div>
                         </form>
                         {% endif %}
-                        {% elif appointment[7] == 'approved' and 'user' in session and 'patient_email' not in session %}
+                        {% elif appointment[7] == 'approved' and 'user' in session and 'patient_email' not in
+                        session %}
                         <h4 style="color: var(--primary-color);">
                             Actions
                         </h4>
