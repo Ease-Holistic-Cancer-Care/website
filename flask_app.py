@@ -1225,18 +1225,21 @@ def modifyHome():
                 carousel_heading = request.form['carousel_heading_'+str(carousel_items[i])]
                 carousel_description = request.form['carousel_description_'+str(carousel_items[i])]
                 carousel_image = request.files['carousel_image_'+str(carousel_items[i])]
+                carousel_color = (request.form['carousel_color_'+str(carousel_items[i])]).replace("#","")
                 temp.append(carousel_heading)
                 temp.append(carousel_description)
                 if carousel_image.filename != '':
                     image_filename = "carousel_"+str(carousel_items[i])+"."+carousel_image.filename.split('.')[1]
                     carousel_image.save(os.path.join(HOME_CAROUSEL_FOLDER,image_filename))
                     temp.append("../../static/images/Homepage/"+image_filename)
+                temp.append(carousel_color)
                 carousel.append(temp)
+                
             for i in range(len(carousel_items)):
-                if len(carousel[i]) == 3:
-                    database_cursor.execute("UPDATE home_carousel SET heading=?, description=?, image = ? WHERE id=?;", (carousel[i][0], carousel[i][1], carousel[i][2], carousel_items[i]))
+                if len(carousel[i]) == 4:
+                    database_cursor.execute("UPDATE home_carousel SET heading=?, description=?, image = ?, color? WHERE id=?;", (carousel[i][0], carousel[i][1], carousel[i][2],carousel[i][3], carousel_items[i]))
                 else:
-                    database_cursor.execute("UPDATE home_carousel SET heading=?, description=? WHERE id=?;", (carousel[i][0], carousel[i][1], carousel_items[i]))
+                    database_cursor.execute("UPDATE home_carousel SET heading=?, description=?, color=? WHERE id=?;", (carousel[i][0], carousel[i][1],carousel[i][2], carousel_items[i]))
             #about
             about_heading = request.form['about_heading']
             about_description = request.form['about_description']
@@ -1403,6 +1406,32 @@ def deleteTestimonial():
         database_connection.commit()
         database_connection.close()
         return render_template("deleteTestimonial.html", testimonials_main = testimonials_main, message = None, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+
+@app.route("/addCarousel/", methods=["POST","GET"])
+def addCarousel():
+    if 'user' in session:
+        if request.method == "POST":
+            heading = request.form["carousel_heading"]
+            description = request.form["carousel_description"]
+            image = request.files["carousel_image"]
+            color = (request.form["carousel_color"]).replace("#","")
+            # fetch the last id from the database
+            database_connection = sqlite3.connect(database_location)
+            database_cursor = database_connection.cursor()
+            last_id = database_cursor.execute("SELECT id FROM home_carousel ORDER BY id DESC LIMIT 1").fetchone()
+            if last_id is None:
+                last_id = 0
+            else:
+                last_id = last_id[0]
+            image_filepath = "Carousel_"+ str(last_id+1) + "." + image.filename.split(".")[1]
+            image.save(os.path.join(HOME_CAROUSEL_FOLDER,"Carousel_"+ str(last_id+1) + "." + image.filename.split(".")[1]))  
+            database_cursor.execute("INSERT INTO home_carousel VALUES (?,?,?,?,?)", (heading, description, "../../static/images/Homepage/"+image_filepath, last_id+1, color))
+            database_connection.commit()
+            database_connection.close()
+            return render_template("addCarousel.html", message = "Carousel added successfully", social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+        return render_template("addCarousel.html", message = None, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+    return redirect(url_for('patientLogin'))
+              
 
 @app.route("/deleteCarousel/<string:carousel_id>/")
 def deleteCarousel(carousel_id):

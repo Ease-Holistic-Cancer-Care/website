@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EASE Holistic Cancer Center | Add Home FAQ</title>
+    <title>EASE Holistic Cancer Center | Add Carousel</title>
 
     <link rel="shortcut icon" href="../static/images/logo/EHCC.jpg">
 
@@ -24,7 +24,6 @@
 
     <!-- Manual CSS-->
     <link rel="stylesheet" href="../static/stylesheets/common.css">
-    <link rel="stylesheet" href="../static/stylesheets/modifyCommon.css">
 </head>
 
 <body>
@@ -62,26 +61,39 @@
             <div class="col-lg-6 col-md-8 pb-4 pt-2 mt-5">
                 <h2 class="mt-4 text-center">
                     <strong>
-                        Add Home FAQ
+                        Add Home Carousel
                     </strong>
                 </h2>
             </div>
             <div class="row">
                 <div class="col-12">
-                    <form action="/addFAQ/" method="post">
+                    <form action="/addCarousel/" method="post" enctype="multipart/form-data">
                         <div class="mb-3">
-                            <label for="faq_question" class="form-label">
-                                <b>FAQ Question</b>
+                            <label for="carousel_heading" class="form-label">
+                                <b>Carousel Heading</b>
                             </label>
-                            <input type="text" class="form-control" id="faq_question" name="faq_question" required
-                                placeholder="Enter Question">
+                            <input type="text" class="form-control" id="carousel_heading" name="carousel_heading"
+                                required placeholder="Enter Carousel Heading">
                         </div>
                         <div class="mb-3">
-                            <label for="faq_answer" class="form-label">
-                                <b>FAQ Answer</b>
+                            <label for="carousel_description" class="form-label">
+                                <b>Carousel Description</b>
                             </label>
-                            <textarea class="form-control" id="faq_answer" name="faq_answer" rows="3" required
-                                placeholder="Enter Answer"></textarea>
+                            <textarea class="form-control" id="carousel_description" name="carousel_description"
+                                rows="3" required placeholder="Enter Carousel Description"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="carousel_image" class="form-label">
+                                <b>Carousel Image</b>
+                            </label>
+                            <input class="form-control" type="file" id="carousel_image" name="carousel_image" required
+                                accept="image/*">
+                        </div>
+                        <div class="mb-3">
+                            <label for="carousel_color" class="form-label">
+                                <b>Carousel Background Color</b>
+                            </label>
+                            <input class="form-control" type="color" id="carousel_color" name="carousel_color" required>
                         </div>
                         <div class="mb-3">
                             <button class="btn btn-primary" type="submit" id="submit">Add</button>

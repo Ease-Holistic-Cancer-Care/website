@@ -72,8 +72,9 @@
                         <h3>
                             Carousel
                         </h3>
+                        <hr style="border: 1px solid var(--primary-color)">
                         {% for i in range(carousel_data|length) %}
-                        <h5>
+                        <h5 class="text-center">
                             Carousel {{i+1}}
                         </h5>
                         <div class="mb-3">
@@ -89,12 +90,17 @@
                             <label for="carousel_image_{{carousel_data[i][3]}}" class="form-label">Image</label>
                             <input type="file" class="form-control" id="carousel_image_{{carousel_data[i][3]}}"
                                 name="carousel_image_{{carousel_data[i][3]}}" accept=".jpg, .png, .jpeg">
+                            <label for="carousel_color_{{carousel_data[i][3]}}" class="form-label">Background
+                                Color</label>
+                            <input type="color" class="form-control" id="carousel_color_{{carousel_data[i][3]}}"
+                                name="carousel_color_{{carousel_data[i][3]}}" value="#{{carousel_data[i][4]}}">
                             {% if carousel_data|length != 1 %}
                             <button type="button" class="btn btn-danger mt-2"
                                 onclick="deleteCarousel({{carousel_data[i][3]}})">Delete
                                 Carousel {{i+1}}</button>
                             {% endif %}
                         </div>
+                        <hr class="mt-2">
                         {% endfor %}
                         <h3 class="mt-5">
                             About
@@ -112,8 +118,9 @@
                         <h3 class="mt-5">
                             Statistics
                         </h3>
+                        <hr style="border: 1px solid var(--primary-color)">
                         {% for i in range(statistics|length) %}
-                        <h5>
+                        <h5 class="text-center">
                             Statistic {{i+1}}
                         </h5>
                         <div class="mb-3">
@@ -130,12 +137,14 @@
                                 Statistic {{i+1}}</button>
                             {% endif %}
                         </div>
+                        <hr class="mt-2">
                         {% endfor %}
                         <h3 class="mt-5">
                             FAQs
                         </h3>
+                        <hr style="border: 1px solid var(--primary-color)">
                         {% for i in range(faqs|length) %}
-                        <h5>
+                        <h5 class="text-center">
                             FAQ {{i+1}}
                         </h5>
                         <div class="mb-3">
@@ -150,6 +159,7 @@
                                 FAQ {{i+1}}</button>
                             {% endif %}
                         </div>
+                        <hr class="mt-2">
                         {% endfor %}
                         <div class="mb-3">
                             <button class="btn btn-primary" type="submit" id="submit">Update</button>
