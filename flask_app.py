@@ -2048,8 +2048,8 @@ def not_found(e):
 def gitUpdate():
     repo = git.Repo('./website')
     origin = repo.remotes.origin
-    repo.create_head('main',
-                     origin.refs.main).set_tracking_branch(origin.refs.main).checkout()
+    repo.create_head('master',
+                     origin.refs.master).set_tracking_branch(origin.refs.master).checkout()
     origin.pull()
     return '',200
 
