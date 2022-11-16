@@ -2040,10 +2040,12 @@ def addDiseaseFAQ():
         return render_template("addDiseaseFAQ.html",diseases=diseases, message = None, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
     return redirect(url_for('patientLogin'))
 
+#error handling
 @app.errorhandler(404)
 def not_found(e):
   return render_template("404.html")
 
+#webhook for git pull
 @app.route("/gitUpdate/", methods=["POST"])
 def gitUpdate():
     repo = git.Repo('./website')
