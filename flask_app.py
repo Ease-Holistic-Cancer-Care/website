@@ -62,7 +62,6 @@ def about():
     data = data.fetchone()
     database_connection.commit()
     database_connection.close()
-    # convert data to list
     data = list(data)
     data[4] = data[4].split(';')
     data[6] = data[6].split(';')
@@ -149,9 +148,12 @@ def disease(id):
     disease_severity = disease_severity.fetchall()
     disease_faq = database_cursor.execute("SELECT * FROM disease_faq WHERE disease_id = ?",(int(id),))
     disease_faq = disease_faq.fetchall()
-    doctors = disease_data[5].split(';')
+    print(disease_data)
+    doctors = disease_data[5].split(',')
     doctors_data = []
+    print(doctors)
     for doctor in doctors:
+        
         doctor_data = database_cursor.execute("SELECT * FROM doctors WHERE id = ?",(int(doctor),))
         doctor_data = doctor_data.fetchone()
         doctors_data.append(doctor_data)
@@ -2039,6 +2041,26 @@ def addDiseaseFAQ():
         database_connection.close()
         return render_template("addDiseaseFAQ.html",diseases=diseases, message = None, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
     return redirect(url_for('patientLogin'))
+
+@app.route("/searchAppointment/",methods=["POST","GET"])
+def searchAppointment():
+    if 'user' in session:
+        database_connection = sqlite3.connect(database_location)
+        database_cursor = database_connection.cursor()
+        if request.method == "POST":
+            appointment_id = request.form["appointment_id"]
+            appointment_id = "%" + str(appointment_id) + "%"
+            appointment = database_cursor.execute("SELECT * FROM appointment WHERE CAST(id AS TEXT) LIKE ?", (appointment_id,)).fetchone()
+            if appointment is not None:
+                database_connection.commit()
+                database_connection.close()
+                return render_template("searchAppointment.html", appointment = appointment, message = None, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+            database_connection.commit()
+            database_connection.close()
+            return render_template("searchAppointment.html", appointment = None, message = "No Appointment Found", social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+        database_connection.commit()
+        database_connection.close()
+        return render_template("searchAppointment.html", message = None, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
 
 #error handling
 @app.errorhandler(404)
