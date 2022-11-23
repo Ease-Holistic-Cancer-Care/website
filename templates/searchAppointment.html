@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EASE Holistic Cancer Center | Manage {{status}} Appointment</title>
+    <title>EASE Holistic Cancer Center | Search Appointment</title>
 
     <link rel="shortcut icon" href="../../static/images/logo/EHCC.jpg">
 
@@ -25,6 +25,7 @@
     <!-- Manual CSS-->
     <link rel="stylesheet" href="../../static/stylesheets/common.css">
     <link rel="stylesheet" href="../../static/stylesheets/manageAppointments.css">
+
 </head>
 
 <body>
@@ -37,11 +38,30 @@
 
     <div class="container">
         <div class="row justify-content-center px-3 mb-5">
-            <h2 class="text-center text-capitalize mt-4 pt-5 mb-4">
-                {{status}} Appointments
+            <h2 class="text-center text-capitalize pt-5 mb-2">
+                Search Appointments
             </h2>
+            {% if 'user' in session %}
+            <div class="col-12 text-center">
+                <form action="/searchAppointment/" method="post">
+                    <input type="text" name="appointment_id" id="appointment_id" placeholder="Search by name or ID">
+                    <button type="submit" class="button_cta_white search_button">
+                        Search
+                        &nbsp;
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
+                            class="bi bi-search" style="position: relative; top: -2px; left: -2px;" viewBox="0 0 16 16">
+                            <path
+                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                        </svg>
+                    </button>
+                </form>
+            </div>
+            {% endif %}
             {% if appointments %}
-            <div class="col-12 mb-2">
+            <div class="col-12 mb-2 mt-3">
+                <h4 class="text-center mb-4">
+                    Search results for '{{appointment_id}}'
+                </h4>
                 <div class="row">
                     <div class="col-lg-2">
                         <strong>
@@ -86,18 +106,12 @@
             </div>
             {% else %}
             <h4 class="my-5 text-center">
-                No Appointments yet
+                {% if appointments is none %}
+                {{message}} for '{{appointment_id}}'
+                {% else %}
+                Search for appointments
+                {% endif %}
             </h4>
-            <!-- check if patient is logged in -->
-            {% if 'patient_email' in session %}
-            <div class="text-center col-lg-4 col-md-6 mb-5">
-                <div class="patient_card shadow py-5 rounded" onclick="window.location.href='/appointment/'">
-                    <img src="../../static/images/icons/medical-symbol.png" width="150" alt="">
-                    <br>
-                    Book Appointment
-                </div>
-            </div>
-            {% endif %}
             {% endif %}
         </div>
     </div>
@@ -116,6 +130,8 @@
     <!-- Manual Scripts -->
     <script src="../../static/scripts/common.js"></script>
     <script src="../../static/scripts/appointment.js"></script>
+
+
 </body>
 
 </html>

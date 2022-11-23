@@ -50,6 +50,11 @@ def index():
     testimonials = testimonials.fetchall()
     faqs = database_cursor.execute("SELECT * FROM home_faq")
     faqs = faqs.fetchall()
+    visit_count = database_cursor.execute("SELECT visits FROM website_traffic WHERE date = ?",(datetime.today().strftime("%Y-%m-%d"),)).fetchone()
+    if visit_count is None:
+        database_cursor.execute("INSERT INTO website_traffic VALUES (?,?)",(datetime.today().strftime("%Y-%m-%d"),1))
+    else:
+        database_cursor.execute("UPDATE website_traffic SET visits = ? WHERE date = ?",(visit_count[0]+1,datetime.today().strftime("%Y-%m-%d")))
     database_connection.commit()
     database_connection.close()
     return render_template('index.html',slides=slides, about=about, specialties=specialties, statistics=statistics, social_links=social_links, doctor_data=doctor_data, testimonials=testimonials, faqs=faqs, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
@@ -153,7 +158,6 @@ def disease(id):
     doctors_data = []
     print(doctors)
     for doctor in doctors:
-        
         doctor_data = database_cursor.execute("SELECT * FROM doctors WHERE id = ?",(int(doctor),))
         doctor_data = doctor_data.fetchone()
         doctors_data.append(doctor_data)
@@ -217,7 +221,7 @@ def appointment():
             else:
                 new_patient_id = int(last_patient_id[0]) + 1
             password = ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
-            database_cursor.execute("INSERT INTO patient VALUES (?,?,?,?,?,?,?)", (new_patient_id, first_name, last_name, phone_number, email, password, gender))
+            database_cursor.execute("INSERT INTO patient VALUES (?,?,?,?,?,?,?,?)", (new_patient_id, first_name, last_name, phone_number, email, password, gender,"no"))
             database_connection.commit()
         else:
             exists = True
@@ -355,7 +359,31 @@ def news():
 @app.route('/admin/')
 def adminHome():
     if 'user' in session:
-        return render_template('adminHome.html', social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+        database_connection = sqlite3.connect(database_location)
+        database_cursor = database_connection.cursor()
+        pending_appointments = database_cursor.execute("SELECT * FROM appointment WHERE status = 'pending'")
+        pending_appointments = pending_appointments.fetchall()
+        pending_appointments = len(pending_appointments)
+        today_appointments = database_cursor.execute("SELECT * FROM appointment WHERE date = ? AND status = 'approved'", (datetime.today().strftime("%Y-%m-%d"),))
+        today_appointments = today_appointments.fetchall()
+        today_appointments = len(today_appointments)
+        completed_appointments = database_cursor.execute("SELECT * FROM appointment WHERE status = 'completed'")
+        completed_appointments = completed_appointments.fetchall()
+        completed_appointments = len(completed_appointments)
+        website_traffic = database_cursor.execute("SELECT * FROM website_traffic ORDER BY date DESC")
+        website_traffic = website_traffic.fetchmany(4)
+        total_patients = database_cursor.execute("SELECT * FROM patient")
+        total_patients = total_patients.fetchall()
+        total_patients = len(total_patients)
+        active_users = database_cursor.execute("SELECT * FROM patient WHERE logged_in = 'yes'")
+        active_users = active_users.fetchall()
+        active_users = len(active_users)
+        database_connection.commit()
+        database_connection.close()
+        return render_template('adminHome.html', pending_appointments=pending_appointments,today_appointments=today_appointments,
+                                                completed_appointments=completed_appointments, website_traffic=website_traffic, 
+                                                total_patients=total_patients, social_links=social_links,active_users=active_users,
+                                                navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
     return redirect(url_for('login'))
 
 @app.route('/manageAppointments/')
@@ -1509,9 +1537,14 @@ def patientLogin():
         data = database_cursor.execute("SELECT * FROM patient WHERE email = ? AND password = ?", (email, password))
         data = data.fetchone()
         if data is None:
-             return render_template('patientLogin.html', social_links=social_links, message="Invalid Credentials", navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+            database_connection.commit()
+            database_connection.close()
+            return render_template('patientLogin.html', social_links=social_links, message="Invalid Credentials", navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
         else:
             session['patient_email'] = data[4]
+            database_cursor.execute("UPDATE patient SET logged_in = 'yes' WHERE email = ?", (email,))
+            database_connection.commit()
+            database_connection.close()
             return redirect(url_for('patientHome'))
     if 'patient_email' in session:
         return redirect(url_for('patientHome'))
@@ -2049,15 +2082,20 @@ def searchAppointment():
         database_cursor = database_connection.cursor()
         if request.method == "POST":
             appointment_id = request.form["appointment_id"]
-            appointment_id = "%" + str(appointment_id) + "%"
-            appointment = database_cursor.execute("SELECT * FROM appointment WHERE CAST(id AS TEXT) LIKE ?", (appointment_id,)).fetchone()
-            if appointment is not None:
+            if appointment_id.isdigit():
+                appointment_id = "%" + str(appointment_id) + "%"
+                appointments = database_cursor.execute("SELECT * FROM appointment WHERE CAST(id AS TEXT) LIKE ?", (appointment_id,)).fetchall()
+            else:
+                appointment_id = "%" + str(appointment_id) + "%"
+                appointments = database_cursor.execute("SELECT * FROM appointment WHERE first_name LIKE ? OR last_name LIKE ?", (appointment_id,appointment_id)).fetchall()
+            appointment_id = appointment_id.replace("%","")
+            if len(appointments) != 0:
                 database_connection.commit()
                 database_connection.close()
-                return render_template("searchAppointment.html", appointment = appointment, message = None, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+                return render_template("searchAppointment.html", appointment_id=appointment_id, appointments = appointments, message = None, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
             database_connection.commit()
             database_connection.close()
-            return render_template("searchAppointment.html", appointment = None, message = "No Appointment Found", social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+            return render_template("searchAppointment.html", appointment_id=appointment_id, appointments = None, message = "No Appointment Found", social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
         database_connection.commit()
         database_connection.close()
         return render_template("searchAppointment.html", message = None, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)

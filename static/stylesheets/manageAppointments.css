@@ -5,3 +5,33 @@ h4.mt-5 {
 .patient_card {
     cursor: pointer;
 }
+
+input {
+    color: black !important;
+    /* background: #284f4f; */
+    background: rgba(255, 255, 255, 0.2);
+    /* box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 ); */
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.18);
+    padding: 20px;
+}
+
+input::placeholder {
+    color: black !important;
+}
+
+input {
+    height: 3rem;
+    margin: 10px 0;
+    border-radius: 50px;
+}
+
+input:focus {
+    outline: none;
+}
+
+.search_button {
+    width: 130px;
+}

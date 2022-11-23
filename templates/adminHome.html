@@ -22,6 +22,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+    <!-- Chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
     <!-- Manual CSS-->
     <link rel="stylesheet" href="../static/stylesheets/common.css">
     <link rel="stylesheet" href="../static/stylesheets/adminHome.css">
@@ -30,6 +33,36 @@
 <body>
     <!-- navbar -->
     {% include 'admin_navbar.html' %}
+    {% if pending_appointments != 0 %}
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Message</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    There are new appointment requests.
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" onclick="window.location.href='/manageAppointments/pending/'">View
+                        Appointment Requests</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // open modal after page load
+        window.onload = function () {
+            var myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
+                keyboard: false
+            })
+            myModal.show()
+        }
+    </script>
+    {% endif %}
+
+
 
     <div class="container">
         <div class="row justify-content-center px-3 mb-2">
@@ -42,6 +75,128 @@
                 <p class="text-center">
                     <b>Logged in as:</b> {{session['user']}}
                 </p>
+            </div>
+            <div class="row py-2 mb-3">
+                <div class="text-center col-lg-4 col-md-6 mb-5">
+                    <div class="shadow py-5 rounded">
+                        <h4>
+                            Appointments Today:
+                        </h4>
+                        <h4>
+                            {{today_appointments}}
+                        </h4>
+                    </div>
+                </div>
+                <div class="text-center col-lg-4 col-md-6 mb-5">
+                    <div class="shadow py-5 rounded">
+                        <h4>
+                            Pending Appointments:
+                        </h4>
+                        <h4>
+                            {{pending_appointments}}
+                        </h4>
+                    </div>
+                </div>
+                <div class="text-center col-lg-4 col-md-6 mb-5">
+                    <div class="shadow py-5 rounded">
+                        <h4>
+                            Completed Appointments:
+                        </h4>
+                        <h4>
+                            {{completed_appointments}}
+                        </h4>
+                    </div>
+                </div>
+                <div class="text-center col-lg-4 col-md-6 mb-5">
+                    <div class="shadow py-5 rounded">
+                        <h4>
+                            Total Patients:
+                        </h4>
+                        <h4>
+                            {{total_patients}}
+                        </h4>
+                    </div>
+                </div>
+                <div class="text-center col-lg-4 col-md-6 mb-5">
+                    <div class="shadow py-5 rounded">
+                        <h4>
+                            Active users:
+                        </h4>
+                        <h4>
+                            {{active_users}}
+                        </h4>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="text-center col-12 mb-5">
+                    <div class="shadow py-5 rounded">
+                        <h3>
+                            Website Traffic:
+                        </h3>
+                        <p>
+                            <strong>On X axis:</strong>
+                            Date
+                            <br>
+                            <strong>On Y axis:</strong>
+                            Number of visits
+                        </p>
+                        <br>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12">
+                                    <canvas id="myChart" style="width:100%; max-height: 500px;"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <script>
+                            var x = "{{ website_traffic }}";
+                            x = x.replaceAll("&#39;", '"')
+                            x = x.replaceAll("[", '')
+                            x = x.replaceAll("]", '')
+                            x = x.replaceAll("(", '')
+                            x = x.replaceAll(")", '')
+                            x = x.split(', "')
+                            for (var i = 0; i < x.length; i++) {
+                                x[i] = x[i].split('\", ');
+                                x[i][1] = parseInt(x[i][1])
+                            }
+                            x[0][0] = x[0][0].replaceAll('\"', "")
+                            console.log(x)
+                            var xValues = []
+                            var yValues = []
+                            var max = -1;
+                            for (var j = 0; j < x.length; j++) {
+                                xValues.unshift(x[j][0])
+                                yValues.unshift(x[j][1])
+                                if (x[j][1] > max) {
+                                    max = x[j][1]
+                                }
+                            }
+
+                            new Chart("myChart", {
+                                type: "line",
+                                data: {
+                                    labels: xValues,
+                                    datasets: [{
+                                        fill: false,
+                                        lineTension: 0,
+                                        backgroundColor: "rgb(94, 170, 170,1.0)",
+                                        borderColor: "rgb(94, 170, 170,0.1)",
+                                        data: yValues
+                                    }]
+                                },
+                                options: {
+                                    legend: { display: false },
+                                    scales: {
+                                        yAxes: [{ ticks: { min: 0, max: max } }],
+                                    }
+                                }
+                            });
+                        </script>
+                    </div>
+                </div>
             </div>
             <div class="row justify-content-center">
                 <div class="text-center col-lg-4 col-md-6 mb-5">

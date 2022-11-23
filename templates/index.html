@@ -103,6 +103,18 @@
       <div class="specialty_disease py-5 px-lg-4 px-md-4">
         <div class="row row_disease">
           {% for specialty in specialties %}
+          {% if loop.index>3 %}
+          <div class="col-lg-4 col-md-6 col-sm-12 m-auto d-md-block d-none" style="cursor: pointer;" data-aos="fade-up"
+            data-aos-duration="1000" onclick="onclick=window.location.href='/diseases/{{specialty[0]}}/'">
+            <div class="card card_disease mb-4 p-lg-4 p-md-4 p-sm-4 p-xs-4 p-4">
+              <img src="{{specialty[3]}}" class="" alt="breast icon">
+              <div class="disease_content">
+                <h3 class="text-capitalize">{{specialty[1]}}</h3>
+                <p>{{specialty[2]}}</p>
+              </div>
+            </div>
+          </div>
+          {% else %}
           <div class="col-lg-4 col-md-6 col-sm-12 d-block m-auto" style="cursor: pointer;" data-aos="fade-up"
             data-aos-duration="1000" onclick="onclick=window.location.href='/diseases/{{specialty[0]}}/'">
             <div class="card card_disease mb-4 p-lg-4 p-md-4 p-sm-4 p-xs-4 p-4">
@@ -113,6 +125,7 @@
               </div>
             </div>
           </div>
+          {% endif %}
           {% endfor %}
         </div>
       </div>

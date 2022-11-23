@@ -25,6 +25,14 @@
     <!-- Manual CSS-->
     <link rel="stylesheet" href="../../static/stylesheets/common.css">
     <link rel="stylesheet" href="../../static/stylesheets/manageAppointments.css">
+    <script>
+        function httpGet(theUrl) {
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open("GET", theUrl, false); // false for synchronous request
+            xmlHttp.send(null);
+            return xmlHttp.responseText;
+        }
+    </script>
 </head>
 
 <body>
@@ -37,7 +45,23 @@
 
     <div class="container">
         <div class="row justify-content-center px-3 mb-5">
-            <h2 class="text-center mt-4 pt-5">
+            {% if 'user' in session %}
+            <div class="col-12 mt-4 text-center text-lg-end">
+                <form action="/searchAppointment/" method="post">
+                    <input type="text" name="appointment_id" id="appointment_id" placeholder="Search by name or ID">
+                    <button type="submit" class="button_cta_white search_button">
+                        Search
+                        &nbsp;
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
+                            class="bi bi-search" style="position: relative; top: -2px; left: -2px;" viewBox="0 0 16 16">
+                            <path
+                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                        </svg>
+                    </button>
+                </form>
+            </div>
+            {% endif %}
+            <h2 class="text-center pt-2">
                 Manage Appointments
             </h2>
             <button class="button_cta_white mt-4 mx-1" onclick="window.location.href='/manageAppointments/pending/'"
@@ -121,17 +145,32 @@
                             Id. No.
                         </strong>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-3">
                         <strong>
                             Patient Name
                         </strong>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-2">
                         <strong>
                             Appointment Type
                         </strong>
                     </div>
                     <div class="col-lg-2">
+                        <strong>
+                            Assigned Doctor
+                        </strong>
+                    </div>
+                    <div class="col-lg-1">
+                        <strong>
+                            Date
+                        </strong>
+                    </div>
+                    <div class="col-lg-1">
+                        <strong class="mb-2">
+                            Time
+                        </strong>
+                    </div>
+                    <div class="col-lg-1">
                         <strong class="mb-2">
                             Actions
                         </strong>
@@ -141,13 +180,32 @@
                     <div class="col-lg-2">
                         {{ appointment[8] }}
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-3">
                         {{ appointment[0] }}&nbsp;{{ appointment[1] }}
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-2">
                         {{ appointment[5] }}
                     </div>
-                    <div class="col-lg-2 mb-2">
+                    <div class="col-lg-2" id="appointment_doctor_{{ appointment[8] }}">
+
+                    </div>
+                    <script>
+                        //get doctor name
+                        var doctor_id = "{{ appointment[13] }}";
+                        var url = document.URL;
+                        var domain = url.split('/')[0] + "//" + url.split('/')[2] + "/";
+                        data = httpGet(domain + "getDoctor/" + String(doctor_id) + "/");
+                        data = JSON.parse(data);
+                        console.log(data);
+                        document.getElementById("appointment_doctor_" + String("{{ appointment[8] }}")).innerText = data[0];
+                    </script>
+                    <div class="col-lg-1">
+                        {{ appointment[10] }}
+                    </div>
+                    <div class="col-lg-1">
+                        {{ appointment[11] }}
+                    </div>
+                    <div class="col-lg-1 mb-2">
                         <a href="/viewAppointment/{{appointment[8]}}" style="color: var(--primary-color);">View</a>
                     </div>
                     {% endfor %}
@@ -177,9 +235,14 @@
                             Patient Name
                         </strong>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-2">
                         <strong>
                             Appointment Type
+                        </strong>
+                    </div>
+                    <div class="col-lg-2">
+                        <strong>
+                            Report Status
                         </strong>
                     </div>
                     <div class="col-lg-2">
@@ -195,8 +258,20 @@
                     <div class="col-lg-4">
                         {{ appointment[0] }}&nbsp;{{ appointment[1] }}
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-2">
                         {{ appointment[5] }}
+                    </div>
+                    <div class="col-lg-2">
+                        {% if appointment[12] is none %}
+                        <span class="text-danger">
+                            Not uploaded
+                        </span>
+                        {% else %}
+                        <a href="../../static/uploads/{{appointment[12]}}" target="_blank"
+                            style="color: var(--heading-color);">
+                            View report
+                        </a>
+                        {% endif %}
                     </div>
                     <div class="col-lg-2 mb-2">
                         <a href="/viewAppointment/{{appointment[8]}}" style="color: var(--primary-color);">View</a>
