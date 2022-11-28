@@ -2100,6 +2100,21 @@ def searchAppointment():
         database_connection.close()
         return render_template("searchAppointment.html", message = None, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
 
+@app.route("/contactFeed/")
+def contactFeed():
+    if 'user' in session:
+        database_connection = sqlite3.connect(database_location)
+        database_cursor = database_connection.cursor()
+        contacts = database_cursor.execute("SELECT * FROM contact")
+        contacts = contacts.fetchall()
+        database_connection.commit()
+        database_connection.close()
+        contact_csv = [["First Name","Last Name","Email ID","Phone","Message"]]
+        for contact in contacts:
+            contact_csv.append(list(contact))
+        np.savetxt(os.path.join(CONTACT_REPORT,"contact.csv"),contact_csv,delimiter =", ", fmt ='% s')
+        return render_template("contactFeed.html", contacts = contacts, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+    return redirect(url_for('patientLogin'))
 #error handling
 @app.errorhandler(404)
 def not_found(e):

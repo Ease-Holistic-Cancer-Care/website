@@ -77,6 +77,18 @@ def send_contact_mail(name, email, message):
                 },
             }
         )
+    resp = client.send_message(
+        message={
+            "to": {
+                "email": "ehcctesting@gmail.com",
+                },
+            "template": "RPVABVC3ZH447QK5405RMZ7XASE9",
+            "data": {
+                "name": name,
+                "message": message,
+                },
+            }
+        )
 
 
 def send_document_upload_mail(name, email, appointment_id, link):

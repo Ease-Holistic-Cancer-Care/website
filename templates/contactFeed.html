@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EASE Holistic Cancer Center | Appointment Report</title>
+    <title>EASE Holistic Cancer Center | Contact Feed</title>
 
     <link rel="shortcut icon" href="../static/images/logo/EHCC.jpg">
 
@@ -27,99 +27,76 @@
 </head>
 
 <body>
+
     <!-- navbar -->
     {% include 'admin_navbar.html' %}
 
     <div class="container">
         <div class="row justify-content-center px-3 mb-5">
             <h2 class="text-center mt-4 pt-5">
-                Recent Appointments
+                Contact Feed
             </h2>
             <hr style="border: 1px solid var(--primary-color)">
-            <div class="col-12 mb-2">
-                <form action="/recentAppointments/" method="post">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-4">
-                            <label for="from_date" class="form-label">From Date</label>
-                            <input type="date" class="form-control" name="from_date" id="from_date" required>
-                        </div>
-                        <div class="col-lg-4">
-                            <label for="to_date" class="form-label">To Date</label>
-                            <input type="date" class="form-control" name="to_date" id="to_date  " required>
-                        </div>
-                    </div>
-                    <div class="row justify-content-center">
-                        <div class="col-lg-4 my-4">
-                            <div class="row">
-                                <button class="btn btn-primary" type="submit">Request Data</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            {% if appointments is not none and appointments|length != 0 %}
+            {% if contacts is not none and contacts|length != 0 %}
             <div class="col-12 my-4">
                 <div class="row">
-                    <h5 class="text-center mb-5" style="color: var(--primary-color);">
-                        Appointments from {{from_date}} to {{to_date}}
-                    </h5>
                     <div class="col-lg-2">
                         <strong>
-                            Id. No.
-                        </strong>
-                    </div>
-                    <div class="col-lg-4">
-                        <strong>
-                            Patient Name
+                            First Name
                         </strong>
                     </div>
                     <div class="col-lg-2">
                         <strong>
-                            Appointment Type
+                            Last Name
+                        </strong>
+                    </div>
+                    <div class="col-lg-3">
+                        <strong>
+                            Email ID
                         </strong>
                     </div>
                     <div class="col-lg-2">
                         <strong>
-                            Appointment Status
+                            Phone Number
                         </strong>
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-lg-3">
                         <strong class="mb-2">
-                            Actions
+                            Message
                         </strong>
                     </div>
-                    {% for appointment in appointments %}
+                    {% for contact in contacts %}
                     <hr class="mt-2">
                     <div class="col-lg-2">
-                        {{ appointment[0] }}
-                    </div>
-                    <div class="col-lg-4">
-                        {{ appointment[1] }} {{ appointment[2] }}
+                        {{ contact[0] }}
                     </div>
                     <div class="col-lg-2">
-                        {{ appointment[3] }}
+                        {{ contact[1] }}
                     </div>
-                    <div class="col-lg-2 text-capitalize">
-                        {{ appointment[4] }}
+                    <div class="col-lg-3">
+                        {{ contact[2] }}
                     </div>
-                    <div class="col-lg-2 mb-2">
-                        <a href="/viewAppointment/{{appointment[0]}}" style="color: var(--primary-color);">View</a>
+                    <div class="col-lg-2">
+                        {{ contact[3] }}
+                    </div>
+                    <div class="col-lg-3">
+                        {{ contact[4] }}
                     </div>
                     {% endfor %}
                 </div>
                 <div class="row mt-4">
                     <div class="col">
-                        <a href="../../static/appointment_reports/{{fileName}}" target="_blank" class="btn btn-success">
-                            Download Report as Excel Sheet
+                        <a href="../../static/contact_reports/contact.csv" target="_blank" class="btn btn-success">
+                            Download Contact Feed as Excel Sheet
                         </a>
                     </div>
 
                 </div>
             </div>
             {% endif %}
-            {% if appointments is not none and appointments|length == 0 %}
+            {% if contacts is not none and contacts|length == 0 %}
             <h4 class="my-3 text-center text-danger">
-                No Appointments Found
+                No Contact messages yet
             </h4>
             {% endif %}
         </div>
