@@ -34,7 +34,7 @@
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Message</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-            onclick="window.location.href=''"></button>
+            onclick="window.location.href='/'"></button>
         </div>
         <div class="modal-body">
           {{message}}
@@ -75,34 +75,34 @@
           <div class="col-lg-5 my-3">
             <div class="form-group">
               <input type="text" class="form-control" id="first_name" name="first_name"
-                placeholder="First name* (Nilesh)" required value="{{patient_data[0]}}">
+                placeholder="First name* (Nilesh)" required value="{{patient_data[0]}}" maxlength="20">
             </div>
           </div>
           <div class=" col-lg-5 my-3">
             <div class="form-group">
               <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last name* (Bhatt)"
-                required value="{{patient_data[1]}}">
+                maxlength="20" required value="{{patient_data[1]}}">
             </div>
           </div>
           <div class="col-lg-2 my-3">
             <select class="form-select" id="gender" name="gender" required>
               {% if patient_data[4] == 'male' %}
-              <option disabled value="">Gender*</option>
+              <option disabled value="" hidden>Gender*</option>
               <option value="male" selected>Male</option>
               <option value="female">Female</option>
               <option value="other">Other</option>
               {% elif patient_data[4] == 'female' %}
-              <option disabled value="">Gender*</option>
+              <option value="" disabled hidden>Gender*</option>
               <option value="male">Male</option>
               <option value="female" selected>Female</option>
               <option value="other">Other</option>
               {% elif patient_data[4] == 'other' %}
-              <option disabled value="">Gender*</option>
+              <option value="" disabled hidden>Gender*</option>
               <option value="male">Male</option>
               <option value="female">Female</option>
               <option value="other" selected>Other</option>
               {% else %}
-              <option disabled value="" selected>Gender*</option>
+              <option value="" selected disabled hidden>Gender*</option>
               <option value="male">Male</option>
               <option value="female">Female</option>
               <option value="other">Other</option>
@@ -111,33 +111,32 @@
           </div>
           <div class="col-lg-5 my-3">
             <div class="form-group">
-              <input type="number" class="form-control" id="number" name="number"
-                placeholder="Phone number* (99XXXXXXXX)" required value="{{patient_data[2]}}" min="6000000000"
-                max="9999999999">
+              <input type="tel" class="form-control" id="number" name="number" pattern="[0-9]{10}" required
+                placeholder="Phone number* (99XXXXXXXX)" value="{{patient_data[2]}}">
             </div>
           </div>
           <div class="col-lg-7 my-3">
             <div class="form-group">
               <input type="email" class="form-control" id="email" name="email"
-                placeholder="Email ID* (nilesh.bhatt@gmail.com)" required value="{{patient_data[3]}}">
+                placeholder="Email ID* (nilesh.bhatt@gmail.com)" required value="{{patient_data[3]}}" maxlength="60">
             </div>
           </div>
           {% else %}
           <div class="col-lg-5 my-3">
             <div class="form-group">
               <input type="text" class="form-control" id="first_name" name="first_name"
-                placeholder="First name* (Nilesh)" required>
+                placeholder="First name* (Nilesh)" required maxlength="20">
             </div>
           </div>
           <div class=" col-lg-5 my-3">
             <div class="form-group">
               <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last name* (Bhatt)"
-                required>
+                maxlength="20" required>
             </div>
           </div>
           <div class="col-lg-2 my-3">
             <select class="form-select" id="gender" name="gender" required>
-              <option disabled selected>Gender*</option>
+              <option value="" hidden disabled selected>Gender*</option>
               <option value="male">Male</option>
               <option value="female">Female</option>
               <option value="other">Other</option>
@@ -145,14 +144,14 @@
           </div>
           <div class="col-lg-5 my-3">
             <div class="form-group">
-              <input type="number" class="form-control" id="number" name="number"
-                placeholder="Phone number* (99XXXXXXXX)" required min="6000000000" max="9999999999">
+              <input type="tel" class="form-control" id="number" name="number" pattern="[0-9]{10}" required
+                placeholder="Phone number* (99XXXXXXXX)">
             </div>
           </div>
           <div class="col-lg-7 my-3">
             <div class="form-group">
               <input type="email" class="form-control" id="email" name="email"
-                placeholder="Email ID* (nilesh.bhatt@gmail.com)" required>
+                placeholder="Email ID* (nilesh.bhatt@gmail.com)" required maxlength="60">
             </div>
           </div>
           {% endif %}
@@ -179,7 +178,7 @@
             Message
           </h4>
           <div class="col-12 py-4">
-            <textarea class="form-control" id="message" rows="5" name="message"
+            <textarea class="form-control" id="message" rows="5" name="message" maxlength="200"
               placeholder="Type your message (Optional)"></textarea>
           </div>
           <div class="col-12 text-center">

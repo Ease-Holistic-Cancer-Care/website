@@ -79,15 +79,18 @@
                         </h5>
                         <div class="mb-3">
                             <label for="carousel_heading_{{carousel_data[i][3]}}" class="form-label">Heading</label>
+                            <small>(Max characters: 50)</small>
                             <input type="text" class="form-control" id="carousel_heading_{{carousel_data[i][3]}}"
-                                name="carousel_heading_{{carousel_data[i][3]}}" value="{{carousel_data[i][0]}}"
-                                required>
+                                maxlength="50" name="carousel_heading_{{carousel_data[i][3]}}"
+                                value="{{carousel_data[i][0]}}" required>
                             <label for="carousel_description_{{carousel_data[i][3]}}"
                                 class="form-label">Description</label>
+                            <small>(Max characters: 100)</small>
                             <input type="text" class="form-control" id="carousel_description_{{carousel_data[i][3]}}"
-                                name="carousel_description_{{carousel_data[i][3]}}" value="{{carousel_data[i][1]}}"
-                                required>
+                                maxlength="100" name="carousel_description_{{carousel_data[i][3]}}"
+                                value="{{carousel_data[i][1]}}" required>
                             <label for="carousel_image_{{carousel_data[i][3]}}" class="form-label">Image</label>
+                            <small>(Max size: 500KB)</small>
                             <input type="file" class="form-control" id="carousel_image_{{carousel_data[i][3]}}"
                                 name="carousel_image_{{carousel_data[i][3]}}" accept=".jpg, .png, .jpeg">
                             <label for="carousel_color_{{carousel_data[i][3]}}" class="form-label">Background
@@ -100,6 +103,17 @@
                                 Carousel {{i+1}}</button>
                             {% endif %}
                         </div>
+                        <script>
+                            var doctor_image_{{ carousel_data[i][3] }} = document.getElementById("doctor_image_{{carousel_data[i][3]}}");
+                            // @formatter:off
+                            doctor_image_{{ carousel_data[i][3] }}.onchange = function () {
+                                if (this.files[0].size > 1048576 / 2) {
+                                    alert("File is too big! Please upload a file smaller than 500KB.");
+                                    this.value = "";
+                                };
+                            };
+                            // @formatter:on
+                        </script>
                         <hr class="mt-2">
                         {% endfor %}
                         <h3 class="mt-5">
@@ -107,13 +121,25 @@
                         </h3>
                         <div class="mb-3">
                             <label for="about_heading" class="form-label">Heading</label>
-                            <input type="text" class="form-control" id="about_heading" name="about_heading"
+                            <small>(Max characters: 40)</small>
+                            <input type="text" class="form-control" id="about_heading" name="about_heading" maxlength="40"
                                 value="{{about[1]}}" required>
                             <label for="about_description" class="form-label">Description</label>
-                            <input type="text" class="form-control" id="about_description" name="about_description"
+                            <small>(Max characters: 300)</small>
+                            <input type="text" class="form-control" id="about_description" name="about_description" maxlength="300"
                                 value="{{about[2]}}" required>
                             <label for="about_image" class="form-label">Image</label>
+                            <small>(Max size: 500KB)</small>
                             <input type="file" class="form-control" id="about_image" name="about_image">
+                            <script>
+                                var about_image = document.getElementById("about_image");
+                                about_image.onchange = function () {
+                                    if (this.files[0].size > 1048576 / 2) {
+                                        alert("File is too big! Please upload a file smaller than 500KB.");
+                                        this.value = "";
+                                    };
+                                };
+                            </script>
                         </div>
                         <h3 class="mt-5">
                             Statistics
@@ -125,10 +151,12 @@
                         </h5>
                         <div class="mb-3">
                             <label for="statistics_heading_{{statistics[i][2]}}" class="form-label">Title</label>
-                            <input type="text" class="form-control" id="statistics_heading_{{statistics[i][2]}}"
+                            <small>(Max characters: 20)</small>
+                            <input type="text" class="form-control" id="statistics_heading_{{statistics[i][2]}}" maxlength="20"
                                 name="statistics_heading_{{statistics[i][2]}}" value="{{statistics[i][0]}}" required>
                             <label for="statistics_description_{{statistics[i][2]}}" class="form-label">Number</label>
-                            <input type="text" class="form-control" id="statistics_description_{{statistics[i][2]}}"
+                            <small>(Max characters: 5)</small>
+                            <input type="text" class="form-control" id="statistics_description_{{statistics[i][2]}}" maxlength="5"
                                 name="statistics_description_{{statistics[i][2]}}" value="{{statistics[i][1]}}"
                                 required>
                             {% if statistics|length != 1 %}
@@ -149,10 +177,12 @@
                         </h5>
                         <div class="mb-3">
                             <label for="faq_question_{{faqs[i][2]}}" class="form-label">Question</label>
-                            <input type="text" class="form-control" id="faq_question_{{faqs[i][2]}}"
+                            <small>(Max characters: 40)</small>
+                            <input type="text" class="form-control" id="faq_question_{{faqs[i][2]}}" maxlength="40"
                                 name="faq_question_{{faqs[i][2]}}" value="{{faqs[i][0]}}" required>
                             <label for="faq_answer_{{faqs[i][2]}}" class="form-label">Answer</label>
-                            <input type="text" class="form-control" id="faq_answer_{{faqs[i][2]}}"
+                            <small>(Max characters: 200)</small>
+                            <input type="text" class="form-control" id="faq_answer_{{faqs[i][2]}}" maxlength="200"
                                 name="faq_answer_{{faqs[i][2]}}" value="{{faqs[i][1]}}" required>
                             {% if faqs|length != 1 %}
                             <button type="button" class="btn btn-danger mt-2" onclick="deleteFAQ({{faqs[i][2]}})">Delete

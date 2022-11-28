@@ -86,15 +86,17 @@
                             <label for="specialty_name" class="form-label">
                                 <b>Specialty Name</b>
                             </label>
+                            <small>(Max characters: 30)</small>
                             <input type="text" class="form-control" id="specialty_name" name="specialty_name" required
-                                placeholder="Enter Specialty Name">
+                                maxlength="30" placeholder="Enter Specialty Name">
                         </div>
                         <div class="mb-3">
                             <label for="specialty_description" class="form-label">
                                 <b>Specialty Description</b>
                             </label>
+                            <small>(Max characters: 375)</small>
                             <textarea class="form-control" id="specialty_description" name="specialty_description"
-                                rows="3" required placeholder="Enter Specialty Description"></textarea>
+                                maxlength="375" rows="3" required placeholder="Enter Specialty Description"></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="specialty_illustration" class="form-label">
@@ -102,6 +104,7 @@
                                     Specialty Illustration
                                 </b>
                             </label>
+                            <small>(Max size: 500KB)</small>
                             <input type="file" class="form-control" id="specialty_illustration"
                                 name="specialty_illustration" accept="image/*">
                             <br>
@@ -130,6 +133,15 @@
     <!-- Manual Scripts -->
     <script src="../static/scripts/common.js"></script>
     <script src="../static/scripts/deleteSpecialty.js"></script>
+    <script>
+        var specialty_illustration = document.getElementById("specialty_illustration");
+        specialty_illustration.onchange = function () {
+            if (this.files[0].size > 1048576 / 2) {
+                alert("File is too big! Please upload a file smaller than 500KB.");
+                this.value = "";
+            };
+        };
+    </script>
 </body>
 
 </html>

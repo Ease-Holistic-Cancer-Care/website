@@ -86,22 +86,25 @@
                             <label for="blog_title" class="form-label">
                                 <b>Blog Title</b>
                             </label>
+                            <small>(Max characters: 25)</small>
                             <input type="text" class="form-control" id="blog_title" name="blog_title" required
-                                placeholder="Enter Title">
+                                maxlength="25" placeholder="Enter Title">
                         </div>
                         <div class="mb-3">
                             <label for="blog_description" class="form-label">
                                 <b>Blog Short Description</b>
                             </label>
+                            <small>(Max characters: 60)</small>
                             <textarea class="form-control" id="blog_description" name="blog_description" rows="3"
-                                required placeholder="Enter Short Description"></textarea>
+                                maxlength="60" required placeholder="Enter Short Description"></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="blog_content" class="form-label">
                                 <b>Blog Content</b>
                             </label>
+                            <small>(Max characters: 3000)</small>
                             <textarea class="form-control" id="blog_content" name="blog_content" rows="10" required
-                                placeholder="Enter Content"></textarea>
+                                maxlength="3000" placeholder="Enter Content"></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="blog_image" class="form-label">
@@ -137,6 +140,15 @@
     <!-- Manual Scripts -->
     <script src="../static/scripts/common.js"></script>
     <script src="../static/scripts/modifyBlog.js"></script>
+    <script>
+        var blog_image_input = document.getElementById("blog_image_input");
+        uploadField.onchange = function () {
+            if (this.files[0].size > 1048576 * 2) {
+                alert("File is too big! Please upload a file smaller than 2MB.");
+                this.value = "";
+            };
+        };
+    </script>
 </body>
 
 </html>

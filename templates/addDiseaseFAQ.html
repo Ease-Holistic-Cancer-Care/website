@@ -90,14 +90,16 @@
                             <label for="faq_question" class="form-label">
                                 <b>Question</b>
                             </label>
+                            <small>(Max characters: 40)</small>
                             <input type="text" class="form-control" id="faq_question" name="faq_question" required
-                                placeholder="Enter Question">
+                                maxlength="40" placeholder="Enter Question">
                         </div>
                         <div class="mb-3">
                             <label for="faq_answer" class="form-label">
                                 <b>Answer</b>
                             </label>
-                            <textarea class="form-control" id="faq_answer" name="faq_answer" rows="3"
+                            <small>(Max characters: 200)</small>
+                            <textarea class="form-control" id="faq_answer" name="faq_answer" rows="3" maxlength="200"
                                 placeholder="Enter Answer"></textarea>
                         </div>
                         <div class="mb-3">

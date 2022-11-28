@@ -73,8 +73,9 @@
                             <label for="news_title" class="form-label">
                                 <b>News Title</b>
                             </label>
+                            <small>(Max characters: 25)</small>
                             <input type="text" class="form-control" id="news_title" name="news_title" required
-                                placeholder="Enter Title">
+                                maxlength="25" placeholder="Enter Title">
                         </div>
                         <div class="mb-3 d-flex">
                             <input class="form-check" type="checkbox" value="1" id="is_head" name="is_head"
@@ -88,20 +89,23 @@
                             <label for="news_heading" class="form-label">
                                 <b>News Heading</b>
                             </label>
+                            <small>(Max characters: 100)</small>
                             <input type="text" class="form-control" id="news_heading" name="news_heading" required
-                                placeholder="Enter Heading">
+                                maxlength="100" placeholder="Enter Heading">
                         </div>
                         <div class="mb-3">
                             <label for="news_description" class="form-label">
                                 <b>News Description</b>
                             </label>
+                            <small id="news_description_hint">(Max characters: 60)</small>
                             <textarea class="form-control" id="news_description" name="news_description" rows="3"
-                                required placeholder="Enter Description"></textarea>
+                                maxlength="60" required placeholder="Enter Description"></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="news_image" class="form-label">
                                 <b>News Image</b>
                             </label>
+                            <small>(Max size: 500KB)</small>
                             <input class="form-control" type="file" id="news_image" name="news_image" required
                                 accept="image/*">
                         </div>
@@ -139,13 +143,24 @@
                 heading.required = true;
                 heading.disabled = false;
                 document.getElementById("heading_news").style.display = "block";
+                document.getElementById("news_description").setAttribute("maxlength", "150");
+                document.getElementById("news_description_hint").innerText = "(Max characters: 150)"
             } else {
                 heading.style.display = "none";
                 heading.required = false;
                 heading.disabled = true;
                 document.getElementById("heading_news").style.display = "none";
+                document.getElementById("news_description").setAttribute("maxlength", "60");
+                document.getElementById("news_description_hint").innerText = "(Max characters: 60)"
             }
         }
+        var news_image = document.getElementById("news_image");
+        news_image.onchange = function () {
+            if (this.files[0].size > 1048576 / 2) {
+                alert("File is too big! Please upload a file smaller than 500KB.");
+                this.value = "";
+            };
+        };
     </script>
 </body>
 

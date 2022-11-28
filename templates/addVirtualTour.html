@@ -73,15 +73,17 @@
                             <label for="vt_title" class="form-label">
                                 <b>Virtual Tour Title</b>
                             </label>
+                            <small>(Max characters: 25)</small>
                             <input type="text" class="form-control" id="vt_title" name="vt_title" required
-                                placeholder="Enter Title">
+                                maxlength="25" placeholder="Enter Title">
                         </div>
                         <div class="mb-3">
                             <label for="vt_description" class="form-label">
                                 <b>Virtual Tour Description</b>
                             </label>
+                            <small>(Max characters: 60)</small>
                             <textarea class="form-control" id="vt_description" name="vt_description" rows="3" required
-                                placeholder="Enter Description"></textarea>
+                                maxlength="60" placeholder="Enter Description"></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="vt_image" class="form-label">
@@ -89,6 +91,7 @@
                                     Virtual Tour Image
                                 </b>
                             </label>
+                            <small>(Max size: 500KB)</small>
                             <input type="file" class="form-control" id="vt_image" name="vt_image" required
                                 accept="image/*">
                         </div>
@@ -114,6 +117,15 @@
 
     <!-- Manual Scripts -->
     <script src="../static/scripts/common.js"></script>
+    <script>
+        var vt_image = document.getElementById("vt_image");
+        vt_image.onchange = function () {
+            if (this.files[0].size > 1048576 / 2) {
+                alert("File is too big! Please upload a file smaller than 500KB.");
+                this.value = "";
+            };
+        };
+    </script>
 </body>
 
 </html>

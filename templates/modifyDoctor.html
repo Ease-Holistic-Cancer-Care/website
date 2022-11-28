@@ -86,14 +86,16 @@
                             <label for="doctor_name" class="form-label">
                                 <b>Full Name</b>
                             </label>
+                            <small>(Max characters: 25)</small>
                             <input type="text" class="form-control" id="doctor_name" name="doctor_name" required
-                                placeholder="Enter Doctor Name">
+                                maxlength="25" placeholder="Enter Doctor Name">
                         </div>
                         <div class="mb-3">
                             <label for="doctor_current_appointment" class="form-label">
                                 <b>Current Appointment</b>
                             </label>
-                            <input type="text" class="form-control" id="doctor_current_appointment"
+                            <small>(Max characters: 35)</small>
+                            <input type="text" class="form-control" id="doctor_current_appointment" maxlength="35"
                                 name="doctor_current_appointment" required placeholder="Enter Current Appointment">
                         </div>
                         <div class="mb-3">
@@ -102,6 +104,7 @@
                                     Doctor Image
                                 </b>
                             </label>
+                            <small>(Max size: 500KB)</small>
                             <input type="file" class="form-control" id="doctor_image" name="doctor_image"
                                 placeholder="Enter Current Appointment" accept="image/*">
                             <br>
@@ -113,7 +116,8 @@
                                     Doctor Qualification
                                 </b>
                             </label>
-                            <input type="text" class="form-control" id="doctor_qualification"
+                            <small>(Max characters: 35)</small>
+                            <input type="text" class="form-control" id="doctor_qualification" maxlength="35"
                                 name="doctor_qualification" required placeholder="Enter Qualification">
                         </div>
                         <div class="mb-3">
@@ -122,7 +126,8 @@
                                     Doctor Post Qualification
                                 </b>
                             </label>
-                            <input type="text" class="form-control" id="doctor_post_qualification"
+                            <small>(Max characters: 35)</small>
+                            <input type="text" class="form-control" id="doctor_post_qualification" maxlength="35"
                                 name="doctor_post_qualification" required placeholder="Enter Post Qualification">
                         </div>
                         <!-- Overseas qualification -->
@@ -132,7 +137,8 @@
                                     Doctor Overseas Qualification
                                 </b>
                             </label>
-                            <input type="text" class="form-control" id="doctor_overseas_qualification"
+                            <small>(Max characters: 35)</small>
+                            <input type="text" class="form-control" id="doctor_overseas_qualification" maxlength="35"
                                 name="doctor_overseas_qualification" required
                                 placeholder="Enter Overseas Qualification">
                         </div>
@@ -143,8 +149,9 @@
                                     About Doctor
                                 </b>
                             </label>
+                            <small>(Max characters: 700)</small>
                             <textarea class="form-control" id="doctor_about" name="doctor_about" rows="3" required
-                                placeholder="Enter About Doctor"></textarea>
+                                maxlength="700" placeholder="Enter About Doctor"></textarea>
                         </div>
                         <!-- degree -->
                         <div class="mb-3">
@@ -157,60 +164,63 @@
                                 <div class="col-lg-2">
                                     <!-- Degree -->
                                     <label for="doctor_degree1" class="form-label">Degree</label>
+                                    <small>(Max characters: 15)</small>
                                 </div>
                                 <div class="col-lg-8">
                                     <!-- Institute -->
                                     <label for="doctor_institute1" class="form-label">Institute</label>
+                                    <small>(Max characters: 60)</small>
                                 </div>
                                 <div class="col-lg-2">
                                     <!-- Year -->
                                     <label for="doctor_year1" class="form-label">Year</label>
+                                    <small>(Max characters: 4)</small>
                                 </div>
                                 <div class="col-lg-2">
                                     <input type="text" class="form-control" id="doctor_degree1" name="doctor_degree1"
-                                        required placeholder="Enter Degree">
+                                        required placeholder="Enter Degree" maxlength="15">
                                 </div>
                                 <div class="col-lg-8">
                                     <input type="text" class="form-control" id="doctor_institute1"
-                                        name="doctor_institute1" required placeholder="Enter Institute">
+                                        name="doctor_institute1" required placeholder="Enter Institute" maxlength="60">
                                 </div>
                                 <div class="col-lg-2">
                                     <input type="text" class="form-control" id="doctor_year1" name="doctor_year1"
-                                        required placeholder="Enter Year">
+                                        required placeholder="Enter Year" maxlength="4">
                                 </div>
                             </div>
                             <div class="row mb-2">
                                 <div class="col-lg-2">
                                     <!-- Degree -->
                                     <input type="text" class="form-control" id="doctor_degree2" name="doctor_degree2"
-                                        placeholder="Enter Degree">
+                                        placeholder="Enter Degree" maxlength="15">
                                 </div>
                                 <div class="col-lg-8">
                                     <!-- Institute -->
                                     <input type="text" class="form-control" id="doctor_institute2"
-                                        name="doctor_institute2" placeholder="Enter Institute">
+                                        name="doctor_institute2" placeholder="Enter Institute" maxlength="60">
                                 </div>
                                 <div class="col-lg-2">
                                     <!-- Year -->
                                     <input type="text" class="form-control" id="doctor_year2" name="doctor_year2"
-                                        placeholder="Enter Year">
+                                        placeholder="Enter Year" maxlength="4">
                                 </div>
                             </div>
                             <div class="row mb-2">
                                 <div class="col-lg-2">
                                     <!-- Degree -->
                                     <input type="text" class="form-control" id="doctor_degree3" name="doctor_degree3"
-                                        placeholder="Enter Degree">
+                                        placeholder="Enter Degree" maxlength="15">
                                 </div>
                                 <div class="col-lg-8">
                                     <!-- Institute -->
                                     <input type="text" class="form-control" id="doctor_institute3"
-                                        name="doctor_institute3" placeholder="Enter Institute">
+                                        name="doctor_institute3" placeholder="Enter Institute" maxlength="60">
                                 </div>
                                 <div class="col-lg-2">
                                     <!-- Year -->
                                     <input type="text" class="form-control" id="doctor_year3" name="doctor_year3"
-                                        placeholder="Enter Year">
+                                        placeholder="Enter Year" maxlength="4">
                                 </div>
                             </div>
                         </div>
@@ -223,60 +233,66 @@
                                 <div class="col-lg-8">
                                     <!-- Organization -->
                                     <label for="doctor_organization1" class="form-label">Organization</label>
+                                    <small>(Max characters: 60)</small>
                                 </div>
                                 <div class="col-lg-2">
                                     <!-- From Year -->
                                     <label for="doctor_experience_from_year1" class="form-label">From Year</label>
+                                    <small>(Max characters: 4)</small>
                                 </div>
                                 <div class="col-lg-2">
                                     <!-- To Year -->
                                     <label for="doctor_experience_to_year1" class="form-label">To Year</label>
+                                    <small>(Max characters: 4)</small>
                                 </div>
                                 <div class="col-lg-8">
                                     <input type="text" class="form-control" id="doctor_organization1"
-                                        name="doctor_organization1" required placeholder="Enter Organization">
+                                        name="doctor_organization1" required placeholder="Enter Organization"
+                                        maxlength="60">
                                 </div>
                                 <div class="col-lg-2">
                                     <input type="text" class="form-control" id="doctor_experience_from_year1"
-                                        name="doctor_experience_from_year1" required placeholder="Enter Year">
+                                        name="doctor_experience_from_year1" required placeholder="Enter Year"
+                                        maxlength="4">
                                 </div>
                                 <div class="col-lg-2">
                                     <input type="text" class="form-control" id="doctor_experience_to_year1"
-                                        name="doctor_experience_to_year1" required placeholder="Enter Year">
+                                        name="doctor_experience_to_year1" required placeholder="Enter Year"
+                                        maxlength="4">
                                 </div>
                             </div>
                             <div class="row mb-2">
                                 <div class="col-lg-8">
                                     <!-- Organization -->
                                     <input type="text" class="form-control" id="doctor_organization2"
-                                        name="doctor_organization2" placeholder="Enter Organization">
+                                        name="doctor_organization2" placeholder="Enter Organization" maxlength="60">
                                 </div>
                                 <div class="col-lg-2">
                                     <!-- From Year -->
                                     <input type="text" class="form-control" id="doctor_experience_from_year2"
-                                        name="doctor_experience_from_year2" placeholder="Enter Year">
+                                        name="doctor_experience_from_year2" placeholder="Enter Year" maxlength="4">
                                 </div>
                                 <div class="col-lg-2">
                                     <!-- To Year -->
                                     <input type="text" class="form-control" id="doctor_experience_to_year2"
-                                        name="doctor_experience_to_year2" placeholder="Enter Year">
+                                        name="doctor_experience_to_year2" placeholder="Enter Year" maxlength="4">
                                 </div>
                             </div>
                             <div class="row mb-2">
                                 <div class="col-lg-8">
                                     <!-- Organization -->
                                     <input type="text" class="form-control" id="doctor_organization3"
-                                        name="doctor_organization3" placeholder="Enter Organization">
+                                        name="doctor_organization3" placeholder="Enter Organization" maxlength="60">
                                 </div>
                                 <div class="col-lg-2">
                                     <!-- From Year -->
                                     <input type="text" class="form-control" id="doctor_experience_from_year3"
-                                        name="doctor_experience_from_year3" placeholder="Enter Year">
+                                        name="doctor_experience_from_year3" placeholder="Enter Year" maxlength="4">
                                 </div>
                                 <div class="col-lg-2">
                                     <!-- To Year -->
                                     <input type="text" class="form-control" id="doctor_experience_to_year3"
-                                        name="doctor_experience_to_year3" placeholder="Enter Year">
+                                        name="doctor_experience_to_year3" placeholder="Enter Year" maxlength="4">
                                 </div>
                             </div>
                         </div>
@@ -303,6 +319,15 @@
     <!-- Manual Scripts -->
     <script src="../static/scripts/common.js"></script>
     <script src="../static/scripts/modifyDoctor.js"></script>
+    <script>
+        var doctor_image = document.getElementById("doctor_image");
+        doctor_image.onchange = function () {
+            if (this.files[0].size > 1048576 / 2) {
+                alert("File is too big! Please upload a file smaller than 500KB.");
+                this.value = "";
+            };
+        };
+    </script>
 </body>
 
 </html>

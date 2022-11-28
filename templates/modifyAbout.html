@@ -72,17 +72,17 @@
                         <div class="mb-3">
                             <label for="hero_title" class="form-label">Hero Title</label>
                             <input type="text" class="form-control" id="hero_title" name="hero_title"
-                                value="{{data[0]}}" required>
+                                value="{{data[0]}}" required maxlength="30">
                         </div>
                         <div class="mb-3">
                             <label for="hero_description" class="form-label">Hero Description</label>
                             <textarea name="hero_description" class="form-control" id="hero_description" cols="30"
-                                rows="3" required>{{data[1]}}</textarea>
+                                rows="3" required maxlength="500">{{data[1]}}</textarea>
                         </div>
                         <div class="mb-3">
                             <label for="vision" class="form-label">Vision</label>
                             <input type="text" class="form-control" id="vision" name="vision" value="{{data[3]}}"
-                                required>
+                                required maxlength="200">
                         </div>
                         <div class="mb-3">
                             <label for="mission" class="form-label">Mission</label>

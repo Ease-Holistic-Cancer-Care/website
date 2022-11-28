@@ -81,13 +81,13 @@
                         required>
                     <br>
                     <input type="text" name="name" id="name" placeholder="Name* (Nilesh Bhatt)" class="form-control"
-                        required>
+                        required maxlength="40">
                     <br>
                     <input type="email" name="email" id="email" placeholder="Email ID* (nilesh.bhatt@gmail.com)"
-                        class="form-control" required>
+                        class="form-control" required maxlength="60">
                     <br>
-                    <input type="number" name="contact" id="contact" placeholder="Contact Number (99XXXXXXXX)"
-                        class="form-control" required>
+                    <input type="tel" class="form-control" name="contact" id="contact" pattern="[0-9]{10}" required
+                        placeholder="Phone number* (99XXXXXXXX)">
                     <br>
                     <center>
                         <input id="submit_button" type="submit" value="Calculate">

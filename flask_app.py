@@ -247,7 +247,7 @@ def appointment():
             database_connection.commit()
             database_connection.close()
             return render_template('appointment.html',social_links=social_links, message="Your appointment has been booked successfully. We will contact you soon. Your appointment ID is "+new_appointment_id, patient_data=patient_data, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
-        return render_template('appointment.html',social_links=social_links, message="Your appointment has been sent successfully. We will contact you soon. Your appointment ID is "+new_appointment_id, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+        return render_template('appointment.html',social_links=social_links, message="Your appointment has been sent successfully. Your appointment request ID is "+new_appointment_id+". Please check you mail for login credentials.", navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
     if 'patient_email' in session:
         patient_data = database_cursor.execute("SELECT first_name,last_name,mobile,email,gender FROM patient WHERE email=?", (session['patient_email'],))
         patient_data = patient_data.fetchone()

@@ -73,22 +73,25 @@
                             <label for="person_name" class="form-label">
                                 <b>Person Name</b>
                             </label>
+                            <small>(Max characters: 25)</small>
                             <input type="text" class="form-control" id="person_name" name="person_name" required
-                                placeholder="Enter Title">
+                                maxlength="25" placeholder="Enter Title">
                         </div>
                         <div class="mb-3">
                             <label for="person_designation" class="form-label">
                                 <b>Person Designation</b>
                             </label>
+                            <small>(Max characters: 25)</small>
                             <input type="text" class="form-control" id="person_designation" name="person_designation"
-                                required placeholder="Enter Designation">
+                                maxlength="25" required placeholder="Enter Designation">
                         </div>
                         <div class="mb-3">
                             <label for="person_testimonial" class="form-label">
                                 <b>Person Testimonial</b>
                             </label>
+                            <small>(Max characters: 400)</small>
                             <textarea class="form-control" id="person_testimonial" name="person_testimonial" rows="3"
-                                required placeholder="Enter Short Description"></textarea>
+                                maxlength="400" required placeholder="Enter Short Description"></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="person_image" class="form-label">
@@ -96,6 +99,7 @@
                                     Person Image
                                 </b>
                             </label>
+                            <small>(Max size: 200KB)</small>
                             <input type="file" class="form-control" id="person_image" name="person_image" required
                                 accept="image/*">
                         </div>
@@ -121,6 +125,15 @@
 
     <!-- Manual Scripts -->
     <script src="../static/scripts/common.js"></script>
+    <script>
+        var person_image = document.getElementById("person_image");
+        person_image.onchange = function () {
+            if (this.files[0].size > 1048576 / 5) {
+                alert("File is too big! Please upload a file smaller than 500KB.");
+                this.value = "";
+            };
+        };
+    </script>
 </body>
 
 </html>

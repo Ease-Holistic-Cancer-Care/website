@@ -83,22 +83,39 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="testimonial_name" class="form-label">Name</label>
+                            <label for="testimonial_name" class="form-label">
+                                <b>
+                                    Person Name
+                                </b>
+                            </label>
+                            <small>(Max characters: 25)</small>
                             <input type="text" class="form-control" id="testimonial_name" name="testimonial_name"
-                                placeholder="Name" required>
+                                maxlength="25" placeholder="Name" required>
                         </div>
                         <div class="mb-3">
-                            <label for="testimonial_designation" class="form-label">Designation</label>
-                            <input type="text" class="form-control" id="testimonial_designation"
+                            <label for="testimonial_designation" class="form-label">
+                                <b>
+                                    Person Designation
+                                </b>
+                            </label>
+                            <small>(Max characters: 25)</small>
+                            <input type="text" class="form-control" id="testimonial_designation" maxlength="25"
                                 name="testimonial_designation" placeholder="Designation" required>
                         </div>
                         <div class="mb-3">
-                            <label for="testimonial_content" class="form-label">Testimonial</label>
+                            <label for="testimonial_content" class="form-label">
+                                <b>Person Testimonial</b>
+                            </label>
                             <textarea class="form-control" id="testimonial_content" name="testimonial_content" rows="3"
                                 required></textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="testimonial_image" class="form-label">Image</label>
+                            <label for="testimonial_image" class="form-label">
+                                <b>
+                                    Person Image
+                                </b>
+                            </label>
+                            <small>(Max size: 200KB)</small>
                             <input class="form-control" type="file" id="testimonial_image" name="testimonial_image"
                                 accept="image/*">
                         </div>
@@ -125,6 +142,15 @@
     <!-- Manual Scripts -->
     <script src="../static/scripts/common.js"></script>
     <script src="../static/scripts/modifyTestimonial.js"></script>
+    <script>
+        var testimonial_image = document.getElementById("testimonial_image");
+        testimonial_image.onchange = function () {
+            if (this.files[0].size > 1048576 / 5) {
+                alert("File is too big! Please upload a file smaller than 500KB.");
+                this.value = "";
+            };
+        };
+    </script>
 </body>
 
 </html>

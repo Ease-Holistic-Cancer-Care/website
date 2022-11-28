@@ -74,28 +74,28 @@
                                 <b>First Name</b>
                             </label>
                             <input type="text" class="form-control" id="first_name" name="first_name" required
-                                placeholder="Enter First Name" value="{{data[0]}}">
+                                placeholder="Enter First Name" value="{{data[0]}}" maxlength="20">
                         </div>
                         <div class="mb-3">
                             <label for="last_name" class="form-label">
                                 <b>Last Name</b>
                             </label>
                             <input type="text" class="form-control" id="last_name" name="last_name" required
-                                placeholder="Enter Last Name" value="{{data[1]}}">
+                                placeholder="Enter Last Name" value="{{data[1]}}" maxlength="20">
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">
                                 <b>Email</b>
                             </label>
                             <input type="email" class="form-control" id="email" name="email" required
-                                placeholder="Enter Email" value="{{data[3]}}">
+                                placeholder="Enter Email" value="{{data[3]}}" maxlength="60">
                         </div>
                         <div class="mb-3">
                             <label for="phone" class="form-label">
                                 <b>Phone</b>
                             </label>
-                            <input type="text" class="form-control" id="phone" name="phone" required min="6000000000"
-                                max="9999999999" placeholder="Enter Phone" value="{{data[2]}}">
+                            <input type="tel" class="form-control" id="phone" name="phone" pattern="[0-9]{10}" required
+                                placeholder="Phone* (99XXXXXXXX)" value="{{data[2]}}">
                         </div>
                         <div class="mb-3">
                             <label for="phone" class="form-label">
@@ -133,17 +133,17 @@
                                 <b>Old Password</b>
                             </label>
                             <input type="password" class="form-control mb-3" id="old_password" name="old_password"
-                                placeholder="Enter Old Password" oninput="makeRequired(this.id)">
+                                placeholder="Enter Old Password" oninput="makeRequired(this.id)" minlength="8">
                             <label for="new_password1" class="mb-1">
                                 <b>New Password</b>
                             </label>
                             <input type="password" class="form-control mb-3" id="new_password1" name="new_password1"
-                                placeholder="Enter New Password">
+                                minlength="8" placeholder="Enter New Password">
                             <label for="new_password2" class="mb-1">
                                 <b>Confirm New Password</b>
                             </label>
                             <input type="password" class="form-control mb-3" id="new_password2" name="new_password2"
-                                placeholder="Re-enter New Password">
+                                placeholder="Re-enter New Password" minlength="8">
                         </div>
                         <div class="mb-3">
                             <button class="btn btn-primary" type="submit" id="submit">Update</button>

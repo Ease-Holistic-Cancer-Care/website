@@ -72,22 +72,25 @@
                         <div class="mb-3">
                             <label for="blog_title" class="form-label">
                                 <b>Blog Title</b>
+                                <small>(Max characters: 25)</small>
                             </label>
                             <input type="text" class="form-control" id="blog_title" name="blog_title" required
-                                placeholder="Enter Title">
+                                maxlength="25" placeholder="Enter Title">
                         </div>
                         <div class="mb-3">
                             <label for="blog_description" class="form-label">
                                 <b>Blog Short Description</b>
+                                <small>(Max characters: 60)</small>
                             </label>
                             <textarea class="form-control" id="blog_description" name="blog_description" rows="3"
-                                required placeholder="Enter Short Description"></textarea>
+                                maxlength="6-" required placeholder="Enter Short Description"></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="blog_image" class="form-label">
                                 <b>
                                     Blog Image
                                 </b>
+                                <small>(Max size: 2MB)</small>
                             </label>
                             <input type="file" class="form-control" id="blog_image" name="blog_image" required
                                 accept="image/*">
@@ -95,9 +98,10 @@
                         <div class="mb-3">
                             <label for="blog_content" class="form-label">
                                 <b>Blog Content</b>
+                                <small>(Max characters: 3000)</small>
                             </label>
                             <textarea class="form-control" id="blog_content" name="blog_content" rows="10" required
-                                placeholder="Enter Content"></textarea>
+                                maxlength="3000" placeholder="Enter Content"></textarea>
                         </div>
                         <div class="mb-3">
                             <button class="btn btn-primary" type="submit" id="submit">Add</button>
@@ -121,6 +125,15 @@
 
     <!-- Manual Scripts -->
     <script src="../static/scripts/common.js"></script>
+    <script>
+        var uploadField = document.getElementById("blog_image");
+        uploadField.onchange = function () {
+            if (this.files[0].size > 1048576 * 2) {
+                alert("File is too big! Please upload a file smaller than 2MB.");
+                this.value = "";
+            };
+        };
+    </script>
 </body>
 
 </html>

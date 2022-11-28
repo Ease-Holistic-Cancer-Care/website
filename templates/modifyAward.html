@@ -86,30 +86,34 @@
                             <label for="award_type" class="form-label">
                                 <b>Award Type</b>
                             </label>
+                            <small>(Max characters: 20)</small>
                             <input type="text" class="form-control" id="award_type" name="award_type" required
-                                placeholder="Enter Award Type">
+                                maxlength="20" placeholder="Enter Award Type">
                         </div>
                         <!-- title -->
                         <div class="mb-3">
                             <label for="award_title" class="form-label">
                                 <b>Award Title</b>
                             </label>
+                            <small>(Max characters: 25)</small>
                             <input type="text" class="form-control" id="award_title" name="award_title" required
-                                placeholder="Enter Award Title">
+                                maxlength="25" placeholder="Enter Award Title">
                         </div>
                         <!-- description -->
                         <div class="mb-3">
                             <label for="award_description" class="form-label">
                                 <b>Award Description</b>
                             </label>
+                            <small>(Max characters: 65)</small>
                             <textarea class="form-control" id="award_description" name="award_description" rows="3"
-                                required placeholder="Enter Award Description"></textarea>
+                                maxlength="65" required placeholder="Enter Award Description"></textarea>
                         </div>
                         <!-- image -->
                         <div class="mb-3">
                             <label for="award_image_input" class="form-label">
                                 <b>Award Image</b>
                             </label>
+                            <small>(Max size: 500KB)</small>
                             <input class="form-control" type="file" id="award_image_input" name="award_image_input">
                             <br>
                             <img src="" id="award_image" alt="">
@@ -137,6 +141,15 @@
     <!-- Manual Scripts -->
     <script src="../static/scripts/common.js"></script>
     <script src="../static/scripts/deleteAward.js"></script>
+    <script>
+        var award_image_input = document.getElementById("award_image_input");
+        award_image_input.onchange = function () {
+            if (this.files[0].size > 1048576 / 2) {
+                alert("File is too big! Please upload a file smaller than 500KB.");
+                this.value = "";
+            };
+        };
+    </script>
 </body>
 
 </html>

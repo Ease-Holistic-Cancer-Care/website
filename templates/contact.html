@@ -73,28 +73,31 @@
                         <div class="form_input">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <input type="text" name="fname" placeholder="First Name" class="p-4" required>
+                                    <input type="text" name="fname" placeholder="First Name" class="p-4" required
+                                        maxlength="20">
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" name="lname" placeholder="Last Name" class="p-4" required>
+                                    <input type="text" name="lname" placeholder="Last Name" class="p-4" required
+                                        maxlength="20">
                                 </div>
                             </div>
                         </div>
                         <div class="form_input">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <input type="email" name="email" placeholder="Email address" class="p-4" required>
+                                    <input type="email" name="email" placeholder="Email address" class="p-4" required
+                                        maxlength="60">
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="number" name="number" placeholder="Phone" class="p-4" required
-                                        min="6000000000" max="9999999999">
+                                    <input type="tel" class="p-4" name="number" pattern="[0-9]{10}" required
+                                        placeholder="Phone* (99XXXXXXXX)">
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <textarea name="message" placeholder="Message" cols="50" rows="4" class="p-4"
-                                    required></textarea>
+                                <textarea name="message" placeholder="Message" cols="50" rows="4" class="p-4" required
+                                    maxlength="200"></textarea>
                             </div>
                             <div class="col-12">
                                 <div class="my-3"><button type="submit" name="submit">Submit</button></div>
