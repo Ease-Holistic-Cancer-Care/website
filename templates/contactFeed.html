@@ -40,12 +40,22 @@
             {% if contacts is not none and contacts|length != 0 %}
             <div class="col-12 my-4">
                 <div class="row">
-                    <div class="col-lg-2">
+                    <div class="col-lg-1">
+                        <strong>
+                            ID
+                        </strong>
+                    </div>
+                    <div class="col-lg-1">
+                        <strong>
+                            Date
+                        </strong>
+                    </div>
+                    <div class="col-lg-1">
                         <strong>
                             First Name
                         </strong>
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-lg-1">
                         <strong>
                             Last Name
                         </strong>
@@ -67,20 +77,26 @@
                     </div>
                     {% for contact in contacts %}
                     <hr class="mt-2">
-                    <div class="col-lg-2">
+                    <div class="col-lg-1">
                         {{ contact[0] }}
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-lg-1">
                         {{ contact[1] }}
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-1">
                         {{ contact[2] }}
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-lg-1">
                         {{ contact[3] }}
                     </div>
                     <div class="col-lg-3">
                         {{ contact[4] }}
+                    </div>
+                    <div class="col-lg-2">
+                        {{ contact[5] }}
+                    </div>
+                    <div class="col-lg-3">
+                        {{ contact[6] }}
                     </div>
                     {% endfor %}
                 </div>

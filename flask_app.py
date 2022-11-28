@@ -187,7 +187,15 @@ def contact():
         message = request.form['message']
         database_connection = sqlite3.connect(database_location)
         database_cursor = database_connection.cursor()
-        database_cursor.execute("INSERT INTO contact VALUES (?,?,?,?,?)", (first_name, last_name, email, phone, message))
+        # fetch the last id from the database
+        last_id = database_cursor.execute("SELECT id FROM contact ORDER BY id DESC LIMIT 1")
+        last_id = last_id.fetchone()
+        if last_id == None:
+            last_id = 0
+        else:
+            last_id = last_id[0]
+        date = datetime.today().strftime("%Y-%m-%d")
+        database_cursor.execute("INSERT INTO contact VALUES (?,?,?,?,?,?,?)",(first_name,last_name,email,phone,message,last_id+1,date))
         send_contact_mail(first_name+" "+last_name,email,message)
         database_connection.commit()
         database_connection.close()
@@ -2105,11 +2113,11 @@ def contactFeed():
     if 'user' in session:
         database_connection = sqlite3.connect(database_location)
         database_cursor = database_connection.cursor()
-        contacts = database_cursor.execute("SELECT * FROM contact")
+        contacts = database_cursor.execute("SELECT id,date,first_name,last_name,email_ID,phone,message FROM contact ORDER BY id DESC")
         contacts = contacts.fetchall()
         database_connection.commit()
         database_connection.close()
-        contact_csv = [["First Name","Last Name","Email ID","Phone","Message"]]
+        contact_csv = [["ID","Date","First Name","Last Name","Email ID","Phone","Message"]]
         for contact in contacts:
             contact_csv.append(list(contact))
         np.savetxt(os.path.join(CONTACT_REPORT,"contact.csv"),contact_csv,delimiter =", ", fmt ='% s')
