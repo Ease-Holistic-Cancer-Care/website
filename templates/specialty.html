@@ -30,14 +30,14 @@
             <div class="specialty_disease py-5 px-lg-4 px-md-4">
                 <div class="row row_disease">
                     {% for specialty in specialties %}
-                    <div class="col-lg-4 col-md-6 col-sm-12 d-block position-relative m-auto " style="cursor: pointer;"
+                    <div class="col-xl-4 col-lg-6 d-block position-relative" style="cursor: pointer;"
                         onclick="window.location.href='/diseases/'">
                         {% if specialty[0] == 1 %}
                         <img src="../static/images/elements/Group 33957.png" class="specialty_ele_1" alt="">
                         {% elif specialty[0] == specialties|length %}
                         <img src="../static/images/elements/Group 33957.png" class="specialty_ele_2" alt="">
                         {% endif %}
-                        <div class="card card_disease mb-4 p-lg-4 p-md-4 p-sm-4 p-4">
+                        <div class="card card_disease mb-4 p-lg-4 p-md-4 p-sm-4 p-4" style="min-height: 360px;">
                             <img src="{{specialty[3]}}" class="" alt="appendix icon">
                             <div class="disease_content">
                                 <h3>{{specialty[1]}}</h3>
