@@ -175,10 +175,23 @@
         {% for stat in statistics %}
         <div class="col-lg-3 col-md-6 px-4" style="position: relative;" data-aos="fade-up" data-aos-duration="1000">
           <div class="statistics_card">
-            <h3>{{stat[1]}}</h3>
+            <h3 id="statistics_number_{{loop.index}}">{{stat[1]}}</h3>
             <p>{{stat[0]}}</p>
           </div>
         </div>
+        <script>
+          let counts_{{ loop.index }} = setInterval(updated,5);
+          let upto_{{ loop.index }} = 0;
+          function updated() {
+            var count = document.getElementById("statistics_number_{{loop.index}}");
+            count.innerHTML = upto_{{ loop.index }} + 5;
+            upto_{{ loop.index }} += 5;
+            if (upto_{{ loop.index }} === parseInt("{{stat[1]}}".replace(/\D/g, ''))) {
+              clearInterval(counts_{{ loop.index }});
+            }
+            count.innerHTML = count.innerHTML + "+";
+          }
+        </script>
         {% endfor %}
 
       </div>
