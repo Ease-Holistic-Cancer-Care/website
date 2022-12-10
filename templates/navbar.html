@@ -1,5 +1,5 @@
 <!-- navbar -->
-<div class="fixed-top">
+<div class="fixed-top" style="z-index: 99;">
     <div id="top_navbar" class="py-2">
         <div class="container-fluid px-4">
             <div class="row align-items-center">
@@ -51,7 +51,7 @@
                                     &raquo;</a>
                                 <ul class="dropdown-menu submenu">
                                     {% for disease in navbar_diseases %}
-                                    {% if disease[0] == specialty[0] %}
+                                    {% if disease[2] == specialty[0] %}
                                     <li><a href="/disease/{{disease[0]}}/" class="dropdown-item">{{disease[1]}}</a></li>
                                     {% endif %}
                                     {% endfor %}

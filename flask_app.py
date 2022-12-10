@@ -13,6 +13,8 @@ import git
 #Initialize Flask App
 app = Flask(__name__)
 app.secret_key = 'super secret key'
+app.jinja_env.add_extension('jinja2.ext.loopcontrols')
+app.config.from_object(__name__)
 
 #social media links
 database_connection = sqlite3.connect(database_location)
@@ -25,7 +27,7 @@ navbar_specialties = database_cursor.execute("SELECT id,name FROM specialty")
 navbar_specialties = navbar_specialties.fetchall()
 
 # diseases
-navbar_diseases = database_cursor.execute("SELECT id,title FROM diseases")
+navbar_diseases = database_cursor.execute("SELECT id,title,specialty_id FROM diseases")
 navbar_diseases = navbar_diseases.fetchall()
 
 database_connection.commit()
@@ -740,6 +742,16 @@ def addSpecialty():
             illustration_filename = "specialty_"+str(last_id+1)+"."+illustration.filename.split('.')[1]
             illustration.save(os.path.join(SPECIALTY_FOLDER,illustration_filename))
             database_cursor.execute("INSERT INTO specialty VALUES (?,?,?,?)", (last_id+1,name,description,"../../static/images/illustrations/specialty/"+illustration_filename))
+            # specialties
+            global navbar_specialties 
+            navbar_specialties = database_cursor.execute("SELECT id,name FROM specialty")
+            navbar_specialties = navbar_specialties.fetchall()
+
+            # diseases
+            global navbar_diseases 
+            navbar_diseases = database_cursor.execute("SELECT id,title,specialty_id FROM diseases")
+            navbar_diseases = navbar_diseases.fetchall()
+
             database_connection.commit()
             database_connection.close()
             return render_template('addSpecialty.html', social_links=social_links, message="Specialty Added Successfully", navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
@@ -860,6 +872,15 @@ def modifyDisease():
             database_cursor.execute("INSERT INTO disease_treatment VALUES (?,?,?)", (disease_id,disease_treatment_type2,disease_treatment_description2))
             diseases = database_cursor.execute("SELECT id,title FROM diseases")
             diseases = diseases.fetchall()
+            # specialties
+            global navbar_specialties 
+            navbar_specialties = database_cursor.execute("SELECT id,name FROM specialty")
+            navbar_specialties = navbar_specialties.fetchall()
+
+            # diseases
+            global navbar_diseases 
+            navbar_diseases = database_cursor.execute("SELECT id,title,specialty_id FROM diseases")
+            navbar_diseases = navbar_diseases.fetchall()
             database_connection.commit()
             database_connection.close()
             return render_template('modifyDisease.html', diseases=diseases, social_links=social_links, specialties=specialties, doctors=doctors, message="Disease modified Successfully",navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
@@ -942,6 +963,15 @@ def addDisease():
             database_cursor.execute("INSERT INTO disease_severity VALUES (?,?,?)", (last_id+1,disease_severity_type2,disease_severity_description2))
             database_cursor.execute("INSERT INTO disease_treatment VALUES (?,?,?)", (last_id+1,disease_treatment_type1,disease_treatment_description1))
             database_cursor.execute("INSERT INTO disease_treatment VALUES (?,?,?)", (last_id+1,disease_treatment_type2,disease_treatment_description2))
+            # specialties
+            global navbar_specialties 
+            navbar_specialties = database_cursor.execute("SELECT id,name FROM specialty")
+            navbar_specialties = navbar_specialties.fetchall()
+
+            # diseases
+            global navbar_diseases 
+            navbar_diseases = database_cursor.execute("SELECT id,title,specialty_id FROM diseases")
+            navbar_diseases = navbar_diseases.fetchall()
             database_connection.commit()
             database_connection.close()
             return render_template('addDisease.html', social_links=social_links, specialties=specialties, doctors=doctors, message="Disease Added Successfully",navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
@@ -1348,7 +1378,6 @@ def modifyHome():
             return render_template('modifyHome.html', social_links = social_links, faqs=faqs, about=about, carousel_data = carousel_data, statistics=statistics, message = None, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
     return redirect(url_for('patientLogin'))
             
-
 @app.route('/modifySpecialty/', methods=['GET', 'POST'])
 def modifySpecialty():
     if 'user' in session and session["user_type"] == "admin":
@@ -1369,18 +1398,33 @@ def modifySpecialty():
                 specialty_illustration = specialty_illustration.fetchone()[0]
                 database_cursor.execute("UPDATE specialty SET name=?, description=? WHERE id=?;", (specialty_name, specialty_description, specialty_id))
             specialty_main = database_cursor.execute("SELECT * FROM specialty")
-            specialty_main = specialty_main.fetchall() 
+            specialty_main = specialty_main.fetchall()
+            # specialties
+            global navbar_specialties 
+            navbar_specialties = database_cursor.execute("SELECT id,name FROM specialty")
+            navbar_specialties = navbar_specialties.fetchall()
+
+            # diseases
+            global navbar_diseases 
+            navbar_diseases = database_cursor.execute("SELECT id,title,specialty_id FROM diseases")
+            navbar_diseases = navbar_diseases.fetchall()
             database_connection.commit()
             database_connection.close()
             return render_template('modifySpecialty.html', specialty_main=specialty_main, message = "Specialty updated successfully.", navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
         specialty_main = database_cursor.execute("SELECT * FROM specialty")
-        specialty_main = specialty_main.fetchall() 
+        specialty_main = specialty_main.fetchall()
+        # specialties
+        navbar_specialties = database_cursor.execute("SELECT id,name FROM specialty")
+        navbar_specialties = navbar_specialties.fetchall()
+
+        # diseases
+        navbar_diseases = database_cursor.execute("SELECT id,title,specialty_id FROM diseases")
+        navbar_diseases = navbar_diseases.fetchall()
         database_connection.commit()
         database_connection.close()
         return render_template('modifySpecialty.html', specialty_main=specialty_main, message = None, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
     return redirect(url_for('patientLogin'))
         
-
 @app.route("/modifyTestimonial/", methods=['GET', 'POST'])
 def modifyTestimonial():
     if 'user' in session and session["user_type"] == "admin":
@@ -1472,7 +1516,6 @@ def addCarousel():
         return render_template("addCarousel.html", message = None, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
     return redirect(url_for('patientLogin'))
               
-
 @app.route("/deleteCarousel/<string:carousel_id>/")
 def deleteCarousel(carousel_id):
     if 'user' in session and session["user_type"] == "admin":
@@ -1497,7 +1540,6 @@ def deleteStatistic(statistic_id):
         database_connection.close()
         return redirect(url_for('modifyHome'))
     return redirect(url_for('patientLogin'))
-
 
 @app.route("/deleteFAQ/<string:faq_id>/")
 def deleteFAQ(faq_id):
@@ -2036,8 +2078,14 @@ def deleteSpecialty():
             database_cursor.execute("DELETE FROM diseases WHERE specialty_id = ?", (int(specialty_id),))
             specialty_main = database_cursor.execute("SELECT * FROM specialty")
             specialty_main = specialty_main.fetchall() 
+            global navbar_specialties 
             navbar_specialties = database_cursor.execute("SELECT id,name FROM specialty")
             navbar_specialties = navbar_specialties.fetchall()
+
+            # diseases
+            global navbar_diseases
+            navbar_diseases = database_cursor.execute("SELECT id,title,specialty_id FROM diseases")
+            navbar_diseases = navbar_diseases.fetchall()
             database_connection.commit()
             database_connection.close()
             return render_template("deleteTestimonial.html", specialty_main = specialty_main, message = "Specialty and its diseases Deleted successfully", social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
@@ -2123,6 +2171,7 @@ def contactFeed():
         np.savetxt(os.path.join(CONTACT_REPORT,"contact.csv"),contact_csv,delimiter =", ", fmt ='% s')
         return render_template("contactFeed.html", contacts = contacts, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
     return redirect(url_for('patientLogin'))
+
 #error handling
 @app.errorhandler(404)
 def not_found(e):
