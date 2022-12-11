@@ -17,7 +17,6 @@ $("#blog_id").on('change', function () {
     if (data[2].length == 1) {
         data[2] = data[2][0].split('\\n\\n')
     }
-    console.log(data)
     document.getElementById("blog_title").value = data[0];
     document.getElementById("blog_description").innerText = data[1];
     document.getElementById("blog_content").value = "";

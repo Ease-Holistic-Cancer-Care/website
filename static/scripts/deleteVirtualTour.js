@@ -11,7 +11,6 @@ $("#virtual_tour_id").on('change', function () {
     var domain = url.split('/')[0] + "//" + url.split('/')[2] + "/";
     data = httpGet(domain + "getVirtualTour/" + String(id) + "/");
     data = data.split('", "');
-    console.log(data);
     data[data.length - 1] = data[data.length - 1].replaceAll('\"]', "")
     data[0] = data[0].replaceAll('[\"', "")
 

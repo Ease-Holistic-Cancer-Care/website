@@ -155,10 +155,8 @@ def disease(id):
     disease_severity = disease_severity.fetchall()
     disease_faq = database_cursor.execute("SELECT * FROM disease_faq WHERE disease_id = ?",(int(id),))
     disease_faq = disease_faq.fetchall()
-    print(disease_data)
     doctors = disease_data[5].split(',')
     doctors_data = []
-    print(doctors)
     for doctor in doctors:
         doctor_data = database_cursor.execute("SELECT * FROM doctors WHERE id = ?",(int(doctor),))
         doctor_data = doctor_data.fetchone()

@@ -13,7 +13,6 @@ $("#disease_id").on('change', function () {
     var domain = url.split('/')[0] + "//" + url.split('/')[2] + "/";
     data = httpGet(domain + "getDiseaseFAQ/" + String(id) + "/");
     data = JSON.parse(data);
-    console.log(data);
     for (i = 0; i < data.length; i++) {
         questions.push(data[i][0]);
         answers.push(data[i][1]);

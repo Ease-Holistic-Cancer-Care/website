@@ -196,7 +196,6 @@
                         var domain = url.split('/')[0] + "//" + url.split('/')[2] + "/";
                         data = httpGet(domain + "getDoctor/" + String(doctor_id) + "/");
                         data = JSON.parse(data);
-                        console.log(data);
                         document.getElementById("appointment_doctor_" + String("{{ appointment[8] }}")).innerText = data[0];
                     </script>
                     <div class="col-lg-1">

@@ -11,7 +11,6 @@ $("#doctor_id").on('change', function () {
     var domain = url.split('/')[0] + "//" + url.split('/')[2] + "/";
     data = httpGet(domain + "getDoctor/content/" + String(id) + "/");
     data = JSON.parse(data);
-    console.log(data);
     document.getElementById("doctor_name").value = data[0][1];
     document.getElementById("doctor_current_appointment").value = data[0][2];
     document.getElementById("doctor_image_preview").src = data[0][3];
@@ -25,7 +24,6 @@ $("#doctor_id").on('change', function () {
         document.getElementById("doctor_year" + String(i + 1)).value = data[2][i][3];
     }
     for (var i = 0; i < data[3].length; i++) {
-        console.log(data[3][i][1]);
         document.getElementById("doctor_organization" + String(i + 1)).value = data[3][i][1];
         document.getElementById("doctor_experience_from_year" + String(i + 1)).value = data[3][i][2];
         document.getElementById("doctor_experience_to_year" + String(i + 1)).value = data[3][i][3];
