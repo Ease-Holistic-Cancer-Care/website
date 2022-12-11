@@ -1468,6 +1468,8 @@ def getTestimonial(id):
         database_connection.commit()
         database_connection.close()
         return json_data
+    database_connection.commit()
+    database_connection.close()
     return "No data found"
 
 @app.route("/deleteTestimonial/",methods=["POST","GET"])
@@ -1764,6 +1766,8 @@ def getVirtualTour(id):
         database_connection.commit()
         database_connection.close()
         return json_data
+    database_connection.commit()
+    database_connection.close()
     return "No data found"
 
 @app.route("/deleteBlog/", methods=["POST","GET"])
@@ -1801,6 +1805,8 @@ def getBlog(id):
         database_connection.commit()
         database_connection.close()
         return json_data
+    database_connection.commit()
+    database_connection.close()
     return "No data found"
 
 @app.route("/getBlogContent/<string:id>/")
@@ -1815,6 +1821,8 @@ def getBlogContent(id):
         database_connection.commit()
         database_connection.close()
         return json_data
+    database_connection.commit()
+    database_connection.close()
     return "No data found"
 
 @app.route("/deleteNews/",methods=["POST","GET"])
@@ -1854,6 +1862,8 @@ def getNews(id):
         database_connection.commit()
         database_connection.close()
         return json_data
+    database_connection.commit()
+    database_connection.close()
     return "No data found"
 
 @app.route("/deleteAward/",methods=["POST","GET"])
@@ -1888,6 +1898,8 @@ def getAward(id):
         database_connection.commit()
         database_connection.close()
         return json_data
+    database_connection.commit()
+    database_connection.close()
     return "No data found"
 
 @app.route("/deleteDoctor/", methods=["POST","GET"])
@@ -1928,6 +1940,8 @@ def getDoctor(id):
         database_connection.commit()
         database_connection.close()
         return json_data
+    database_connection.commit()
+    database_connection.close()
     return "No data found"
 
 @app.route("/deleteDisease/",methods=["POST","GET"])
@@ -1985,6 +1999,8 @@ def getDisease(id):
         database_connection.commit()
         database_connection.close()
         return json_data
+    database_connection.commit()
+    database_connection.close()
     return "No data found"
 
 @app.route("/getDisease/content/<string:id>/")
@@ -2023,6 +2039,8 @@ def getDiseaseContent(id):
         database_connection.commit()
         database_connection.close()
         return json_data
+    database_connection.commit()
+    database_connection.close()
     return "No data found"
 
 @app.route("/getDoctor/content/<string:id>/")
@@ -2048,6 +2066,8 @@ def getDoctorContent(id):
         database_connection.commit()
         database_connection.close()
         return json_data
+    database_connection.commit()
+    database_connection.close()
     return "No data found"
 
 @app.route("/deleteSpecialty/",methods=["POST","GET"])
@@ -2110,6 +2130,8 @@ def getSpecialty(id):
         database_connection.commit()
         database_connection.close()
         return json_data
+    database_connection.commit()
+    database_connection.close()
     return "No data found"
 
 @app.route("/addDiseaseFAQ/", methods = ["POST","GET"])
@@ -2173,6 +2195,47 @@ def contactFeed():
         return render_template("contactFeed.html", contacts = contacts, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
     return redirect(url_for('patientLogin'))
 
+@app.route("/modifyDiseaseFAQ/",methods=["POST","GET"])
+def modifyDiseaseFAQ():
+    if 'user' in session and session["user_type"] == "admin":
+        database_connection = sqlite3.connect(database_location)
+        database_cursor = database_connection.cursor()
+        if request.method == "POST":
+            disease_id = request.form["disease_id"]
+            old_question = request.form["faq_question_select"]
+            question = request.form["faq_question"]
+            answer = request.form["faq_answer"]
+            database_cursor.execute("UPDATE disease_faq SET answer = ?, question = ? WHERE disease_id = ? AND question = ?",(answer,question,disease_id,old_question))
+            diseases = database_cursor.execute("SELECT id, title FROM diseases")
+            diseases = diseases.fetchall()
+            database_connection.commit()
+            database_connection.close()
+            return render_template("modifyDiseaseFAQ.html",diseases=diseases, message = "FAQ Modified Successfully", social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+        diseases = database_cursor.execute("SELECT id, title FROM diseases")
+        diseases = diseases.fetchall()
+        database_connection.commit()
+        database_connection.close()
+        return render_template("modifyDiseaseFAQ.html",diseases=diseases, message = None, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+    return redirect(url_for('patientLogin'))
+
+# @app.route("/getDiseaseFAQ/content/<string:disease_id>/<string:question>/")
+# def getDiseaseFAQContent(disease_id,question):
+#     if 'user' in session and session["user_type"] == "admin":
+#         database_connection = sqlite3.connect(database_location)
+#         database_cursor = database_connection.cursor()
+#         faq = database_cursor.execute("SELECT question,answer FROM disease_faq WHERE disease_id = ? AND question = ?",(disease_id,question))
+#         faq = faq.fetchone()
+#         if faq is not None:
+#             faq = list(faq)
+#             json_data = json.dumps(faq)
+#             database_connection.commit()
+#             database_connection.close()
+#             return json_data
+#         database_connection.commit()
+#         database_connection.close()
+#         return "No FAQ Found"
+            
+
 @app.route('/deleteDiseaseFAQ/',methods=["POST","GET"])
 def deleteDiseaseFAQ():
     if 'user' in session and session["user_type"] == "admin":
@@ -2182,9 +2245,11 @@ def deleteDiseaseFAQ():
             disease_id = request.form["disease_id"]
             question = request.form["faq_question"]
             database_cursor.execute("DELETE FROM disease_faq WHERE disease_id = ? AND question = ?",(disease_id,question))
+            diseases = database_cursor.execute("SELECT id, title FROM diseases")
+            diseases = diseases.fetchall()
             database_connection.commit()
             database_connection.close()
-            return render_template("deleteDiseaseFAQ.html", message = "FAQ Deleted Successfully", social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+            return render_template("deleteDiseaseFAQ.html",diseases=diseases, message = "FAQ Deleted Successfully", social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
         diseases = database_cursor.execute("SELECT id, title FROM diseases")
         diseases = diseases.fetchall()
         database_connection.commit()
@@ -2205,6 +2270,8 @@ def getDiseaseFAQ(id):
             database_connection.commit()
             database_connection.close()
             return json_data
+        database_connection.commit()
+        database_connection.close()
         return "No data found"
 
 @app.route("/comingSoon/")

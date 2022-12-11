@@ -79,8 +79,8 @@
                 <div class="col-12">
                     <form action="/deleteDiseaseFAQ/" method="post">
                         <div class="mb-3">
-                            <label for="disease_id" class="form-label">Select News</label>
-                            <select id="disease_id" name="disease_id" class="form-select" required>
+                            <label for="disease_id" class="form-label">Select Disease</label>
+                            <select id="disease_id" name="disease_id" class="form-select" required style="width: 100%;">
                                 <option value="" selected disabled hidden>
                                     Select Disease
                                 </option>
@@ -92,7 +92,7 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="faq_question" class="form-label">Select News</label>
+                            <label for="faq_question" class="form-label">Select FAQ</label>
                             <select id="faq_question" name="faq_question" class="form-select" required>
                                 <option value="" selected disabled hidden>
                                     Select FAQ
@@ -100,7 +100,7 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="faq_answer" class="form-label">Title</label>
+                            <label for="faq_answer" class="form-label">Answer</label>
                             <input type="text" class="form-control" id="faq_answer" name="faq_answer" required readonly
                                 disabled>
                         </div>
@@ -136,3 +136,5 @@
     </script>
 
 </body>
+
+</html>
