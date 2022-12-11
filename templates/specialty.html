@@ -32,9 +32,10 @@
                     {% for specialty in specialties %}
                     <div class="col-xl-4 col-lg-6 d-block position-relative" style="cursor: pointer;"
                         onclick="window.location.href='/diseases/'">
-                        {% if specialty[0] == 1 %}
+                        {% if loop.index == 1 %}
                         <img src="../static/images/elements/Group 33957.png" class="specialty_ele_1" alt="">
-                        {% elif specialty[0] == specialties|length %}
+                        {% endif %}
+                        {% if loop.index == (specialties|length) %}
                         <img src="../static/images/elements/Group 33957.png" class="specialty_ele_2" alt="">
                         {% endif %}
                         <div class="card card_disease mb-4 p-lg-4 p-md-4 p-sm-4 p-4" style="min-height: 360px;">

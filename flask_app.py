@@ -829,7 +829,7 @@ def modifyDisease():
             disease_diagnosis_type1 = request.form['disease_diagnosis_type1']
             disease_diagnosis_description1 = request.form['disease_diagnosis_description1']
             disease_diagnosis_type2 = request.form['disease_diagnosis_type2']
-            disease_description2 = request.form['disease_diagnosis_description1']
+            disease_description2 = request.form['disease_diagnosis_description2']
             disease_severity_type1 = request.form['disease_severity_type1']
             disease_severity_description1 = request.form['disease_severity_description1']
             disease_severity_type2 = request.form['disease_severity_type2']
@@ -1943,6 +1943,7 @@ def deleteDisease():
             database_cursor.execute("DELETE FROM disease_severity WHERE disease_id = ?", (disease_id,))
             database_cursor.execute("DELETE FROM disease_diagnosis WHERE disease_id = ?", (disease_id,))
             database_cursor.execute("DELETE FROM disease_causes WHERE disease_id = ?", (disease_id,))
+            database_cursor.execute("DELETE FROM disease_faq WHERE disease_id = ?", (disease_id,))
             types_images = database_cursor.execute("SELECT image FROM disease_types WHERE disease_id = ?", (disease_id,)).fetchall()
             for i in types_images:
                 os.remove(os.path.join(THIS_FOLDER,i[0].replace("../../","")))
@@ -2172,10 +2173,48 @@ def contactFeed():
         return render_template("contactFeed.html", contacts = contacts, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
     return redirect(url_for('patientLogin'))
 
+@app.route('/deleteDiseaseFAQ/',methods=["POST","GET"])
+def deleteDiseaseFAQ():
+    if 'user' in session and session["user_type"] == "admin":
+        database_connection = sqlite3.connect(database_location)
+        database_cursor = database_connection.cursor()
+        if request.method == "POST":
+            disease_id = request.form["disease_id"]
+            question = request.form["faq_question"]
+            database_cursor.execute("DELETE FROM disease_faq WHERE disease_id = ? AND question = ?",(disease_id,question))
+            database_connection.commit()
+            database_connection.close()
+            return render_template("deleteDiseaseFAQ.html", message = "FAQ Deleted Successfully", social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+        diseases = database_cursor.execute("SELECT id, title FROM diseases")
+        diseases = diseases.fetchall()
+        database_connection.commit()
+        database_connection.close()
+        return render_template("deleteDiseaseFAQ.html",diseases=diseases, message = None, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+    return redirect(url_for('patientLogin'))
+
+@app.route("/getDiseaseFAQ/<string:id>/")
+def getDiseaseFAQ(id):
+    if 'user' in session and session["user_type"] == "admin":
+        database_connection = sqlite3.connect(database_location)
+        database_cursor = database_connection.cursor()
+        disease_faq = database_cursor.execute("SELECT question, answer FROM disease_faq WHERE disease_id = ?",(id,))
+        disease_faq = disease_faq.fetchall()
+        if disease_faq is not None:
+            disease_faq = list(disease_faq)
+            json_data = json.dumps(disease_faq)
+            database_connection.commit()
+            database_connection.close()
+            return json_data
+        return "No data found"
+
+@app.route("/comingSoon/")
+def comingSoon():
+    return render_template('comingSoon.html',social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+
 #error handling
 @app.errorhandler(404)
 def not_found(e):
-  return render_template("404.html")
+  return render_template("404.html",social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
 
 #webhook for git pull
 @app.route("/gitUpdate/", methods=["POST"])

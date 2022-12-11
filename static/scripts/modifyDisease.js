@@ -33,12 +33,20 @@ $("#disease_id").on('change', function () {
         document.getElementById("disease_type_image_preview" + String(i + 1)).src = data[2][i][3]
     }
     var causes = "";
-    for (var i = 0; i < data[3].length; i++)
-        causes += data[3][i][1] + ";";
+    for (var i = 0; i < data[3].length; i++) {
+        if (i != data[3].length - 1)
+            causes += data[3][i][1] + ";";
+        else
+            causes += data[3][i][1];
+    }
     document.getElementById("disease_causes").value = causes;
     symptoms = "";
-    for (var i = 0; i < data[4].length; i++)
-        symptoms += data[4][i][1] + ";";
+    for (var i = 0; i < data[4].length; i++) {
+        if (i != data[4].length - 1)
+            symptoms += data[4][i][1] + ";";
+        else
+            symptoms += data[4][i][1];
+    }
     document.getElementById("disease_symptoms").value = symptoms;
 
     for (var i = 0; i < data[5].length; i++) {
