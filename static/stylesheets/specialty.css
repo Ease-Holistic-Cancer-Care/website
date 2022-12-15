@@ -16,7 +16,7 @@
     height: auto;
     margin: 10px 20px;
     position: relative;
-    z-index: 100;
+    z-index: 50;
     box-shadow: 5px 5px 12px #8d8d8d8d;
 }
 

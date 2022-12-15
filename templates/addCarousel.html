@@ -70,34 +70,12 @@
                 <div class="col-12">
                     <form action="/addCarousel/" method="post" enctype="multipart/form-data">
                         <div class="mb-3">
-                            <label for="carousel_heading" class="form-label">
-                                <b>Carousel Heading</b>
-                                <small>(Max characters: 50)</small>
-                            </label>
-                            <input type="text" class="form-control" id="carousel_heading" name="carousel_heading"
-                                maxlength="50" required placeholder="Enter Carousel Heading">
-                        </div>
-                        <div class="mb-3">
-                            <label for="carousel_description" class="form-label">
-                                <b>Carousel Description</b>
-                                <small>(Max characters: 100)</small>
-                            </label>
-                            <textarea class="form-control" id="carousel_description" name="carousel_description"
-                                maxlength="100" rows="3" required placeholder="Enter Carousel Description"></textarea>
-                        </div>
-                        <div class="mb-3">
                             <label for="carousel_image" class="form-label">
                                 <b>Carousel Image</b>
                                 <small>(Max size: 2MB)</small>
                             </label>
                             <input class="form-control" type="file" id="carousel_image" name="carousel_image" required
                                 accept="image/*">
-                        </div>
-                        <div class="mb-3">
-                            <label for="carousel_color" class="form-label">
-                                <b>Carousel Background Color</b>
-                            </label>
-                            <input class="form-control" type="color" id="carousel_color" name="carousel_color" required>
                         </div>
                         <div class="mb-3">
                             <button class="btn btn-primary" type="submit" id="submit">Add</button>

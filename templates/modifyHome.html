@@ -70,8 +70,13 @@
             <div class="row">
                 <div class="col-12">
                     <form action="/modifyHome/" method="post" enctype='multipart/form-data'>
-                        <h3>
+                        <h3 style="display: flex; justify-content: space-between; align-items: center;">
                             Carousel
+                            <small class="text-success" style="font-size: 18px;">
+                                <a href="/addCarousel/">
+                                    + Add Carousel
+                                </a>
+                            </small>
                         </h3>
                         <hr style="border: 1px solid var(--primary-color)">
                         {% for i in range(carousel_data|length) %}
@@ -79,28 +84,15 @@
                             Carousel {{i+1}}
                         </h5>
                         <div class="mb-3">
-                            <label for="carousel_heading_{{carousel_data[i][3]}}" class="form-label">Heading</label>
-                            <small>(Max characters: 50)</small>
-                            <input type="text" class="form-control" id="carousel_heading_{{carousel_data[i][3]}}"
-                                maxlength="50" name="carousel_heading_{{carousel_data[i][3]}}"
-                                value="{{carousel_data[i][0]}}" required>
-                            <label for="carousel_description_{{carousel_data[i][3]}}"
-                                class="form-label">Description</label>
-                            <small>(Max characters: 100)</small>
-                            <input type="text" class="form-control" id="carousel_description_{{carousel_data[i][3]}}"
-                                maxlength="100" name="carousel_description_{{carousel_data[i][3]}}"
-                                value="{{carousel_data[i][1]}}" required>
-                            <label for="carousel_image_{{carousel_data[i][3]}}" class="form-label">Image</label>
+                            <label for="carousel_image_{{carousel_data[i][1]}}" class="form-label">Image</label>
                             <small>(Max size: 500KB)</small>
-                            <input type="file" class="form-control" id="carousel_image_{{carousel_data[i][3]}}"
-                                name="carousel_image_{{carousel_data[i][3]}}" accept=".jpg, .png, .jpeg">
-                            <label for="carousel_color_{{carousel_data[i][3]}}" class="form-label">Background
-                                Color</label>
-                            <input type="color" class="form-control" id="carousel_color_{{carousel_data[i][3]}}"
-                                name="carousel_color_{{carousel_data[i][3]}}" value="#{{carousel_data[i][4]}}">
+                            <input type="file" class="form-control" id="carousel_image_{{carousel_data[i][1]}}"
+                                name="carousel_image_{{carousel_data[i][1]}}" accept=".jpg, .png, .jpeg">
+                            <img src="{{carousel_data[i][0]}}" class="w-25 mt-2">
                             {% if carousel_data|length != 1 %}
+                            <br>
                             <button type="button" class="btn btn-danger mt-2"
-                                onclick="deleteCarousel({{carousel_data[i][3]}})">Delete
+                                onclick="deleteCarousel({{carousel_data[i][1]}})">Delete
                                 Carousel {{i+1}}</button>
                             {% endif %}
                         </div>

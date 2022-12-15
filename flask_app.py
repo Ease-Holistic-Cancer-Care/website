@@ -1286,28 +1286,22 @@ def modifyHome():
         if request.method == 'POST':
             #carousel
             carousel_items = database_cursor.execute("SELECT id FROM home_carousel")
-            carousel_items = carousel_items.fetchone()
+            carousel_items = carousel_items.fetchall()
             carousel = []
             for i in range(len(carousel_items)):
                 temp = []
-                carousel_heading = request.form['carousel_heading_'+str(carousel_items[i])]
-                carousel_description = request.form['carousel_description_'+str(carousel_items[i])]
-                carousel_image = request.files['carousel_image_'+str(carousel_items[i])]
-                carousel_color = (request.form['carousel_color_'+str(carousel_items[i])]).replace("#","")
-                temp.append(carousel_heading)
-                temp.append(carousel_description)
+                carousel_image = request.files['carousel_image_'+str(carousel_items[i][0])]
+                print(i)
+                temp.append(str(carousel_items[i]))
                 if carousel_image.filename != '':
-                    image_filename = "carousel_"+str(carousel_items[i])+"."+carousel_image.filename.split('.')[1]
+                    image_filename = "Carousel_"+str(carousel_items[i][0])+"."+carousel_image.filename.split('.')[1]
                     carousel_image.save(os.path.join(HOME_CAROUSEL_FOLDER,image_filename))
                     temp.append("../../static/images/Homepage/"+image_filename)
-                temp.append(carousel_color)
                 carousel.append(temp)
                 
             for i in range(len(carousel_items)):
-                if len(carousel[i]) == 4:
-                    database_cursor.execute("UPDATE home_carousel SET heading=?, description=?, image = ?, color? WHERE id=?;", (carousel[i][0], carousel[i][1], carousel[i][2],carousel[i][3], carousel_items[i]))
-                else:
-                    database_cursor.execute("UPDATE home_carousel SET heading=?, description=?, color=? WHERE id=?;", (carousel[i][0], carousel[i][1],carousel[i][2], carousel_items[i]))
+                if len(carousel[i]) == 2:
+                    database_cursor.execute("UPDATE home_carousel SET image = ? WHERE id=?;", (carousel[i][1], carousel_items[i][0]))
             #about
             about_heading = request.form['about_heading']
             about_description = request.form['about_description']
@@ -1495,10 +1489,7 @@ def deleteTestimonial():
 def addCarousel():
     if 'user' in session and session["user_type"] == "admin":
         if request.method == "POST":
-            heading = request.form["carousel_heading"]
-            description = request.form["carousel_description"]
             image = request.files["carousel_image"]
-            color = (request.form["carousel_color"]).replace("#","")
             # fetch the last id from the database
             database_connection = sqlite3.connect(database_location)
             database_cursor = database_connection.cursor()
@@ -1509,7 +1500,7 @@ def addCarousel():
                 last_id = last_id[0]
             image_filepath = "Carousel_"+ str(last_id+1) + "." + image.filename.split(".")[1]
             image.save(os.path.join(HOME_CAROUSEL_FOLDER,"Carousel_"+ str(last_id+1) + "." + image.filename.split(".")[1]))  
-            database_cursor.execute("INSERT INTO home_carousel VALUES (?,?,?,?,?)", (heading, description, "../../static/images/Homepage/"+image_filepath, last_id+1, color))
+            database_cursor.execute("INSERT INTO home_carousel VALUES (?,?)", ("../../static/images/Homepage/"+image_filepath, last_id+1))
             database_connection.commit()
             database_connection.close()
             return render_template("addCarousel.html", message = "Carousel added successfully", social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)

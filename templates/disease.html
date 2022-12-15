@@ -36,7 +36,17 @@
         <div class="container h-100 mt-3">
             <div class="row align-items-center disease_title">
                 <h2 class="text-center pt-5">{{disease_data[1]}}</h2>
-                <p class="text-center">{{specialty_name}}/{{disease_data[1]}}</p>
+                <p class="text-center">
+                    <a href="/specialty/">
+                        Specialties
+                    </a> /
+                    <a href="/diseases/{{disease_data[2]}}/">
+                        {{specialty_name}}</a> /
+                    <span style="text-decoration: underline;">
+                        {{disease_data[1]}}
+                    </span>
+
+                </p>
             </div>
         </div>
     </header>
@@ -97,7 +107,7 @@
             </div>
             <div class="row pt-3 px-3 description4">
                 <div class="row align-items-center">
-                    <div class="col-lg-6 px-0">
+                    <div class="col-lg-6 g-0">
                         <div class="col-6 g-0 description_line1">
                             <strong>
                                 <h4>Causes</h4>
@@ -116,7 +126,7 @@
                         </ul>
                         </p>
                     </div>
-                    <div class="col-lg-6 px-0">
+                    <div class="col-lg-6 g-0">
                         <div class="col-6 g-0 description_line1">
                             <strong>
                                 <h4>Symptoms</h4>
@@ -136,13 +146,15 @@
                         </p>
                     </div>
                 </div>
-                <div class="row justify-content-end">
+                <div class="row align-items-end">
                     <div class="col-lg-4 col-8 g-0 description_line1 mt-3">
                         <strong>
                             <h4>Diagnosis</h4>
                         </strong>
                     </div>
                     <div class="col-lg-8 col-4 g-0 description_line2"></div>
+                </div>
+                <div class="row">
                     <div class="col-lg-8 pt-4">
                         {% for diagnosis in disease_diagnosis %}
                         {% if loop.index == 1 %}
@@ -173,13 +185,15 @@
                             style="border-radius: 15px;" />
                     </div>
                 </div>
-                <div class="row justify-content-end">
+                <div class="row align-items-end mt-3">
                     <div class="col-lg-4 col-8 g-0 description_line1">
                         <strong>
                             <h4>Severity</h4>
                         </strong>
                     </div>
                     <div class="col-lg-8 col-4 g-0 description_line2"></div>
+                </div>
+                <div class="row">
                     <div class="col-lg-8 pt-4">
                         {% for severity in disease_severity %}
                         {% if loop.index == 1 %}
