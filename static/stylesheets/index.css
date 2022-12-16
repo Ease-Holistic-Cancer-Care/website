@@ -156,7 +156,14 @@
 .card_testimonial {
   border-radius: 20px;
   width: auto;
-  min-height: 400px !important;
+  min-height: 435px !important;
+  max-height: 435px;
+}
+.card_testimonial p{
+  line-height: 25px;
+  max-height: 250px;
+  min-height: 250px;
+  overflow: hidden;
 }
 
 .slider {

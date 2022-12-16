@@ -1109,7 +1109,7 @@ def modifyVirtualTour():
             description = request.form['vt_description']
             image = request.files['vt_image']
             if image.filename != '':
-                last_vt_image = database_cursor.execute("SELECT image FROM virtual_tour WHERE id=?"(vt_id,))
+                last_vt_image = database_cursor.execute("SELECT image FROM virtual_tour WHERE id=?",(vt_id,))
                 last_vt_image = last_vt_image.fetchone()[0]
                 os.remove(os.path.join(THIS_FOLDER,last_vt_image.replace("../","")))
                 image_filename = "virtual_tour_"+str(vt_id)+"."+image.filename.split('.')[len(image.filename.split('.'))-1]
