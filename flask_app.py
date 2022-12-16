@@ -578,7 +578,7 @@ def uploadDocument(appointment_id):
     if 'user' in session and request.method == 'POST' and session["user_type"] == "admin":
         file = request.files['document']
         # set the file name to the appointment id
-        new_file_name = appointment_id +"."+ file.filename.split('.')[1]
+        new_file_name = appointment_id +"."+ file.filename.split('.')[len(file.filename.split('.'))-1]
         file.save(os.path.join(UPLOAD_FOLDER,new_file_name))
         database_connection = sqlite3.connect(database_location)
         database_cursor = database_connection.cursor()
@@ -656,7 +656,7 @@ def addDoctor():
                 last_id = 0
             else:
                 last_id = last_id[0]
-            doctor_image_filename = "doctor_"+str(last_id+1)+"."+doctor_image.filename.split('.')[1]
+            doctor_image_filename = "doctor_"+str(last_id+1)+"."+doctor_image.filename.split('.')[len(doctor_image.filename.split('.'))-1]
             doctor_image.save(os.path.join(DOCTOR_FOLDER,doctor_image_filename))
             database_cursor.execute("INSERT INTO doctors VALUES (?,?,?,?)", (last_id+1,doctor_name,doctor_current_appointment,"../../static/images/doctors/"+doctor_image_filename))
             database_cursor.execute("INSERT INTO doctor_profile VALUES (?,?,?,?,?,?)", (last_id+1,doctor_qualification,doctor_post_qualification, doctor_overseas_qualification, doctor_current_appointment, doctor_about))
@@ -698,7 +698,10 @@ def modifyDoctor():
                 temp.append(request.form['doctor_experience_to_year'+str(i+1)])
                 doctor_experience.append(temp)
             if doctor_image.filename != '':
-                doctor_image_filename = "doctor_"+str(doctor_id)+"."+doctor_image.filename.split('.')[1]
+                last_doctor_image_filename = database_cursor.execute("SELECT profile_image FROM doctors WHERE id=?",(doctor_id,))
+                last_doctor_image_filename = last_doctor_image_filename.fetchone()[0]
+                os.remove(os.path.join(THIS_FOLDER,last_doctor_image_filename.replace("../../","")))
+                doctor_image_filename = "doctor_"+str(doctor_id)+"."+doctor_image.filename.split('.')[len(doctor_image.filename.split('.'))-1]
                 doctor_image.save(os.path.join(DOCTOR_FOLDER,doctor_image_filename))
                 database_cursor.execute("UPDATE doctors SET name=?,current_appointment = ?,profile_image=? WHERE id=?", (doctor_name,doctor_current_appointment,"../../static/images/doctors/"+doctor_image_filename,doctor_id))
             else:
@@ -737,7 +740,7 @@ def addSpecialty():
                 last_id = 0
             else:
                 last_id = last_id[0]
-            illustration_filename = "specialty_"+str(last_id+1)+"."+illustration.filename.split('.')[1]
+            illustration_filename = "specialty_"+str(last_id+1)+"."+illustration.filename.split('.')[len(illustration.filename.split('.'))-1]
             illustration.save(os.path.join(SPECIALTY_FOLDER,illustration_filename))
             database_cursor.execute("INSERT INTO specialty VALUES (?,?,?,?)", (last_id+1,name,description,"../../static/images/illustrations/specialty/"+illustration_filename))
             # specialties
@@ -761,6 +764,9 @@ def modifyDisease():
     if 'user' in session and session["user_type"] == "admin":
         database_connection = sqlite3.connect(database_location)
         database_cursor = database_connection.cursor()
+        database_connection.close()
+        database_connection = sqlite3.connect(database_location)
+        database_cursor = database_connection.cursor()
         specialties = database_cursor.execute("SELECT id,name FROM specialty")
         specialties = specialties.fetchall()
         doctors = database_cursor.execute("SELECT id,name FROM doctors")
@@ -773,7 +779,10 @@ def modifyDisease():
 
             disease_illustration = request.files['disease_illustration']
             if disease_illustration.filename != "":
-                disease_illustration_filename = "disease_"+str(disease_id)+"."+disease_illustration.filename.split('.')[1]
+                last_disease_illustration = database_cursor.execute("SELECT illustration FROM diseases WHERE id = ?", (disease_id,))
+                last_disease_illustration = last_disease_illustration.fetchone()[0]
+                os.remove(os.path.join(THIS_FOLDER,last_disease_illustration.replace("../../","")))
+                disease_illustration_filename = "disease_"+str(disease_id)+"."+disease_illustration.filename.split('.')[len(disease_illustration.filename.split('.'))-1]
                 disease_illustration.save(os.path.join(DISEASES_ILLUSTRATION_FOLDER,disease_illustration_filename))
             else:
                 disease_illustration_filename = database_cursor.execute("SELECT illustration FROM diseases WHERE id = ?", (disease_id,))
@@ -785,7 +794,10 @@ def modifyDisease():
             # file
             main_image = request.files['main_image']
             if main_image.filename != "":
-                main_image_filename = "disease_img"+str(disease_id)+"."+main_image.filename.split('.')[1]
+                last_main_image = database_cursor.execute("SELECT main_image FROM diseases WHERE id = ?", (disease_id,))
+                last_main_image = last_main_image.fetchone()[0]
+                os.remove(os.path.join(THIS_FOLDER,last_main_image.replace("../../","")))
+                main_image_filename = "disease_img"+str(disease_id)+"."+main_image.filename.split('.')[len(main_image.filename.split('.'))-1]
                 main_image.save(os.path.join(DISEASES_FOLDER,main_image_filename))
             else:
                 main_image_filename = database_cursor.execute("SELECT main_image FROM diseases WHERE id = ?", (disease_id,))
@@ -801,8 +813,11 @@ def modifyDisease():
             
             # file
             disease_type_image1 = request.files['disease_type_image1']
+            last_disease_type_images = database_cursor.execute("SELECT image FROM disease_types WHERE disease_id = ?",(disease_id,))
+            last_disease_type_images = last_disease_type_images.fetchall()
             if disease_type_image1.filename != "":
-                disease_type_image1_filename = "disease_type_img1_"+str(disease_id)+"."+disease_type_image1.filename.split('.')[1]
+                os.remove(os.path.join(THIS_FOLDER,(last_disease_type_images[0][0]).replace("../../","")))
+                disease_type_image1_filename = "disease_type_img1_"+str(disease_id)+"."+disease_type_image1.filename.split('.')[len(disease_type_image1.filename.split('.'))-1]
                 disease_type_image1.save(os.path.join(DISEASES_FOLDER,disease_type_image1_filename))
             else:
                 disease_type_image1_filename = database_cursor.execute("SELECT image FROM disease_types WHERE disease_id = ?", (disease_id,))
@@ -815,7 +830,8 @@ def modifyDisease():
             # file
             disease_type_image2 = request.files['disease_type_image2']
             if disease_type_image2.filename != "":
-                disease_type_image2_filename = "disease_type_img2_"+str(disease_id)+"."+disease_type_image2.filename.split('.')[1]
+                os.remove(os.path.join(THIS_FOLDER,(last_disease_type_images[1][0]).replace("../../","")))
+                disease_type_image2_filename = "disease_type_img2_"+str(disease_id)+"."+disease_type_image2.filename.split('.')[len(disease_type_image2.filename.split('.'))-1]
                 disease_type_image2.save(os.path.join(DISEASES_FOLDER,disease_type_image2_filename))
             else:
                 disease_type_image2_filename = database_cursor.execute("SELECT image FROM disease_types WHERE disease_id = ?", (disease_id,))
@@ -936,13 +952,13 @@ def addDisease():
                 last_id = 0
             else:
                 last_id = last_id[0]
-            disease_illustration_filename = "disease_"+str(last_id+1)+"."+disease_illustration.filename.split('.')[1]
+            disease_illustration_filename = "disease_"+str(last_id+1)+"."+disease_illustration.filename.split('.')[len(disease_illustration.filename.split('.'))-1]
             disease_illustration.save(os.path.join(DISEASES_ILLUSTRATION_FOLDER,disease_illustration_filename))
-            main_image_filename = "disease_img"+str(last_id+1)+"."+main_image.filename.split('.')[1]
+            main_image_filename = "disease_img"+str(last_id+1)+"."+main_image.filename.split('.')[len(main_image.filename.split('.'))-1]
             main_image.save(os.path.join(DISEASES_FOLDER,main_image_filename))
-            disease_type_image1_filename = "disease_type_img1_"+str(last_id+1)+"."+disease_type_image1.filename.split('.')[1]
+            disease_type_image1_filename = "disease_type_img1_"+str(last_id+1)+"."+disease_type_image1.filename.split('.')[len(disease_type_image1.filename.split('.'))-1]
             disease_type_image1.save(os.path.join(DISEASES_FOLDER,disease_type_image1_filename))
-            disease_type_image2_filename = "disease_type_img2_"+str(last_id+1)+"."+disease_type_image2.filename.split('.')[1]
+            disease_type_image2_filename = "disease_type_img2_"+str(last_id+1)+"."+disease_type_image2.filename.split('.')[len(disease_type_image2.filename.split('.'))-1]
             disease_type_image2.save(os.path.join(DISEASES_FOLDER,disease_type_image2_filename))
             database_cursor.execute("INSERT INTO diseases VALUES (?,?,?,?,?,?,?)", (last_id+1,disease_title,specialty_id,disease_description,"../../static/images/illustrations/diseases/"+disease_illustration_filename,','.join(doctors_disease),"../../static/images/disease/"+main_image_filename))
             database_cursor.execute("INSERT INTO disease_profile VALUES (?,?,?)", (last_id+1,disease_profile_title1,disease_profile_content1))
@@ -993,7 +1009,7 @@ def addVirtualTour():
                 last_id = 0
             else:
                 last_id = last_id[0]
-            image_filename = "virtual_tour_"+str(last_id+1)+"."+image.filename.split('.')[1]
+            image_filename = "virtual_tour_"+str(last_id+1)+"."+image.filename.split('.')[len(image.filename.split('.'))-1]
             image.save(os.path.join(VIRTUAL_TOUR_FOLDER,image_filename))
             database_cursor.execute("INSERT INTO virtual_tour VALUES (?,?,?,?)", ("../static/images/virtual_tour/"+image_filename,title,description,last_id+1))
             database_connection.commit()
@@ -1014,7 +1030,7 @@ def modifyBLog():
             blog_image = request.files['blog_image_input']
             blog_content = request.form['blog_content']
             if blog_image.filename != '':
-                image_filename = "blog_"+str(blog_id)+"."+blog_image.filename.split('.')[1]
+                image_filename = "blog_"+str(blog_id)+"."+blog_image.filename.split('.')[len(blog_image.filename.split('.'))-1]
                 blog_image.save(os.path.join(BLOGS_FOLDER,image_filename))
                 database_cursor.execute("UPDATE blogs SET title = ?, description = ?, content = ?, image = ? WHERE id = ?", (blog_title,blog_description,blog_content,"../../static/images/blogs/"+image_filename,blog_id))
             else:
@@ -1049,14 +1065,14 @@ def modifyNews():
                 is_head = "no"
             if is_head == "yes":
                 if news_image.filename != '':
-                    image_filename = "head_news_"+str(news_id)+"."+news_image.filename.split('.')[1]
+                    image_filename = "head_news_"+str(news_id)+"."+news_image.filename.split('.')[len(news_image.filename.split('.'))-1]
                     news_image.save(os.path.join(HEAD_NEWS_FOLDER,image_filename))
                     database_cursor.execute("UPDATE news SET title = ?, description = ?, heading = ?, image = ?, headline = 'yes' WHERE id = ?", (news_title,news_description,news_heading,"../static/images/news/head_news/"+image_filename,news_id))
                 else:
                     database_cursor.execute("UPDATE news SET title = ?, description = ?, heading = ?, headline = 'yes' WHERE id = ?", (news_title,news_description,news_heading,news_id))
             else:
                 if news_image.filename != '':
-                    image_filename = "news_"+str(news_id)+"."+news_image.filename.split('.')[1]
+                    image_filename = "news_"+str(news_id)+"."+news_image.filename.split('.')[len(news_image.filename.split('.'))-1]
                     news_image.save(os.path.join(NEWS_FOLDER,image_filename))
                     database_cursor.execute("UPDATE news SET title = ?, description = ?, heading = ?, image = ?, headline = 'no' WHERE id = ?", (news_title,news_description,None,"../static/images/news/"+image_filename,news_id))
                 else:
@@ -1084,7 +1100,7 @@ def modifyVirtualTour():
             description = request.form['vt_description']
             image = request.files['vt_image']
             if image.filename != '':
-                image_filename = "virtual_tour_"+str(vt_id)+"."+image.filename.split('.')[1]
+                image_filename = "virtual_tour_"+str(vt_id)+"."+image.filename.split('.')[len(image.filename.split('.'))-1]
                 image.save(os.path.join(VIRTUAL_TOUR_FOLDER,image_filename))
                 database_cursor.execute("UPDATE virtual_tour SET title = ?, description = ?, image = ? WHERE id = ?", (title,description,"../static/images/virtual_tour/"+image_filename,vt_id))
             else:
@@ -1111,7 +1127,7 @@ def modifyAward():
             award_description = request.form['award_description']
             award_image = request.files['award_image_input']
             if award_image.filename != '':
-                award_image_filename = "award_"+str(award_id)+"."+award_image.filename.split('.')[1]
+                award_image_filename = "award_"+str(award_id)+"."+award_image.filename.split('.')[len(award_image.filename.split('.'))-1]
                 award_image.save(os.path.join(AWARDS_FOLDER,award_image_filename))
                 database_cursor.execute("UPDATE awards SET title = ?, description = ?, image = ?, type = ? WHERE id = ?", (award_title,award_description,"../static/images/awards/"+award_image_filename,award_type,award_id))
             else:
@@ -1145,7 +1161,7 @@ def addAward():
                 last_id = 0
             else:
                 last_id = last_id[0]
-            image_filename = "award_"+str(last_id+1)+"."+image.filename.split('.')[1]
+            image_filename = "award_"+str(last_id+1)+"."+image.filename.split('.')[len(image.filename.split('.'))-1]
             image.save(os.path.join(AWARDS_FOLDER,image_filename))
             database_cursor.execute("INSERT INTO awards VALUES (?,?,?,?,?)", (award_type,title,description,"../../static/images/awards/"+image_filename,last_id+1))
             database_connection.commit()
@@ -1177,11 +1193,11 @@ def addNews():
             else:
                 last_id = last_id[0]
             if is_head == "yes":
-                image_filename = "head_news_"+str(last_id+1)+"."+news_image.filename.split('.')[1]
+                image_filename = "head_news_"+str(last_id+1)+"."+news_image.filename.split('.')[len(news_image.filename.split('.'))-1]
                 news_image.save(os.path.join(HEAD_NEWS_FOLDER,image_filename))
                 database_cursor.execute("INSERT INTO news VALUES (?,?,?,?,?,?)", ("../../static/images/news/head_news/"+image_filename,title,news_heading,news_description,is_head,last_id+1))
             else:
-                image_filename = "news_"+str(last_id+1)+"."+news_image.filename.split('.')[1]
+                image_filename = "news_"+str(last_id+1)+"."+news_image.filename.split('.')[len(news_image.filename.split('.'))-1]
                 news_image.save(os.path.join(NEWS_FOLDER,image_filename))
                 database_cursor.execute("INSERT INTO news VALUES (?,?,?,?,?,?)", ("../../static/images/news/"+image_filename,title,None,news_description,is_head,last_id+1))
             database_connection.commit()
@@ -1206,7 +1222,7 @@ def addBlog():
                 last_id = 0
             else:
                 last_id = last_id[0]
-            image_filename = "blog_"+str(last_id+1)+"."+blog_image.filename.split('.')[1]
+            image_filename = "blog_"+str(last_id+1)+"."+blog_image.filename.split('.')[len(blog_image.filename.split('.'))-1]
             blog_image.save(os.path.join(BLOGS_FOLDER,image_filename))
             database_cursor.execute("INSERT INTO blogs VALUES (?,?,?,?,?)", ("../../static/images/blogs/"+image_filename,title,description,last_id+1,blog_content))
             database_connection.commit()
@@ -1231,7 +1247,7 @@ def addTestimonial():
                 last_id = 0
             else:
                 last_id = last_id[0]
-            image_filename = "testimonial_"+str(last_id+1)+"."+image.filename.split('.')[1]
+            image_filename = "testimonial_"+str(last_id+1)+"."+image.filename.split('.')[len(image.filename.split('.'))-1]
             image.save(os.path.join(TESTIMONIALS_FOLDER,image_filename))
             database_cursor.execute("INSERT INTO testimonials VALUES (?,?,?,?,?)", (last_id+1, name, designation, "\""+testimonial+"\"", "../../static/images/testimonial/"+image_filename))
             database_connection.commit()
@@ -1294,7 +1310,7 @@ def modifyHome():
                 print(i)
                 temp.append(str(carousel_items[i]))
                 if carousel_image.filename != '':
-                    image_filename = "Carousel_"+str(carousel_items[i][0])+"."+carousel_image.filename.split('.')[1]
+                    image_filename = "Carousel_"+str(carousel_items[i][0])+"."+carousel_image.filename.split('.')[len(carousel_image.filename.split('.'))-1]
                     carousel_image.save(os.path.join(HOME_CAROUSEL_FOLDER,image_filename))
                     temp.append("../../static/images/Homepage/"+image_filename)
                 carousel.append(temp)
@@ -1381,7 +1397,7 @@ def modifySpecialty():
             specialty_description = request.form["specialty_description"]
             specialty_illustration = request.files["specialty_illustration"]
             if specialty_illustration.filename != '':
-                illustration_filename = "specialty_"+str(specialty_id)+"."+specialty_illustration.filename.split('.')[1]
+                illustration_filename = "specialty_"+str(specialty_id)+"."+specialty_illustration.filename.split('.')[len(specialty_illustration.filename.split('.'))-1]
                 specialty_illustration.save(os.path.join(SPECIALTY_FOLDER,illustration_filename))
                 specialty_illustration = "../../static/images/illustrations/specialty/"+illustration_filename
                 database_cursor.execute("UPDATE specialty SET name=?, description=?, illustration=? WHERE id=?;", (specialty_name, specialty_description, specialty_illustration, specialty_id))
@@ -1431,8 +1447,8 @@ def modifyTestimonial():
             if testimonial_image.filename != "" and testimonial_image.filename is not None:
                 previous_image = database_cursor.execute("SELECT image FROM testimonials WHERE id = ?", (int(testimonial_id),)).fetchone()[0]
                 os.remove(os.path.join(THIS_FOLDER,previous_image.replace("../","")))
-                testimonial_image_filepath = "testimonial_"+ testimonial_id+ "."  + testimonial_image.filename.split(".")[1]
-                testimonial_image.save(os.path.join(TESTIMONIALS_FOLDER,"testimonial_"+ testimonial_id + "." + testimonial_image.filename.split(".")[1]))
+                testimonial_image_filepath = "testimonial_"+ testimonial_id+ "."  + testimonial_image.filename.split('.')[len(testimonial_image.filename.split('.'))-1]
+                testimonial_image.save(os.path.join(TESTIMONIALS_FOLDER,"testimonial_"+ testimonial_id + "." + testimonial_image.filename.split('.')[len(testimonial_image.filename.split('.'))-1]))
                 database_cursor.execute("UPDATE testimonials SET name=?, designation=?, content = ?, image=? WHERE id=?;", (testimonial_name, testimonial_designation,testimonial_content, "../static/images/testimonial/"+testimonial_image_filepath, testimonial_id))
             else:
                 database_cursor.execute("UPDATE testimonials SET name = ?, designation = ?, content = ? WHERE id = ?", (testimonial_name, testimonial_designation,testimonial_content, int(testimonial_id)))
@@ -1498,8 +1514,8 @@ def addCarousel():
                 last_id = 0
             else:
                 last_id = last_id[0]
-            image_filepath = "Carousel_"+ str(last_id+1) + "." + image.filename.split(".")[1]
-            image.save(os.path.join(HOME_CAROUSEL_FOLDER,"Carousel_"+ str(last_id+1) + "." + image.filename.split(".")[1]))  
+            image_filepath = "Carousel_"+ str(last_id+1) + "." + image.filename.split('.')[len(image.filename.split('.'))-1]
+            image.save(os.path.join(HOME_CAROUSEL_FOLDER,"Carousel_"+ str(last_id+1) + "." + image.filename.split('.')[len(image.filename.split('.'))-1]))  
             database_cursor.execute("INSERT INTO home_carousel VALUES (?,?)", ("../../static/images/Homepage/"+image_filepath, last_id+1))
             database_connection.commit()
             database_connection.close()
