@@ -815,6 +815,7 @@ def modifyDisease():
             disease_type_image1 = request.files['disease_type_image1']
             last_disease_type_images = database_cursor.execute("SELECT image FROM disease_types WHERE disease_id = ?",(disease_id,))
             last_disease_type_images = last_disease_type_images.fetchall()
+            print(last_disease_type_images)
             if disease_type_image1.filename != "":
                 os.remove(os.path.join(THIS_FOLDER,(last_disease_type_images[0][0]).replace("../../","")))
                 disease_type_image1_filename = "disease_type_img1_"+str(disease_id)+"."+disease_type_image1.filename.split('.')[len(disease_type_image1.filename.split('.'))-1]

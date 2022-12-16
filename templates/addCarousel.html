@@ -72,7 +72,7 @@
                         <div class="mb-3">
                             <label for="carousel_image" class="form-label">
                                 <b>Carousel Image</b>
-                                <small>(Max size: 2MB)</small>
+                                <small>(Max size: 5MB)</small>
                             </label>
                             <input class="form-control" type="file" id="carousel_image" name="carousel_image" required
                                 accept="image/*">
@@ -102,7 +102,7 @@
     <script>
         var uploadField = document.getElementById("carousel_image");
         uploadField.onchange = function () {
-            if (this.files[0].size > 1048576 * 2) {
+            if (this.files[0].size > 1048576 * 5) {
                 alert("File is too big! Please upload a file smaller than 2MB.");
                 this.value = "";
             };

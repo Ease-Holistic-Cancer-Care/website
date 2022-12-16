@@ -85,7 +85,7 @@
                         </h5>
                         <div class="mb-3">
                             <label for="carousel_image_{{carousel_data[i][1]}}" class="form-label">Image</label>
-                            <small>(Max size: 500KB)</small>
+                            <small>(Max size: 5MB)</small>
                             <input type="file" class="form-control" id="carousel_image_{{carousel_data[i][1]}}"
                                 name="carousel_image_{{carousel_data[i][1]}}" accept=".jpg, .png, .jpeg">
                             <img src="{{carousel_data[i][0]}}" class="w-25 mt-2">
@@ -100,7 +100,7 @@
                             var doctor_image_{{ carousel_data[i][3] }} = document.getElementById("doctor_image_{{carousel_data[i][3]}}");
                             // @formatter:off
                             doctor_image_{ { carousel_data[i][3] } }.onchange = function () {
-                                if (this.files[0].size > 1048576 / 2) {
+                                if (this.files[0].size > 1048576 * 5) {
                                     alert("File is too big! Please upload a file smaller than 500KB.");
                                     this.value = "";
                                 };
