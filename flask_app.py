@@ -1030,6 +1030,9 @@ def modifyBLog():
             blog_image = request.files['blog_image_input']
             blog_content = request.form['blog_content']
             if blog_image.filename != '':
+                last_news_image = database_cursor.execute("SELECT image FROM blogs WHERE id=?",(blog_id,))
+                last_news_image = last_news_image.fetchone()[0]
+                os.remove(os.path.join(THIS_FOLDER,last_news_image.replace("../","")))
                 image_filename = "blog_"+str(blog_id)+"."+blog_image.filename.split('.')[len(blog_image.filename.split('.'))-1]
                 blog_image.save(os.path.join(BLOGS_FOLDER,image_filename))
                 database_cursor.execute("UPDATE blogs SET title = ?, description = ?, content = ?, image = ? WHERE id = ?", (blog_title,blog_description,blog_content,"../../static/images/blogs/"+image_filename,blog_id))
@@ -1065,6 +1068,9 @@ def modifyNews():
                 is_head = "no"
             if is_head == "yes":
                 if news_image.filename != '':
+                    last_news_image = database_cursor.execute("SELECT image FROM news WHERE id=?",(news_id,))
+                    last_news_image =last_news_image.fetchone()[0]
+                    os.remove(os.path.join(THIS_FOLDER,last_news_image.replace("../","")))
                     image_filename = "head_news_"+str(news_id)+"."+news_image.filename.split('.')[len(news_image.filename.split('.'))-1]
                     news_image.save(os.path.join(HEAD_NEWS_FOLDER,image_filename))
                     database_cursor.execute("UPDATE news SET title = ?, description = ?, heading = ?, image = ?, headline = 'yes' WHERE id = ?", (news_title,news_description,news_heading,"../static/images/news/head_news/"+image_filename,news_id))
@@ -1072,6 +1078,9 @@ def modifyNews():
                     database_cursor.execute("UPDATE news SET title = ?, description = ?, heading = ?, headline = 'yes' WHERE id = ?", (news_title,news_description,news_heading,news_id))
             else:
                 if news_image.filename != '':
+                    last_news_image = database_cursor.execute("SELECT image FROM news WHERE id=?",(news_id,))
+                    last_news_image =last_news_image.fetchone()[0]
+                    os.remove(os.path.join(THIS_FOLDER,last_news_image.replace("../","")))
                     image_filename = "news_"+str(news_id)+"."+news_image.filename.split('.')[len(news_image.filename.split('.'))-1]
                     news_image.save(os.path.join(NEWS_FOLDER,image_filename))
                     database_cursor.execute("UPDATE news SET title = ?, description = ?, heading = ?, image = ?, headline = 'no' WHERE id = ?", (news_title,news_description,None,"../static/images/news/"+image_filename,news_id))
@@ -1100,6 +1109,9 @@ def modifyVirtualTour():
             description = request.form['vt_description']
             image = request.files['vt_image']
             if image.filename != '':
+                last_vt_image = database_cursor.execute("SELECT image FROM virtual_tour WHERE id=?"(vt_id,))
+                last_vt_image = last_vt_image.fetchone()[0]
+                os.remove(os.path.join(THIS_FOLDER,last_vt_image.replace("../","")))
                 image_filename = "virtual_tour_"+str(vt_id)+"."+image.filename.split('.')[len(image.filename.split('.'))-1]
                 image.save(os.path.join(VIRTUAL_TOUR_FOLDER,image_filename))
                 database_cursor.execute("UPDATE virtual_tour SET title = ?, description = ?, image = ? WHERE id = ?", (title,description,"../static/images/virtual_tour/"+image_filename,vt_id))
@@ -1127,6 +1139,9 @@ def modifyAward():
             award_description = request.form['award_description']
             award_image = request.files['award_image_input']
             if award_image.filename != '':
+                last_award_image = database_cursor.execute("SELECT image FROM awards WHERE id=?",(award_id,))
+                last_award_image = last_award_image.fetchone()[0]
+                os.remove(os.path.join(THIS_FOLDER,last_award_image.replace("../","")))
                 award_image_filename = "award_"+str(award_id)+"."+award_image.filename.split('.')[len(award_image.filename.split('.'))-1]
                 award_image.save(os.path.join(AWARDS_FOLDER,award_image_filename))
                 database_cursor.execute("UPDATE awards SET title = ?, description = ?, image = ?, type = ? WHERE id = ?", (award_title,award_description,"../static/images/awards/"+award_image_filename,award_type,award_id))
@@ -1397,6 +1412,9 @@ def modifySpecialty():
             specialty_description = request.form["specialty_description"]
             specialty_illustration = request.files["specialty_illustration"]
             if specialty_illustration.filename != '':
+                last_specialty_illustration = database_cursor.execute("SELECT illustration FROM specialty WHERE id=?",(specialty_id,))
+                last_specialty_illustration = last_specialty_illustration.fetchone()[0]
+                os.remove(os.path.join(THIS_FOLDER,last_specialty_illustration.replace("../../","")))
                 illustration_filename = "specialty_"+str(specialty_id)+"."+specialty_illustration.filename.split('.')[len(specialty_illustration.filename.split('.'))-1]
                 specialty_illustration.save(os.path.join(SPECIALTY_FOLDER,illustration_filename))
                 specialty_illustration = "../../static/images/illustrations/specialty/"+illustration_filename
