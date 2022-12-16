@@ -10,11 +10,9 @@ $("#testimonial_id").on('change', function () {
     var url = document.URL;
     var domain = url.split('/')[0] + "//" + url.split('/')[2] + "/";
     data = httpGet(domain + "getTestimonial/" + String(id) + "/");
-    data = data.replaceAll('[', '');
-    data = data.replaceAll(']', '');
-    data = data.replaceAll('"', '');
-    data = data.split(", ");
+    data = JSON.parse(data);
     document.getElementById("testimonial_name").value = data[1];
     document.getElementById("testimonial_designation").value = data[2];
     document.getElementById("testimonial_content").value = data[3];
+    document.getElementById("testimonial_image_preview").src = data[4];
 });
