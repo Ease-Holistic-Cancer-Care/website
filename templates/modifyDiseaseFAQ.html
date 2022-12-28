@@ -100,12 +100,18 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="faq_question" class="form-label">Question</label>
-                            <input type="text" class="form-control" id="faq_question" name="faq_question" required>
+                            <label for="faq_question" class="form-label">
+                                <b>Question</b>
+                            </label>
+                            <small>(Max characters: 50)</small>
+                            <input type="text" class="form-control" id="faq_question" name="faq_question" required maxlength="50">
                         </div>
                         <div class="mb-3">
-                            <label for="faq_answer" class="form-label">Answer</label>
-                            <input type="text" class="form-control" id="faq_answer" name="faq_answer" required>
+                            <label for="faq_answer" class="form-label">
+                                <b>Answer</b>
+                            </label>
+                            <small>(Max characters: 200)</small>
+                            <input type="text" class="form-control" id="faq_answer" name="faq_answer" required maxlength="200">
                         </div>
                         <div class="mb-3">
                             <button class="btn btn-primary" type="submit" id="submit">Update</button>
