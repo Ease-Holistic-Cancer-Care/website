@@ -1252,6 +1252,7 @@ def addTestimonial():
         if request.method == "POST":
             name = request.form["person_name"]
             designation = request.form["person_designation"]
+            print(designation)
             testimonial = request.form["person_testimonial"]
             image = request.files["person_image"]
             #fetch last id
@@ -1263,9 +1264,13 @@ def addTestimonial():
                 last_id = 0
             else:
                 last_id = last_id[0]
-            image_filename = "testimonial_"+str(last_id+1)+"."+image.filename.split('.')[len(image.filename.split('.'))-1]
-            image.save(os.path.join(TESTIMONIALS_FOLDER,image_filename))
-            database_cursor.execute("INSERT INTO testimonials VALUES (?,?,?,?,?)", (last_id+1, name, designation, "\""+testimonial+"\"", "../../static/images/testimonial/"+image_filename))
+            if (image.filename):
+                image_filename = "testimonial_"+str(last_id+1)+"."+image.filename.split('.')[len(image.filename.split('.'))-1]
+                image.save(os.path.join(TESTIMONIALS_FOLDER,image_filename))
+                image_filename = "../../static/images/testimonial/"+image_filename
+            else:
+                image_filename = ""  
+            database_cursor.execute("INSERT INTO testimonials VALUES (?,?,?,?,?)", (last_id+1, name, designation, testimonial, image_filename))
             database_connection.commit()
             database_connection.close()
             return render_template('addTestimonial.html', social_links=social_links, message="Testimonial Added Successfully",navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
