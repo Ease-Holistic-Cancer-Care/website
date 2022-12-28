@@ -62,7 +62,7 @@
   </div>
 
   <!-- About Section -->
-  <div class="about_sect py-2">
+  <div class="about_sect py-2" id="about_section">
     <div class="container">
       <div class="row align-items-center row_about">
         <div class="col-lg-6 mb-3 order-lg-2 py-4">
@@ -80,7 +80,7 @@
   </div>
 
   <!-- Specialty Section -->
-  <div class="specialty_sect mt-5 mb-2" data-aos="fade-up" data-aos-duration="1000">
+  <div class="specialty_sect mt-5 mb-2" data-aos="fade-up" data-aos-duration="1000" id="specialty_section">
     <div class="specialty_header px-5">
       <div class="specialty_head_cont mx-lg-5 mx-sm-1 px-lg-4 px-md-2 px-sm-1 ">
         <h2>Specialty</h2>
@@ -129,7 +129,7 @@
     <img src="../static/images/elements/Group 33957.png" class="specialty_ele_2" alt="">
   </div>
 
-  <div class="container doctor py-5" data-aos="fade-up" data-aos-duration="1000">
+  <div class="container doctor py-5" data-aos="fade-up" data-aos-duration="1000" id="doctor_title">
     <div class="row">
       <div class="col-lg-6 mb-3">
         <h1 class="doctor_heading">Meet Our Expert Doctors</h1>
@@ -140,7 +140,7 @@
     </div>
   </div>
 
-  <div class="doctor_carousel_container py-5" data-aos="fade-up" data-aos-duration="1000">
+  <div class="doctor_carousel_container py-5" data-aos="fade-up" data-aos-duration="1000" id="doctor_container">
     <div class="container">
       <div class="row px-2">
         <div class="col-12 doctor_carousel">
@@ -176,34 +176,39 @@
           </div>
         </div>
         <script>
-
-          const finalCount_{{ loop.index }} = parseInt("{{stat[1]}}".replace(/\D/g, ''))
-          var speed;
-          if (finalCount_{{ loop.index }}>5000)
-            speed=1
-          else if (finalCount_{{ loop.index }}>1000)
-            speed=5
-          else if(finalCount_{{ loop.index }} > 500)
+          var height = $("#Carousel_mainpage").height() + $("#about_section").height() + $("#specialty_section").height() + $("#doctor_title").height() + $("#doctor_container").height() - 500
+          $(window).scroll(function (event) {
+            const finalCount_{{ loop.index }} = parseInt("{{stat[1]}}".replace(/\D/g, ''))
+            var speed;
+            if (finalCount_{{ loop.index }}> 5000)
+              speed = 1
+            else if (finalCount_{{ loop.index }}> 1000)
+              speed = 5
+            else if (finalCount_{{ loop.index }} > 500)
               speed = 20
-          else if(finalCount_{{ loop.index }} > 100)
+            else if (finalCount_{{ loop.index }} > 100)
               speed = 150
-          else if(finalCount_{{ loop.index }}>50)
-            speed = 500
-          else if (finalCount_{{ loop.index }}< 50)
-            speed = 1000
-          let counts_{{ loop.index }} = setInterval(updated, speed);
-          
-          let upto_{{ loop.index }} = 0;
-          function updated() {
-            var count = document.getElementById("statistics_number_{{loop.index}}");
-            var limit = parseInt("{{stat[1]}}".replace(/\D/g, ''))
-            count.innerHTML = upto_{{ loop.index }} + 5;
-            upto_{{ loop.index }} += 5;
-            if (upto_{{ loop.index }} === limit) {
-              clearInterval(counts_{{ loop.index }});
-          }
-          count.innerHTML = count.innerHTML + "+";
-          }
+            else if (finalCount_{{ loop.index }}> 50)
+              speed = 500
+            else if (finalCount_{{ loop.index }}< 50)
+              speed = 1000
+            var scroll = $(window).scrollTop();
+            if (parseInt(scroll) > parseInt(height)){
+              let counts_{{ loop.index }} = setInterval(updated, speed);
+              let upto_{{ loop.index }} = 0;
+              function updated() {
+                var count = document.getElementById("statistics_number_{{loop.index}}");
+                var limit = parseInt("{{stat[1]}}".replace(/\D/g, ''))
+                count.innerHTML = upto_{{ loop.index }} + 5;
+                upto_{{ loop.index }} += 5;
+                if (upto_{{ loop.index }} === limit) {
+                  clearInterval(counts_{{ loop.index }});
+                }
+                count.innerHTML = count.innerHTML + "+";
+                $(window).unbind();
+              }
+            }
+          });
         </script>
         {% endfor %}
 
