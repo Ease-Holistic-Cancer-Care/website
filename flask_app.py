@@ -264,7 +264,7 @@ def appointment():
 
 #bmr, calorie, exercise, break examination
 @app.route('/bmi/', methods=['GET','POST'])
-def bmi(): 
+def bmi():
     if request.method == 'POST':
         age = request.form["age"]
         height = request.form["height"]
@@ -314,7 +314,7 @@ def bmr():
 #         contact = request.form["contact"]
 #         gender = request.form["gender"]
 #         activity = request.form["activity"]
-        
+
 
 @app.route('/virtualTour/')
 def virtualTour():
@@ -325,7 +325,7 @@ def virtualTour():
     return render_template('virtualTour.html', data=data,social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
 
 @app.route('/blogs/')
-def blogs(): 
+def blogs():
     database_connection = sqlite3.connect(database_location)
     database_cursor = database_connection.cursor()
     data = database_cursor.execute("SELECT image,title,description,id FROM blogs")
@@ -348,7 +348,7 @@ def blog(id):
     return render_template('blog.html', data=data,social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
 
 @app.route('/news/')
-def news(): 
+def news():
     database_connection = sqlite3.connect(database_location)
     database_cursor = database_connection.cursor()
     data = database_cursor.execute("SELECT * FROM news")
@@ -389,7 +389,7 @@ def adminHome():
         database_connection.commit()
         database_connection.close()
         return render_template('adminHome.html', pending_appointments=pending_appointments,today_appointments=today_appointments,
-                                                completed_appointments=completed_appointments, website_traffic=website_traffic, 
+                                                completed_appointments=completed_appointments, website_traffic=website_traffic,
                                                 total_patients=total_patients, social_links=social_links,active_users=active_users,
                                                 navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
     return redirect(url_for('login'))
@@ -609,7 +609,7 @@ def deleteDocument(appointment_id):
         database_connection.close()
         return redirect(url_for('viewAppointment', appointment_id=appointment_id))
     return redirect(url_for('patientLogin'))
-                  
+
 @app.route('/modifyPages/')
 def modifyPages():
     if 'user' in session and session["user_type"] == "admin":
@@ -744,12 +744,12 @@ def addSpecialty():
             illustration.save(os.path.join(SPECIALTY_FOLDER,illustration_filename))
             database_cursor.execute("INSERT INTO specialty VALUES (?,?,?,?)", (last_id+1,name,description,"../../static/images/illustrations/specialty/"+illustration_filename))
             # specialties
-            global navbar_specialties 
+            global navbar_specialties
             navbar_specialties = database_cursor.execute("SELECT id,name FROM specialty")
             navbar_specialties = navbar_specialties.fetchall()
 
             # diseases
-            global navbar_diseases 
+            global navbar_diseases
             navbar_diseases = database_cursor.execute("SELECT id,title,specialty_id FROM diseases")
             navbar_diseases = navbar_diseases.fetchall()
 
@@ -788,9 +788,9 @@ def modifyDisease():
                 disease_illustration_filename = database_cursor.execute("SELECT illustration FROM diseases WHERE id = ?", (disease_id,))
                 disease_illustration_filename = disease_illustration_filename.fetchone()[0].split("/")
                 disease_illustration_filename = disease_illustration_filename[len(disease_illustration_filename)-1]
-            
+
             doctors_disease = request.form.getlist('doctors')
-            
+
             # file
             main_image = request.files['main_image']
             if main_image.filename != "":
@@ -803,14 +803,14 @@ def modifyDisease():
                 main_image_filename = database_cursor.execute("SELECT main_image FROM diseases WHERE id = ?", (disease_id,))
                 main_image_filename = main_image_filename.fetchone()[0].split("/")
                 main_image_filename = main_image_filename[len(main_image_filename)-1]
-            
+
             disease_profile_title1 = request.form['disease_profile_title1']
             disease_profile_content1 = request.form['disease_profile_content1']
             disease_profile_title2 = request.form['disease_profile_title2']
             disease_content2 = request.form['disease_profile_content1']
             disease_type_title1 = request.form['disease_type_title1']
             disease_type_description1 = request.form['disease_type_description1']
-            
+
             # file
             disease_type_image1 = request.files['disease_type_image1']
             last_disease_type_images = database_cursor.execute("SELECT image FROM disease_types WHERE disease_id = ?",(disease_id,))
@@ -824,10 +824,10 @@ def modifyDisease():
                 disease_type_image1_filename = database_cursor.execute("SELECT image FROM disease_types WHERE disease_id = ?", (disease_id,))
                 disease_type_image1_filename = disease_type_image1_filename.fetchone()[0].split("/")
                 disease_type_image1_filename = disease_type_image1_filename[len(disease_type_image1_filename)-1]
-            
+
             disease_type_title2 = request.form['disease_type_title2']
             disease_type_description2 = request.form['disease_type_description2']
-            
+
             # file
             disease_type_image2 = request.files['disease_type_image2']
             if disease_type_image2.filename != "":
@@ -838,13 +838,13 @@ def modifyDisease():
                 disease_type_image2_filename = database_cursor.execute("SELECT image FROM disease_types WHERE disease_id = ?", (disease_id,))
                 disease_type_image2_filename = disease_type_image2_filename.fetchall()[1][0].split("/")
                 disease_type_image2_filename = disease_type_image2_filename[len(disease_type_image2_filename)-1]
-            
+
             causes = request.form['disease_causes']
             symptoms = request.form['disease_symptoms']
             disease_diagnosis_type1 = request.form['disease_diagnosis_type1']
             disease_diagnosis_description1 = request.form['disease_diagnosis_description1']
             disease_diagnosis_type2 = request.form['disease_diagnosis_type2']
-            disease_description2 = request.form['disease_diagnosis_description2']
+            disease_diagnosis_description2 = request.form['disease_diagnosis_description2']
             disease_severity_type1 = request.form['disease_severity_type1']
             disease_severity_description1 = request.form['disease_severity_description1']
             disease_severity_type2 = request.form['disease_severity_type2']
@@ -853,47 +853,47 @@ def modifyDisease():
             disease_treatment_description1 = request.form['disease_treatment_description1']
             disease_treatment_type2 = request.form['disease_treatment_type2']
             disease_treatment_description2 = request.form['disease_treatment_description2']
-            
+
             database_cursor.execute("UPDATE diseases SET title = ?, specialty_id = ?, description = ?, illustration = ?, doctors = ? , main_image = ? WHERE id = ?", (disease_title, specialty_id, disease_description, "../../static/images/illustrations/diseases/"+disease_illustration_filename, ",".join(doctors_disease), "../../static/images/disease/"+main_image_filename, disease_id))
-            
+
             database_cursor.execute("DELETE FROM disease_profile WHERE disease_id = ?", (disease_id,))
             database_cursor.execute("INSERT INTO disease_profile VALUES (?,?,?)", (disease_id,disease_profile_title1,disease_profile_content1))
             database_cursor.execute("INSERT INTO disease_profile VALUES (?,?,?)", (disease_id,disease_profile_title2,disease_content2))
-            
+
             database_cursor.execute("DELETE FROM disease_types WHERE disease_id = ?", (disease_id,))
             database_cursor.execute("INSERT INTO disease_types VALUES (?,?,?,?)", (disease_id,disease_type_title1,disease_type_description1,"../../static/images/disease/"+disease_type_image1_filename))
             database_cursor.execute("INSERT INTO disease_types VALUES (?,?,?,?)", (disease_id,disease_type_title2,disease_type_description2,"../../static/images/disease/"+disease_type_image2_filename))
-            
+
             database_cursor.execute("DELETE FROM disease_causes WHERE disease_id = ?", (disease_id,))
             causes = causes.split(';')
             for cause in causes:
                 database_cursor.execute("INSERT INTO disease_causes VALUES (?,?)", (disease_id,cause))
-                
+
             database_cursor.execute("DELETE FROM disease_symptoms WHERE disease_id = ?", (disease_id,))
             symptoms = symptoms.split(';')
             for symptom in symptoms:
                 database_cursor.execute("INSERT INTO disease_symptoms VALUES (?,?)", (disease_id,symptom))
-                
+
             database_cursor.execute("DELETE FROM disease_diagnosis WHERE disease_id = ?", (disease_id,))
             database_cursor.execute("INSERT INTO disease_diagnosis VALUES (?,?,?)", (disease_id,disease_diagnosis_type1,disease_diagnosis_description1))
-            database_cursor.execute("INSERT INTO disease_diagnosis VALUES (?,?,?)", (disease_id,disease_diagnosis_type2,disease_description2))
-            
+            database_cursor.execute("INSERT INTO disease_diagnosis VALUES (?,?,?)", (disease_id,disease_diagnosis_type2,disease_diagnosis_description2))
+
             database_cursor.execute("DELETE FROM disease_severity WHERE disease_id = ?", (disease_id,))
             database_cursor.execute("INSERT INTO disease_severity VALUES (?,?,?)", (disease_id,disease_severity_type1,disease_severity_description1))
             database_cursor.execute("INSERT INTO disease_severity VALUES (?,?,?)", (disease_id,disease_severity_type2,disease_severity_description2))
-            
+
             database_cursor.execute("DELETE FROM disease_treatment WHERE disease_id = ?", (disease_id,))
             database_cursor.execute("INSERT INTO disease_treatment VALUES (?,?,?)", (disease_id,disease_treatment_type1,disease_treatment_description1))
             database_cursor.execute("INSERT INTO disease_treatment VALUES (?,?,?)", (disease_id,disease_treatment_type2,disease_treatment_description2))
             diseases = database_cursor.execute("SELECT id,title FROM diseases")
             diseases = diseases.fetchall()
             # specialties
-            global navbar_specialties 
+            global navbar_specialties
             navbar_specialties = database_cursor.execute("SELECT id,name FROM specialty")
             navbar_specialties = navbar_specialties.fetchall()
 
             # diseases
-            global navbar_diseases 
+            global navbar_diseases
             navbar_diseases = database_cursor.execute("SELECT id,title,specialty_id FROM diseases")
             navbar_diseases = navbar_diseases.fetchall()
             database_connection.commit()
@@ -904,7 +904,7 @@ def modifyDisease():
         database_connection.close()
         return render_template('modifyDisease.html', diseases=diseases, social_links=social_links, doctors=doctors, specialties=specialties, message=None,navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
     return redirect(url_for('patientLogin'))
-            
+
 @app.route('/addDisease/', methods=['POST', 'GET'])
 def addDisease():
     if 'user' in session and session["user_type"] == "admin":
@@ -937,7 +937,7 @@ def addDisease():
             disease_diagnosis_type1 = request.form['disease_diagnosis_type1']
             disease_diagnosis_description1 = request.form['disease_diagnosis_description1']
             disease_diagnosis_type2 = request.form['disease_diagnosis_type2']
-            disease_description2 = request.form['disease_diagnosis_description1']
+            disease_diagnosis_description2 = request.form['disease_diagnosis_description2']
             disease_severity_type1 = request.form['disease_severity_type1']
             disease_severity_description1 = request.form['disease_severity_description1']
             disease_severity_type2 = request.form['disease_severity_type2']
@@ -973,18 +973,18 @@ def addDisease():
             for symptom in symptoms:
                 database_cursor.execute("INSERT INTO disease_symptoms VALUES (?,?)", (last_id+1,symptom))
             database_cursor.execute("INSERT INTO disease_diagnosis VALUES (?,?,?)", (last_id+1,disease_diagnosis_type1,disease_diagnosis_description1))
-            database_cursor.execute("INSERT INTO disease_diagnosis VALUES (?,?,?)", (last_id+1,disease_diagnosis_type2,disease_description2))
+            database_cursor.execute("INSERT INTO disease_diagnosis VALUES (?,?,?)", (last_id+1,disease_diagnosis_type2,disease_diagnosis_description2))
             database_cursor.execute("INSERT INTO disease_severity VALUES (?,?,?)", (last_id+1,disease_severity_type1,disease_severity_description1))
             database_cursor.execute("INSERT INTO disease_severity VALUES (?,?,?)", (last_id+1,disease_severity_type2,disease_severity_description2))
             database_cursor.execute("INSERT INTO disease_treatment VALUES (?,?,?)", (last_id+1,disease_treatment_type1,disease_treatment_description1))
             database_cursor.execute("INSERT INTO disease_treatment VALUES (?,?,?)", (last_id+1,disease_treatment_type2,disease_treatment_description2))
             # specialties
-            global navbar_specialties 
+            global navbar_specialties
             navbar_specialties = database_cursor.execute("SELECT id,name FROM specialty")
             navbar_specialties = navbar_specialties.fetchall()
 
             # diseases
-            global navbar_diseases 
+            global navbar_diseases
             navbar_diseases = database_cursor.execute("SELECT id,title,specialty_id FROM diseases")
             navbar_diseases = navbar_diseases.fetchall()
             database_connection.commit()
@@ -993,7 +993,7 @@ def addDisease():
         database_connection.close()
         return render_template('addDisease.html', social_links=social_links, doctors=doctors, specialties=specialties, message=None,navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
     return redirect(url_for('patientLogin'))
-  
+
 @app.route('/addVirtualTour/', methods=['POST', 'GET'])
 def addVirtualTour():
     if 'user' in session and session["user_type"] == "admin":
@@ -1050,7 +1050,7 @@ def modifyBLog():
         database_connection.close()
         return render_template('modifyBlog.html', social_links=social_links, message=None, blogs=blogs, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
     return redirect(url_for('patientLogin'))
-    
+
 @app.route("/modifyNews/", methods=["POST","GET"])
 def modifyNews():
     if 'user' in session and session["user_type"] == "admin":
@@ -1098,8 +1098,8 @@ def modifyNews():
         database_connection.close()
         return render_template('modifyNews.html',news=news, social_links=social_links, message=None, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
     return redirect(url_for('patientLogin'))
-                      
-@app.route("/modifyVirtualTour/", methods = ["POST","GET"])    
+
+@app.route("/modifyVirtualTour/", methods = ["POST","GET"])
 def modifyVirtualTour():
     if 'user' in session and session["user_type"] == "admin":
         database_connection = sqlite3.connect(database_location)
@@ -1127,7 +1127,7 @@ def modifyVirtualTour():
         virtual_tours = virtual_tours.fetchall()
         return render_template('modifyVirtualTour.html',virtual_tours=virtual_tours, social_links=social_links, message=None, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
     return redirect(url_for('patientLogin'))
-    
+
 @app.route('/modifyAward/', methods = ["POST","GET"])
 def modifyAward():
     if 'user' in session and session["user_type"] == "admin":
@@ -1185,7 +1185,7 @@ def addAward():
             return render_template('addAward.html', social_links=social_links, message="Award Added Successfully",navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
         return render_template('addAward.html', social_links=social_links, message=None,navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
     return redirect(url_for('patientLogin'))
-      
+
 @app.route('/addNews/', methods=['POST', 'GET'])
 def addNews():
     if 'user' in session and session["user_type"] == "admin":
@@ -1284,7 +1284,7 @@ def addFAQs():
             database_connection.close()
             return render_template('addFAQ.html', social_links=social_links, message="FAQ Added Successfully",navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
         return render_template('addFAQ.html', social_links=social_links, message=None,navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
-        
+
 @app.route('/adminLogin/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -1330,7 +1330,7 @@ def modifyHome():
                     carousel_image.save(os.path.join(HOME_CAROUSEL_FOLDER,image_filename))
                     temp.append("../../static/images/Homepage/"+image_filename)
                 carousel.append(temp)
-                
+
             for i in range(len(carousel_items)):
                 if len(carousel[i]) == 2:
                     database_cursor.execute("UPDATE home_carousel SET image = ? WHERE id=?;", (carousel[i][1], carousel_items[i][0]))
@@ -1347,7 +1347,7 @@ def modifyHome():
                 about_image_new = "../../static/images/Homepage/"+about_image_new.filename
                 database_cursor.execute("UPDATE home_page SET about_image=? WHERE about_image = ?", (about_image_new,about_image_old))
             database_connection.commit()
-            
+
             #statistics
             statistics_items = database_cursor.execute("SELECT id FROM home_statistics;")
             statistics_items = statistics_items.fetchone()
@@ -1362,7 +1362,7 @@ def modifyHome():
             for i in range(len(statistics_items)):
                 database_cursor.execute("UPDATE home_statistics SET title=?, count=? WHERE id=?;", (statistics[i][0], statistics[i][1], statistics_items[i]))
             database_connection.commit()
-            
+
             #faqs
             faq_items = database_cursor.execute("SELECT id FROM home_faq;")
             faq_items = faq_items.fetchall()
@@ -1376,8 +1376,8 @@ def modifyHome():
                 faqs.append(temp)
             for i in range(len(faq_items)):
                 database_cursor.execute("UPDATE home_faq SET question=?, answer=? WHERE id=?;", (faqs[i][0], faqs[i][1], faq_items[i][0]))
-            database_connection.commit()   
-            
+            database_connection.commit()
+
             carousel_data = database_cursor.execute("SELECT * FROM home_carousel")
             carousel_data = carousel_data.fetchall()
             about = database_cursor.execute("SELECT * FROM home_page")
@@ -1401,7 +1401,7 @@ def modifyHome():
             database_connection.close()
             return render_template('modifyHome.html', social_links = social_links, faqs=faqs, about=about, carousel_data = carousel_data, statistics=statistics, message = None, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
     return redirect(url_for('patientLogin'))
-            
+
 @app.route('/modifySpecialty/', methods=['GET', 'POST'])
 def modifySpecialty():
     if 'user' in session and session["user_type"] == "admin":
@@ -1427,12 +1427,12 @@ def modifySpecialty():
             specialty_main = database_cursor.execute("SELECT * FROM specialty")
             specialty_main = specialty_main.fetchall()
             # specialties
-            global navbar_specialties 
+            global navbar_specialties
             navbar_specialties = database_cursor.execute("SELECT id,name FROM specialty")
             navbar_specialties = navbar_specialties.fetchall()
 
             # diseases
-            global navbar_diseases 
+            global navbar_diseases
             navbar_diseases = database_cursor.execute("SELECT id,title,specialty_id FROM diseases")
             navbar_diseases = navbar_diseases.fetchall()
             database_connection.commit()
@@ -1451,7 +1451,7 @@ def modifySpecialty():
         database_connection.close()
         return render_template('modifySpecialty.html', specialty_main=specialty_main, message = None, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
     return redirect(url_for('patientLogin'))
-        
+
 @app.route("/modifyTestimonial/", methods=['GET', 'POST'])
 def modifyTestimonial():
     if 'user' in session and session["user_type"] == "admin":
@@ -1477,9 +1477,9 @@ def modifyTestimonial():
             database_connection.close()
             return render_template('modifyTestimonial.html', testimonials_main = testimonials_main, message = "Testimonial updated successfully.",social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
         testimonials_main = database_cursor.execute("SELECT id, name FROM testimonials")
-        testimonials_main = testimonials_main.fetchall() 
+        testimonials_main = testimonials_main.fetchall()
         database_connection.commit()
-        database_connection.close()  
+        database_connection.close()
         return render_template("modifyTestimonial.html",testimonials_main=testimonials_main, message=None, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
     return redirect(url_for('patientLogin'))
 
@@ -1510,12 +1510,12 @@ def deleteTestimonial():
             os.remove(os.path.join(THIS_FOLDER,previous_image.replace("../","")))
             database_cursor.execute("DELETE FROM testimonials WHERE id = ?", (int(testimonial_id),))
             testimonials_main = database_cursor.execute("SELECT * FROM testimonials")
-            testimonials_main = testimonials_main.fetchall() 
+            testimonials_main = testimonials_main.fetchall()
             database_connection.commit()
             database_connection.close()
             return render_template("deleteTestimonial.html", testimonials_main = testimonials_main, message = "Testimonial Deleted successfully", social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
         testimonials_main = database_cursor.execute("SELECT * FROM testimonials")
-        testimonials_main = testimonials_main.fetchall() 
+        testimonials_main = testimonials_main.fetchall()
         database_connection.commit()
         database_connection.close()
         return render_template("deleteTestimonial.html", testimonials_main = testimonials_main, message = None, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
@@ -1534,14 +1534,14 @@ def addCarousel():
             else:
                 last_id = last_id[0]
             image_filepath = "Carousel_"+ str(last_id+1) + "." + image.filename.split('.')[len(image.filename.split('.'))-1]
-            image.save(os.path.join(HOME_CAROUSEL_FOLDER,"Carousel_"+ str(last_id+1) + "." + image.filename.split('.')[len(image.filename.split('.'))-1]))  
+            image.save(os.path.join(HOME_CAROUSEL_FOLDER,"Carousel_"+ str(last_id+1) + "." + image.filename.split('.')[len(image.filename.split('.'))-1]))
             database_cursor.execute("INSERT INTO home_carousel VALUES (?,?)", ("../../static/images/Homepage/"+image_filepath, last_id+1))
             database_connection.commit()
             database_connection.close()
             return render_template("addCarousel.html", message = "Carousel added successfully", social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
         return render_template("addCarousel.html", message = None, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
     return redirect(url_for('patientLogin'))
-              
+
 @app.route("/deleteCarousel/<string:carousel_id>/")
 def deleteCarousel(carousel_id):
     if 'user' in session and session["user_type"] == "admin":
@@ -2122,8 +2122,8 @@ def deleteSpecialty():
                 os.remove(os.path.join(THIS_FOLDER,i[1].replace("../../","")))
             database_cursor.execute("DELETE FROM diseases WHERE specialty_id = ?", (int(specialty_id),))
             specialty_main = database_cursor.execute("SELECT * FROM specialty")
-            specialty_main = specialty_main.fetchall() 
-            global navbar_specialties 
+            specialty_main = specialty_main.fetchall()
+            global navbar_specialties
             navbar_specialties = database_cursor.execute("SELECT id,name FROM specialty")
             navbar_specialties = navbar_specialties.fetchall()
 
@@ -2140,8 +2140,8 @@ def deleteSpecialty():
         navbar_specialties = navbar_specialties.fetchall()
         database_connection.commit()
         database_connection.close()
-        return render_template("deleteSpecialty.html", specialty_main = specialty_main, message = None, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)    
-    
+        return render_template("deleteSpecialty.html", specialty_main = specialty_main, message = None, social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
+
 @app.route("/getSpecialty/<string:id>/")
 def getSpecialty(id):
     database_connection = sqlite3.connect(database_location)
@@ -2258,7 +2258,7 @@ def modifyDiseaseFAQ():
 #         database_connection.commit()
 #         database_connection.close()
 #         return "No FAQ Found"
-            
+
 
 @app.route('/deleteDiseaseFAQ/',methods=["POST","GET"])
 def deleteDiseaseFAQ():
