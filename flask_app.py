@@ -2312,14 +2312,14 @@ def comingSoon():
 def not_found(e):
   return render_template("404.html",social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
 
-#webhook for git pull
-@app.route("/gitUpdate/", methods=["POST"])
-def gitUpdate():
-    repo = git.Repo('./website')
-    origin = repo.remotes.origin
-    repo.create_head('master',origin.refs.master).set_tracking_branch(origin.refs.master).checkout()
-    origin.pull()
-    return '',200
+# #webhook for git pull
+# @app.route("/gitUpdate/", methods=["POST"])
+# def gitUpdate():
+#     repo = git.Repo('./website')
+#     origin = repo.remotes.origin
+#     repo.create_head('master',origin.refs.master).set_tracking_branch(origin.refs.master).checkout()
+#     origin.pull()
+#     return '',200
 
 if __name__ == '__main__':
     app.run(debug=True,port=5000)
