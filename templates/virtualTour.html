@@ -44,16 +44,24 @@
       <path
         d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
     </svg>
-    <div class="carousel-inner h-100">
+    <div class="carousel-inner h-100 align-items-center d-flex">
       {% for vt in data %}
       {% if loop.index == 1 %}
       <div class="carousel-item d-flex active justify-content-center align-items-center h-100"
         id="carousel_{{vt[3]}}">
         <img src="{{vt[0]}}" class="d-block" style="max-width: 80%; max-height: 80%; height: auto;" alt="...">
+        <div class="carousel-caption d-block">
+          <h5>{{vt[1]}}</h5>
+          <p>{{vt[2]}}</p>
+        </div>
       </div>
       {% else %}
       <div class="carousel-item d-flex justify-content-center align-items-center h-100" id="carousel_{{vt[3]}}">
         <img src="{{vt[0]}}" class="d-block" style="max-width: 80%; max-height: 80%; height: auto;" alt="...">
+        <div class="carousel-caption d-block">
+          <h5>{{vt[1]}}</h5>
+          <p>{{vt[2]}}</p>
+        </div>
       </div>
       {% endif %}
       {% endfor %}

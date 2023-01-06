@@ -37,3 +37,12 @@ h4 {
     justify-content: center;
     z-index: 100000;
 }
+.carousel-item{
+    height: fit-content !important;
+}
+.carousel-caption{
+    bottom: 0px !important;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.63) 50%, rgba(0, 0, 0, 0) 100%);
+    padding-bottom: 0px !important;
+    padding-top: 15px !important;
+}
