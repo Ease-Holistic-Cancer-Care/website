@@ -831,12 +831,11 @@ def modifyDisease():
                 main_image_filename = main_image_filename.fetchone()[0].split("/")
                 main_image_filename = main_image_filename[len(main_image_filename)-1]
 
-            # profile
             disease_profile_title1 = request.form['disease_profile_title1']
             disease_profile_content1 = request.form['disease_profile_content1']
             disease_profile_title2 = request.form['disease_profile_title2']
             disease_profile_content2 = request.form['disease_profile_content2']
-            
+
             disease_type_title1 = request.form['disease_type_title1']
             disease_type_description1 = request.form['disease_type_description1']
 
@@ -870,12 +869,10 @@ def modifyDisease():
 
             causes = request.form['disease_causes']
             symptoms = request.form['disease_symptoms']
-            
             disease_diagnosis_type1 = request.form['disease_diagnosis_type1']
             disease_diagnosis_description1 = request.form['disease_diagnosis_description1']
             disease_diagnosis_type2 = request.form['disease_diagnosis_type2']
             disease_diagnosis_description2 = request.form['disease_diagnosis_description2']
-            
             disease_severity_type1 = request.form['disease_severity_type1']
             disease_severity_description1 = request.form['disease_severity_description1']
             disease_severity_type2 = request.form['disease_severity_type2']
@@ -955,12 +952,12 @@ def addDisease():
             disease_illustration = request.files['disease_illustration']
             doctors_disease = request.form.getlist('doctors')
             main_image = request.files['main_image']
-            
+
             disease_profile_title1 = request.form['disease_profile_title1']
             disease_profile_content1 = request.form['disease_profile_content1']
             disease_profile_title2 = request.form['disease_profile_title2']
             disease_profile_content2 = request.form['disease_profile_content2']
-            
+
             disease_type_title1 = request.form['disease_type_title1']
             disease_type_description1 = request.form['disease_type_description1']
             disease_type_image1 = request.files['disease_type_image1']
@@ -969,12 +966,10 @@ def addDisease():
             disease_type_image2 = request.files['disease_type_image2']
             causes = request.form['disease_causes']
             symptoms = request.form['disease_symptoms']
-            
             disease_diagnosis_type1 = request.form['disease_diagnosis_type1']
             disease_diagnosis_description1 = request.form['disease_diagnosis_description1']
             disease_diagnosis_type2 = request.form['disease_diagnosis_type2']
             disease_diagnosis_description2 = request.form['disease_diagnosis_description2']
-            
             disease_severity_type1 = request.form['disease_severity_type1']
             disease_severity_description1 = request.form['disease_severity_description1']
             disease_severity_type2 = request.form['disease_severity_type2']
@@ -1010,11 +1005,9 @@ def addDisease():
             symptoms = symptoms.split(';')
             for symptom in symptoms:
                 database_cursor.execute("INSERT INTO disease_symptoms VALUES (?,?)", (last_id+1,symptom))
-            
             database_cursor.execute("INSERT INTO disease_diagnosis VALUES (?,?,?)", (last_id+1,disease_diagnosis_type1,disease_diagnosis_description1))
             if disease_diagnosis_type2 != "" and disease_diagnosis_description2 != "":
                 database_cursor.execute("INSERT INTO disease_diagnosis VALUES (?,?,?)", (last_id+1,disease_diagnosis_type2,disease_diagnosis_description2))
-                
             database_cursor.execute("INSERT INTO disease_severity VALUES (?,?,?)", (last_id+1,disease_severity_type1,disease_severity_description1))
             database_cursor.execute("INSERT INTO disease_severity VALUES (?,?,?)", (last_id+1,disease_severity_type2,disease_severity_description2))
             database_cursor.execute("INSERT INTO disease_treatment VALUES (?,?,?)", (last_id+1,disease_treatment_type1,disease_treatment_description1))
@@ -1310,7 +1303,7 @@ def addTestimonial():
                 image.save(os.path.join(TESTIMONIALS_FOLDER,image_filename))
                 image_filename = "../../static/images/testimonial/"+image_filename
             else:
-                image_filename = ""  
+                image_filename = ""
             database_cursor.execute("INSERT INTO testimonials VALUES (?,?,?,?,?)", (last_id+1, name, designation, testimonial, image_filename))
             database_connection.commit()
             database_connection.close()
