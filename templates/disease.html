@@ -79,7 +79,10 @@
                 <div class="col-lg-8 col-4 g-0 description_line2"></div>
                 <div class="col-12 pt-4">
                     <p>
-                        {{profile[2]}}
+                        {% for i in profile[2] %}
+                        {{i}}
+                        <br>
+                        {% endfor %}
                     </p>
                 </div>
             </div>
@@ -173,11 +176,17 @@
                         {% for diagnosis in disease_diagnosis %}
                         {% if loop.index != 1 %}
                         <p class="pt-4" id="content_{{loop.index}}" style="display: none !important;">
-                            {{diagnosis[2]}}
+                            {% for i in diagnosis[2] %}
+                            {{i}}
+                            <br>
+                            {% endfor %}
                         </p>
                         {% else %}
                         <p class="pt-4" id="content_{{loop.index}}">
-                            {{diagnosis[2]}}
+                            {% for i in diagnosis[2] %}
+                            {{i}}
+                            <br>
+                            {% endfor %}
                         </p>
                         {% endif %}
                         {% endfor %}
@@ -213,11 +222,17 @@
                         {% for severity in disease_severity %}
                         {% if loop.index != 1 %}
                         <p class="pt-4" id="severity_{{loop.index + 2}}" style="display: none;">
-                            {{severity[2]}}
+                            {% for i in severity[2] %}
+                            {{i}}
+                            <br>
+                            {% endfor %}
                         </p>
                         {% else %}
                         <p class="pt-4" id="severity_{{loop.index + 2}}">
-                            {{severity[2]}}
+                            {% for i in severity[2] %}
+                            {{i}}
+                            <br>
+                            {% endfor %}
                         </p>
                         {% endif %}
                         {% endfor %}
@@ -279,11 +294,17 @@
                     {% for treatment in disease_treatment %}
                     {% if loop.index != 1 %}
                     <p class="pt-4" id="treatment_{{loop.index + 4}}" style="display: none;">
-                        {{treatment[2]}}
+                        {% for i in treatment[2] %}
+                        {{i}}
+                        <br>
+                        {% endfor %}
                     </p>
                     {% else %}
                     <p class="pt-4" id="treatment_{{loop.index + 4}}">
-                        {{treatment[2]}}
+                        {% for i in treatment[2] %}
+                        {{i}}
+                        <br>
+                        {% endfor %}
                     </p>
                     {% endif %}
                     {% endfor %}

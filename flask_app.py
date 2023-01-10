@@ -70,6 +70,8 @@ def about():
     database_connection.commit()
     database_connection.close()
     data = list(data)
+    data[1] = data[1].replace("\r","")
+    data[1] = data[1].split("\n")
     data[4] = data[4].split(';')
     data[6] = data[6].split(';')
     return render_template('about.html', data=data,social_links=social_links,navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
@@ -93,6 +95,11 @@ def doctorsInfo(id):
         return redirect(url_for('index'))
     doctor_profile = database_cursor.execute("SELECT * FROM doctor_profile WHERE id = ?",(int(id),))
     doctor_profile = doctor_profile.fetchone()
+    temp = list(doctor_profile)
+    temp[5] = temp[5].replace("\r","")
+    temp[5] = temp[5].split("\n")
+    doctor_profile = temp
+    print(temp)
     doctor_degree = database_cursor.execute("SELECT * FROM doctor_degree WHERE id = ?",(int(id),))
     doctor_degree = doctor_degree.fetchall()
     doctor_experience = database_cursor.execute("SELECT * FROM doctor_experience WHERE id = ?",(int(id),))
@@ -141,6 +148,11 @@ def disease(id):
     specialty_name = specialty_name.fetchone()[0]
     disease_profile = database_cursor.execute("SELECT * FROM disease_profile WHERE disease_id = ?",(int(id),))
     disease_profile = disease_profile.fetchall()
+    for i in range(len(disease_profile)):
+        temp = list(disease_profile[i])
+        temp[2] = temp[2].replace("\r","")
+        temp[2] = temp[2].split("\n")
+        disease_profile[i] = temp
     disease_types = database_cursor.execute("SELECT * FROM disease_types WHERE disease_id = ?",(int(id),))
     disease_types = disease_types.fetchall()
     disease_causes = database_cursor.execute("SELECT * FROM disease_causes WHERE disease_id = ?",(int(id),))
@@ -149,10 +161,25 @@ def disease(id):
     disease_symptoms = disease_symptoms.fetchall()
     disease_diagnosis = database_cursor.execute("SELECT * FROM disease_diagnosis WHERE disease_id = ?",(int(id),))
     disease_diagnosis = disease_diagnosis.fetchall()
+    for i in range(len(disease_diagnosis)):
+        temp = list(disease_diagnosis[i])
+        temp[2] = temp[2].replace("\r","")
+        temp[2] = temp[2].split("\n")
+        disease_diagnosis[i] = temp
     disease_treatment = database_cursor.execute("SELECT * FROM disease_treatment WHERE disease_id = ?",(int(id),))
     disease_treatment = disease_treatment.fetchall()
+    for i in range(len(disease_treatment)):
+        temp = list(disease_treatment[i])
+        temp[2] = temp[2].replace("\r","")
+        temp[2] = temp[2].split("\n")
+        disease_treatment[i] = temp
     disease_severity = database_cursor.execute("SELECT * FROM disease_severity WHERE disease_id = ?",(int(id),))
     disease_severity = disease_severity.fetchall()
+    for i in range(len(disease_severity)):
+        temp = list(disease_severity[i])
+        temp[2] = temp[2].replace("\r","")
+        temp[2] = temp[2].split("\n")
+        disease_severity[i] = temp
     disease_faq = database_cursor.execute("SELECT * FROM disease_faq WHERE disease_id = ?",(int(id),))
     disease_faq = disease_faq.fetchall()
     doctors = disease_data[5].split(',')
@@ -343,8 +370,8 @@ def blog(id):
         database_connection.close()
         return redirect(url_for('index'))
     data = list(data)
-    data[4] = data[4].replace("\r","\n")
-    data[4] = data[4].split('\n\n')
+    data[4] = data[4].replace("\r","")
+    data[4] = data[4].split('\n')
     return render_template('blog.html', data=data,social_links=social_links, navbar_specialties=navbar_specialties, navbar_diseases=navbar_diseases)
 
 @app.route('/news/')
@@ -804,10 +831,12 @@ def modifyDisease():
                 main_image_filename = main_image_filename.fetchone()[0].split("/")
                 main_image_filename = main_image_filename[len(main_image_filename)-1]
 
+            # profile
             disease_profile_title1 = request.form['disease_profile_title1']
             disease_profile_content1 = request.form['disease_profile_content1']
             disease_profile_title2 = request.form['disease_profile_title2']
-            disease_content2 = request.form['disease_profile_content1']
+            disease_profile_content2 = request.form['disease_profile_content2']
+            
             disease_type_title1 = request.form['disease_type_title1']
             disease_type_description1 = request.form['disease_type_description1']
 
@@ -841,10 +870,12 @@ def modifyDisease():
 
             causes = request.form['disease_causes']
             symptoms = request.form['disease_symptoms']
+            
             disease_diagnosis_type1 = request.form['disease_diagnosis_type1']
             disease_diagnosis_description1 = request.form['disease_diagnosis_description1']
             disease_diagnosis_type2 = request.form['disease_diagnosis_type2']
             disease_diagnosis_description2 = request.form['disease_diagnosis_description2']
+            
             disease_severity_type1 = request.form['disease_severity_type1']
             disease_severity_description1 = request.form['disease_severity_description1']
             disease_severity_type2 = request.form['disease_severity_type2']
@@ -858,7 +889,8 @@ def modifyDisease():
 
             database_cursor.execute("DELETE FROM disease_profile WHERE disease_id = ?", (disease_id,))
             database_cursor.execute("INSERT INTO disease_profile VALUES (?,?,?)", (disease_id,disease_profile_title1,disease_profile_content1))
-            database_cursor.execute("INSERT INTO disease_profile VALUES (?,?,?)", (disease_id,disease_profile_title2,disease_content2))
+            if disease_profile_title2 != "" and disease_profile_content2 != "":
+                database_cursor.execute("INSERT INTO disease_profile VALUES (?,?,?)", (disease_id,disease_profile_title2,disease_profile_content2))
 
             database_cursor.execute("DELETE FROM disease_types WHERE disease_id = ?", (disease_id,))
             database_cursor.execute("INSERT INTO disease_types VALUES (?,?,?,?)", (disease_id,disease_type_title1,disease_type_description1,"../../static/images/disease/"+disease_type_image1_filename))
@@ -876,7 +908,8 @@ def modifyDisease():
 
             database_cursor.execute("DELETE FROM disease_diagnosis WHERE disease_id = ?", (disease_id,))
             database_cursor.execute("INSERT INTO disease_diagnosis VALUES (?,?,?)", (disease_id,disease_diagnosis_type1,disease_diagnosis_description1))
-            database_cursor.execute("INSERT INTO disease_diagnosis VALUES (?,?,?)", (disease_id,disease_diagnosis_type2,disease_diagnosis_description2))
+            if disease_diagnosis_type2 != "" and disease_diagnosis_description2 != "":
+                database_cursor.execute("INSERT INTO disease_diagnosis VALUES (?,?,?)", (disease_id,disease_diagnosis_type2,disease_diagnosis_description2))
 
             database_cursor.execute("DELETE FROM disease_severity WHERE disease_id = ?", (disease_id,))
             database_cursor.execute("INSERT INTO disease_severity VALUES (?,?,?)", (disease_id,disease_severity_type1,disease_severity_description1))
@@ -922,10 +955,12 @@ def addDisease():
             disease_illustration = request.files['disease_illustration']
             doctors_disease = request.form.getlist('doctors')
             main_image = request.files['main_image']
+            
             disease_profile_title1 = request.form['disease_profile_title1']
             disease_profile_content1 = request.form['disease_profile_content1']
             disease_profile_title2 = request.form['disease_profile_title2']
-            disease_content2 = request.form['disease_profile_content1']
+            disease_profile_content2 = request.form['disease_profile_content2']
+            
             disease_type_title1 = request.form['disease_type_title1']
             disease_type_description1 = request.form['disease_type_description1']
             disease_type_image1 = request.files['disease_type_image1']
@@ -934,10 +969,12 @@ def addDisease():
             disease_type_image2 = request.files['disease_type_image2']
             causes = request.form['disease_causes']
             symptoms = request.form['disease_symptoms']
+            
             disease_diagnosis_type1 = request.form['disease_diagnosis_type1']
             disease_diagnosis_description1 = request.form['disease_diagnosis_description1']
             disease_diagnosis_type2 = request.form['disease_diagnosis_type2']
             disease_diagnosis_description2 = request.form['disease_diagnosis_description2']
+            
             disease_severity_type1 = request.form['disease_severity_type1']
             disease_severity_description1 = request.form['disease_severity_description1']
             disease_severity_type2 = request.form['disease_severity_type2']
@@ -963,7 +1000,8 @@ def addDisease():
             disease_type_image2.save(os.path.join(DISEASES_FOLDER,disease_type_image2_filename))
             database_cursor.execute("INSERT INTO diseases VALUES (?,?,?,?,?,?,?)", (last_id+1,disease_title,specialty_id,disease_description,"../../static/images/illustrations/diseases/"+disease_illustration_filename,','.join(doctors_disease),"../../static/images/disease/"+main_image_filename))
             database_cursor.execute("INSERT INTO disease_profile VALUES (?,?,?)", (last_id+1,disease_profile_title1,disease_profile_content1))
-            database_cursor.execute("INSERT INTO disease_profile VALUES (?,?,?)", (last_id+1,disease_profile_title2,disease_content2))
+            if disease_profile_title2 != "" and disease_profile_content2 != "":
+                database_cursor.execute("INSERT INTO disease_profile VALUES (?,?,?)", (last_id+1,disease_profile_title2,disease_profile_content2))
             database_cursor.execute("INSERT INTO disease_types VALUES (?,?,?,?)", (last_id+1,disease_type_title1,disease_type_description1,"../../static/images/disease/"+disease_type_image1_filename))
             database_cursor.execute("INSERT INTO disease_types VALUES (?,?,?,?)", (last_id+1,disease_type_title2,disease_type_description2,"../../static/images/disease/"+disease_type_image2_filename))
             causes = causes.split(';')
@@ -972,8 +1010,11 @@ def addDisease():
             symptoms = symptoms.split(';')
             for symptom in symptoms:
                 database_cursor.execute("INSERT INTO disease_symptoms VALUES (?,?)", (last_id+1,symptom))
+            
             database_cursor.execute("INSERT INTO disease_diagnosis VALUES (?,?,?)", (last_id+1,disease_diagnosis_type1,disease_diagnosis_description1))
-            database_cursor.execute("INSERT INTO disease_diagnosis VALUES (?,?,?)", (last_id+1,disease_diagnosis_type2,disease_diagnosis_description2))
+            if disease_diagnosis_type2 != "" and disease_diagnosis_description2 != "":
+                database_cursor.execute("INSERT INTO disease_diagnosis VALUES (?,?,?)", (last_id+1,disease_diagnosis_type2,disease_diagnosis_description2))
+                
             database_cursor.execute("INSERT INTO disease_severity VALUES (?,?,?)", (last_id+1,disease_severity_type1,disease_severity_description1))
             database_cursor.execute("INSERT INTO disease_severity VALUES (?,?,?)", (last_id+1,disease_severity_type2,disease_severity_description2))
             database_cursor.execute("INSERT INTO disease_treatment VALUES (?,?,?)", (last_id+1,disease_treatment_type1,disease_treatment_description1))

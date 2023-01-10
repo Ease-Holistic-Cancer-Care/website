@@ -18,7 +18,8 @@ $("#doctor_id").on('change', function () {
     document.getElementById("doctor_qualification").value = data[1][0][1];
     document.getElementById("doctor_post_qualification").value = data[1][0][2];
     document.getElementById("doctor_overseas_qualification").value = data[1][0][3];
-    document.getElementById("doctor_about").innerText = data[1][0][5];
+    document.getElementById("doctor_about").value = data[1][0][5];
+
     for (var i = 0; i < data[2].length; i++) {
         document.getElementById("doctor_degree" + String(i + 1)).value = data[2][i][1];
         document.getElementById("doctor_institute" + String(i + 1)).value = data[2][i][2];

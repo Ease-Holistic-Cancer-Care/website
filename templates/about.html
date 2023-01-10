@@ -37,7 +37,10 @@
           {{data[0]}}
         </h1>
         <p class="mt-3" style="color: #8D8D8D; line-height: 33px; font-size: 18px;">
-          {{data[1]}}
+          {% for i in data[1] %}
+          {{i}}
+          <br>
+          {% endfor %}
         </p>
       </div>
     </div>
